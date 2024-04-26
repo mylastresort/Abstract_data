@@ -1,0 +1,16 @@
+---
+Checks: >
+  readability-identifier-length,
+  readability-inconsistent-declaration-parameter-name,
+  readability-named-parameter,
+CheckOptions:
+  - key: readability-identifier-length.MinimumParameterNameLength
+    value: "3"
+  - key: readability-identifier-length.MinimumVariableNameLength
+    value: "3"
+  - key: readability-identifier-length.MinimumLoopCounterNameLength
+    value: "3"
+  - key: readability-identifier-length.MinimumExceptionNameLength
+    value: "3"
+---
+
