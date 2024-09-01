@@ -1,10 +1,13 @@
 #include "../main.hpp"
+
+#ifdef FT
 #include "vector.hpp"
-#include <iostream>
+#else
 #include <vector>
+#endif
 
 void unit_test_vector_constructor()
 {
-	ft::vector< int > vec1;
-	std::vector< int > vec2;
+	// all unit tests of all constructors
+	__lib__::vector< int > vec1;
 }
