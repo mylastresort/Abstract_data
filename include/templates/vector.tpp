@@ -2,7 +2,7 @@
 #define VECTOR_TPP
 
 #pragma once
-#include "../vector.hpp"
+#include "vector.hpp"
 
 namespace ft
 {
@@ -21,7 +21,7 @@ vector< T, Alloc >::vector(typename vector::size_type size,
 	: alc(alloc), length(size)
 {
 	list = alc.allocate(size);
-	for (int i = 0; i < size; i++)
+	for (typename vector::size_type i = 0; i < size; i++)
 	{
 		alc.construct(list[i], value);
 	}
@@ -43,6 +43,11 @@ vector< T, Alloc >::vector(InputIterator first,
 
 template < class T, class Alloc > vector< T, Alloc >::~vector()
 {
+	for (typename vector::size_type i = 0; i < length; i++)
+	{
+		alc.destroy(list + i);
+	}
+	alc.deallocate(list, length);
 }
 
 } // namespace ft

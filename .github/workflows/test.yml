@@ -10,7 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: install valgrind
+        run: sudo apt-get -y install valgrind
+      - name: valgrind version
+        run: valgrind --version
       - name: build
         run: make
       - name: test
-        run: ./${{secrets.BINARY_NAME}}
+        run: valgrind ./${{secrets.BINARY_NAME}}
