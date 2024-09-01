@@ -31,3 +31,5 @@ ft_containers
 *.exe
 *.out
 *.app
+
+suppressions.supp
