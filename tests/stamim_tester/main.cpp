@@ -1,13 +1,11 @@
-#include "vector.hpp"
+#include "main.hpp"
 #include <iostream>
-#include <vector>
 
 using std::cout;
 using std::endl;
 
 int main()
 {
-	ft::vector< int > vec1;
-	std::vector< int > vec2;
+	unit_test_vector_constructor();
 	cout << "OK" << endl;
 }

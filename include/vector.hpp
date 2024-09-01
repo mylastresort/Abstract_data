@@ -126,6 +126,6 @@ void swap(vector< T, Alloc >& first, vector< T, Alloc >& second);
 
 } // namespace ft
 
-#include "templates/vector.tpp"
+#include "templates/vector/__vector__.hpp"
 
 #endif

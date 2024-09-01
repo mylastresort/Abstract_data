@@ -1,5 +1,5 @@
-#ifndef VECTOR_TPP
-#define VECTOR_TPP
+#ifndef __CONSTRUCTOR__VECTOR_TPP
+#define __CONSTRUCTOR__VECTOR_TPP
 
 #pragma once
 #include "vector.hpp"
@@ -39,15 +39,6 @@ vector< T, Alloc >::vector(InputIterator first,
 	{
 		alc.construct(list[i], *i);
 	}
-}
-
-template < class T, class Alloc > vector< T, Alloc >::~vector()
-{
-	for (typename vector::size_type i = 0; i < length; i++)
-	{
-		alc.destroy(list + i);
-	}
-	alc.deallocate(list, length);
 }
 
 } // namespace ft
