@@ -1,8 +1,8 @@
 NAME = ft_containers
 OBJ = $(SRC:.cpp=.o)
-SRC = tests/main.cpp
+SRC = tests/stamim_tester/main.cpp
 CC = c++
-CFLAGS = -Werror -Wextra -Wall -std=c++98 -Iinclude
+CFLAGS = -Werror -Wextra -Wall -std=c++98 -Iinclude -g
 VALGRIND_LOG = suppressions.supp
 
 all: $(NAME)
