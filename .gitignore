@@ -26,10 +26,13 @@
 *.a
 *.lib
 
-ft_containers
 # Executables
 *.exe
 *.out
 *.app
 
 suppressions.supp
+ft_tester
+std_tester
+test_std.txt
+test_ft.txt
