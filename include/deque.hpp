@@ -116,6 +116,6 @@ template < class T, class Allocator >
 void swap(deque< T, Allocator >& first, deque< T, Allocator >& second);
 } // namespace ft
 
-#include "templates/deque.tpp"
+#include "templates/deque.tpp" // IWYU pragma: export
 
 #endif

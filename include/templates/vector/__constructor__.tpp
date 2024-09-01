@@ -1,5 +1,6 @@
 #ifndef __CONSTRUCTOR__VECTOR_TPP
 #define __CONSTRUCTOR__VECTOR_TPP
+// IWYU pragma: private, include "vector.hpp"
 
 #pragma once
 #include "vector.hpp"

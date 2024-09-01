@@ -2,7 +2,6 @@
 #define VECTOR_HPP
 
 #include "iterator.hpp"
-#include <iterator>
 #include <memory>
 
 namespace ft
@@ -126,6 +125,6 @@ void swap(vector< T, Alloc >& first, vector< T, Alloc >& second);
 
 } // namespace ft
 
-#include "templates/vector/__vector__.hpp"
+#include "templates/vector/__vector__.hpp" // IWYU pragma: export
 
 #endif

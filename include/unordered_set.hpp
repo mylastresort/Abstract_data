@@ -2,14 +2,11 @@
 #define UNORDERED_SET_HPP
 
 #include "iterator.hpp"
+#include "utility.hpp"
 #include <functional>
 
 namespace ft
 {
-
-template < class T > struct hash
-{
-};
 
 template < class Key,
 		   class Hash = hash< Key >,

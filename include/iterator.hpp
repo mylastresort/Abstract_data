@@ -112,6 +112,6 @@ operator+(typename reverse_iterator< Iterator >::difference_type step,
 
 } // namespace ft
 
-#include "templates/iterator.tpp"
+#include "templates/iterator.tpp" // IWYU pragma: keep
 
 #endif
