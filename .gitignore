@@ -31,6 +31,13 @@
 *.out
 *.app
 
+# Coverage
+*.gcno
+*.gcda
+*.gcov
+coverage.info
+coverage
+
 suppressions.supp
 ft_tester
 std_tester
