@@ -24,7 +24,7 @@ vector< T, Alloc >::vector(typename vector::size_type size,
 	list = alc.allocate(size);
 	for (typename vector::size_type i = 0; i < size; i++)
 	{
-		alc.construct(list[i], value);
+		alc.construct(list + i, value);
 	}
 }
 

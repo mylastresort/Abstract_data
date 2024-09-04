@@ -9,7 +9,7 @@
 using __lib__::vector;
 using std::allocator;
 
-void unit_test_vector_constructor()
+void unit_test_vector_default_constructor()
 {
 	TEST_CASE("default constructor")
 	{
@@ -27,4 +27,18 @@ void unit_test_vector_constructor()
 		vector< int, int > vec1;
 	}
 #endif
+
+	TEST_CASE("default constructor with derived class from std::allocator")
+	{
+		vector< int, my_allocator< int > > vec1;
+	}
+}
+
+void unit_test_vector_constructor_size_constructor()
+{
+	TEST_CASE("default constructor with one size parameter")
+	{
+		std::allocator< int > instance;
+		vector< int > vec1(1);
+	}
 }

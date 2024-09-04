@@ -44,6 +44,7 @@ NAME_STD		= std_tester
 all: $(NAME)
 
 $(NAME): $(OBJ)
+	@echo Linking $@
 	@$(CC) $(CFLAGS) $^ -o $@
 
 %.o: %.cpp
@@ -90,6 +91,7 @@ std-test: std
 	@echo "Test logs can be found $(TEST_LOG_STD)"
 
 $(NAME_STD): $(OBJ_STD)
+	@echo Linking $@
 	@$(CC) $(CFLAGS) $^ -o $@
 
 %.std.o: %.cpp
