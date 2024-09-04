@@ -4,7 +4,11 @@
 
 #pragma once
 
-#include "__constructor__.tpp" // IWYU pragma: export
-#include "__destructor__.tpp"  // IWYU pragma: export
+// IWYU pragma: begin_exports
+
+#include "__constructor__.tpp"
+#include "__destructor__.tpp"
+
+// IWYU pragma: end_exports
 
 #endif
