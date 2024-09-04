@@ -20,4 +20,11 @@ void unit_test_vector_constructor()
 	{
 		vector< int, allocator< int > > vec1;
 	}
+
+#ifdef BAD
+	TEST_CASE("default constructor with incorrect allocator type")
+	{
+		vector< int, int > vec1;
+	}
+#endif
 }

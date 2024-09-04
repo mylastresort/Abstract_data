@@ -2,17 +2,20 @@ CC 				= c++
 CFLAGS			= -Werror -Wextra -Wall -std=c++98 -Iinclude -MMD -MP
 COVERAGE_FLAGS	= --coverage
 TESTER_STD_FLAG	= -DSTD
+TESTER_BAD_FLAG	= -DBAD
 VALGRIND_FLAGS	= --leak-check=full \
 				  --error-exitcode=1 \
 				  --log-file=$(VALGRIND_LOG)
 COVERAGE_DIR	= coverage
 INCLUDE_DIR		= include
 TESTER_DIR		= tests/stamim_tester
-DEP				= $(SRC:.cpp=.d) $(SRC:.cpp=.std.d)
+DEP				= $(SRC:.cpp=.d) $(SRC:.cpp=.std.d) $(SRC:.cpp=.bad.d)
 OBJ 			= $(SRC:.cpp=.o)
 OBJ_STD 		= $(SRC:.cpp=.std.o)
+OBJ_BAD 		= $(SRC_BAD:.cpp=.bad.o)
 SRC 			= $(TESTER_DIR)/main.cpp \
-		  		  $(TESTER_DIR)/vector/constructor.cpp
+				  $(TESTER_DIR)/vector/constructor.cpp
+SRC_BAD 		= $(TESTER_DIR)/vector/constructor.cpp
 GCDA_FILES		= $(SRC:.cpp=.gcda)
 GCNO_FILES		= $(SRC:.cpp=.gcno)
 LCOV_FILE		= $(COVERAGE_DIR)/coverage.info
@@ -24,6 +27,7 @@ NAME_STD		= std_tester
 
 .PHONY: all \
 		test \
+		test-bad \
 		test-leaks \
 		test-coverage \
 		std \
@@ -40,12 +44,23 @@ NAME_STD		= std_tester
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $^ -o $@
+	@$(CC) $(CFLAGS) $^ -o $@
 
 %.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+	@echo Building $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-test: all std-test
+test-bad: $(OBJ_BAD)
+	@echo "OK. Bad files did not compile as expected."
+
+%.bad.o: %.cpp
+	@if $(CC) $(CFLAGS) $(TESTER_BAD_FLAG) -c $< -o $@ 2>/dev/null; \
+	then \
+		echo $< "should not compile after defining BAD macro" && \
+		exit 1; \
+	fi
+
+test: test-bad all std-test
 	@./$(NAME) > $(TEST_LOG_FT)
 	@echo "Test logs can be found $(TEST_LOG_FT)"
 	@diff -c $(TEST_LOG_FT) $(TEST_LOG_STD)
@@ -75,10 +90,11 @@ std-test: std
 	@echo "Test logs can be found $(TEST_LOG_STD)"
 
 $(NAME_STD): $(OBJ_STD)
-	$(CC) $(CFLAGS) $^ -o $@
+	@$(CC) $(CFLAGS) $^ -o $@
 
 %.std.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+	@echo Building $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 lint:
 	@clang-format -i --verbose \
@@ -95,7 +111,7 @@ clean-dep:
 
 clean-obj:
 	@echo "Cleaning Object Files."
-	@rm -f $(OBJ) $(OBJ_STD)
+	@rm -f $(OBJ) $(OBJ_STD) $(OBJ_BAD)
 
 clean-log:
 	@echo "Cleaning Log Files."
