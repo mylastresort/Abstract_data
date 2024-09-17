@@ -33,6 +33,7 @@ template < class T, class Alloc = std::allocator< T > > class deque
 
   public:
 	explicit deque(const allocator_type& = allocator_type());
+	deque(const deque& cpy);
 	explicit deque(size_type size,
 				   const value_type& value = value_type(),
 				   const allocator_type& alloc = allocator_type());
@@ -43,19 +44,41 @@ template < class T, class Alloc = std::allocator< T > > class deque
 		  typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* =
 			  0);
 
-	// copy constructor
-	deque(const deque& cpy);
-
-	// assignment constructor
 	deque< T, allocator_type >& operator=(const deque& cpy);
 
-	// destructor
 	~deque();
 
-	// allocator
 	allocator_type get_allocator() const;
 
-	// insertion
+	const_iterator begin() const;
+	const_iterator end() const;
+	const_reverse_iterator rbegin() const;
+	const_reverse_iterator rend() const;
+	iterator begin();
+	iterator end();
+	reverse_iterator rbegin();
+	reverse_iterator rend();
+
+	bool empty() const;
+	size_type max_size() const;
+	size_type size() const;
+	void resize(size_type size, value_type val = value_type());
+
+	const_reference at(size_type pos) const;
+	const_reference back() const;
+	const_reference front() const;
+	const_reference operator[](size_type pos) const;
+	reference at(size_type pos);
+	reference back();
+	reference front();
+	reference operator[](size_type pos);
+
+	iterator erase(iterator first, iterator last);
+	iterator erase(iterator position);
+	void clear();
+	void pop_back();
+	void pop_front();
+
 	iterator insert(iterator position, const value_type& val);
 	template < class InputIterator >
 	void assign(
@@ -75,40 +98,6 @@ template < class T, class Alloc = std::allocator< T > > class deque
 	void push_back(const value_type& val);
 	void push_front(const value_type& val);
 
-	// iterators
-	const_iterator begin() const;
-	const_iterator end() const;
-	const_reverse_iterator rbegin() const;
-	const_reverse_iterator rend() const;
-	iterator begin();
-	iterator end();
-	reverse_iterator rbegin();
-	reverse_iterator rend();
-
-	// capacity
-	bool empty() const;
-	size_type max_size() const;
-	size_type size() const;
-	void resize(size_type size, value_type val = value_type());
-
-	// element access
-	const_reference at(size_type pos) const;
-	const_reference back() const;
-	const_reference front() const;
-	const_reference operator[](size_type pos) const;
-	reference at(size_type pos);
-	reference back();
-	reference front();
-	reference operator[](size_type pos);
-
-	// deletion
-	iterator erase(iterator first, iterator last);
-	iterator erase(iterator position);
-	void clear();
-	void pop_back();
-	void pop_front();
-
-	// modifiers
 	void swap(deque& other);
 };
 
