@@ -2,8 +2,6 @@
 #define DEQUE_HPP
 
 #include "iterator.hpp"
-#include <cstddef>
-#include <memory>
 
 namespace ft
 {

@@ -8,7 +8,6 @@
 namespace ft
 {
 
-template < class T, class Alloc > class vector;
 template < class T > struct vector_iterator;
 
 template < class T, class Alloc = std::allocator< T > > class vector
