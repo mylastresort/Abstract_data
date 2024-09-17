@@ -7,6 +7,7 @@
 // IWYU pragma: begin_exports
 
 #include "__deque__.tpp"
+#include "allocators.tpp"
 
 // IWYU pragma: end_exports
 
