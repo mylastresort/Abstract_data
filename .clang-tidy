@@ -1,8 +1,26 @@
----
 Checks: >
+  *,
   readability-identifier-length,
   readability-inconsistent-declaration-parameter-name,
   readability-named-parameter,
+  -altera-unroll-loops,
+  -bugprone-easily-swappable-parameters,
+  -fuchsia-default-arguments-declarations,
+  -fuchsia-overloaded-operator,
+  -google-readability-braces-around-statements,
+  -google-runtime-int,
+  -hicpp-braces-around-statements,
+  -llvmlibc-callee-namespace,
+  -llvmlibc-implementation-in-namespace,
+  -llvmlibc-restrict-system-libc-headers,
+  -readability-avoid-const-params-in-decls,
+  -readability-braces-around-statements,
+  -readability-const-return-type,
+  -fuchsia-default-arguments-calls,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -readability-magic-numbers,
+  -hicpp-exception-baseclass
+
 CheckOptions:
   - key: readability-identifier-length.MinimumParameterNameLength
     value: "3"
@@ -12,5 +30,3 @@ CheckOptions:
     value: "3"
   - key: readability-identifier-length.MinimumExceptionNameLength
     value: "3"
----
-
