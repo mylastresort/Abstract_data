@@ -15,6 +15,7 @@
 #include "element_access.tpp"
 #include "insertions.tpp"
 #include "iterators.tpp"
+#include "modifiers.tpp"
 
 // IWYU pragma: end_exports
 
