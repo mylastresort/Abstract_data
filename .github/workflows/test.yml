@@ -16,5 +16,7 @@ jobs:
         run: valgrind --version
       - name: build
         run: make
-      - name: test
+      - name: test leaks
         run: valgrind --leak-check=full --error-exitcode=1 ./${{secrets.BINARY_NAME}}
+      - name: test with std
+        run: make test
