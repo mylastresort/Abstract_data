@@ -9,6 +9,12 @@ namespace ft
 {
 
 template < class T, class Alloc >
+void vector< T, Alloc >::push_back(const value_type& val)
+{
+	resize(size() + 1, val);
+}
+
+template < class T, class Alloc >
 template < class InputIterator >
 void vector< T, Alloc >::assign(
 	InputIterator first,
@@ -35,6 +41,123 @@ void vector< T, Alloc >::assign(size_type n, const value_type& val)
 		alloc.construct(begin_ptr + i, val);
 	}
 	end_ptr = begin_ptr + n;
+}
+
+template < class T, class Alloc >
+typename vector< T, Alloc >::iterator
+vector< T, Alloc >::insert(iterator position, const value_type& val)
+{
+	difference_type distance = position - begin();
+	insert(position, 1, val);
+	return begin() + distance;
+}
+
+template < class T, class Alloc >
+template < class InputIterator >
+void vector< T, Alloc >::insert(
+	iterator position,
+	InputIterator first,
+	InputIterator last,
+	typename enable_if< !numeric_limits< InputIterator >::is_integer >::type*
+	/*unused*/)
+{
+	difference_type distance = last - first;
+	if (capacity() >= size() + distance)
+	{
+		for (reverse_iterator i = rbegin(),
+							  j = reverse_iterator(end() - 1 + distance);
+			 i.base() != position;
+			 i++, j++)
+		{
+			*j = *i;
+		}
+		InputIterator itr = first;
+		for (iterator i = position; i != position + distance; i++)
+		{
+			alloc.construct(&*i, *itr);
+			itr++;
+		}
+		end_ptr += distance;
+	}
+	else
+	{
+		if (size() + distance > max_size())
+		{
+			throw "Fatal: cannot allocate requested size exceeding max_size";
+		}
+		size_type new_size = size() + distance;
+		pointer new_list = alloc.allocate(new_size);
+		for (iterator i = begin(); i != position; i++)
+		{
+			new_list[i - begin()] = *i;
+		}
+		InputIterator itr = first;
+		for (difference_type i = position - begin();
+			 i < position - begin() + distance;
+			 i++)
+		{
+			alloc.construct(new_list + i, *itr);
+			itr++;
+		}
+		iterator new_post_pos =
+			iterator(new_list) + (position + distance - begin());
+		for (iterator i = new_post_pos, j = position; j != end(); i++, j++)
+		{
+			*i = *j;
+		}
+		alloc.deallocate(begin_ptr, capacity());
+		begin_ptr = new_list;
+		end_ptr = begin_ptr + new_size;
+		cap_ptr = begin_ptr + new_size;
+	}
+}
+
+template < class T, class Alloc >
+void vector< T, Alloc >::insert(iterator position,
+								size_type n,
+								const value_type& val)
+{
+	if (capacity() >= size() + n)
+	{
+		for (reverse_iterator i = rbegin(), j = reverse_iterator(end() - 1 + n);
+			 i.base() != position;
+			 i++, j++)
+		{
+			*j = *i;
+		}
+		for (iterator i = position; i != position + n; i++)
+		{
+			alloc.construct(&*i, val);
+		}
+		end_ptr += n;
+	}
+	else
+	{
+		if (size() + n > max_size())
+		{
+			throw "Fatal: cannot allocate requested size exceeding max_size";
+		}
+		size_type new_size = size() + n;
+		pointer new_list = alloc.allocate(new_size);
+		for (iterator i = begin(); i != position; i++)
+		{
+			new_list[i - begin()] = *i;
+		}
+		for (difference_type i = position - begin(); i < position - begin() + n;
+			 i++)
+		{
+			alloc.construct(new_list + i, val);
+		}
+		iterator new_post_pos = iterator(new_list) + (position + n - begin());
+		for (iterator i = new_post_pos, j = position; j != end(); i++, j++)
+		{
+			*i = *j;
+		}
+		alloc.deallocate(begin_ptr, capacity());
+		begin_ptr = new_list;
+		end_ptr = begin_ptr + new_size;
+		cap_ptr = begin_ptr + new_size;
+	}
 }
 
 } // namespace ft
