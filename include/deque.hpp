@@ -169,6 +169,6 @@ operator+(const typename deque_iterator< T >::difference_type lhs,
 
 } // namespace ft
 
-#include "templates/deque.tpp" // IWYU pragma: export
+#include "templates/deque/__deque__.hpp" // IWYU pragma: export
 
 #endif
