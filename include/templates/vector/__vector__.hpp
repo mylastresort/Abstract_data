@@ -8,6 +8,7 @@
 
 #include "__constructor__.tpp"
 #include "__destructor__.tpp"
+#include "__iterator__.tpp"
 
 // IWYU pragma: end_exports
 
