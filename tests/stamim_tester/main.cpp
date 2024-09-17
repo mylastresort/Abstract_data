@@ -8,5 +8,6 @@ int main()
 {
 	unit_test_vector_default_constructor();
 	unit_test_vector_constructor_size_constructor();
+	cplusplusexamples();
 	cout << "OK" << endl;
 }

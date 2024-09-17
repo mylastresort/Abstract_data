@@ -14,7 +14,8 @@ OBJ 			= $(SRC:.cpp=.o)
 OBJ_STD 		= $(SRC:.cpp=.std.o)
 OBJ_BAD 		= $(SRC_BAD:.cpp=.bad.o)
 SRC 			= $(TESTER_DIR)/main.cpp \
-				  $(TESTER_DIR)/vector/constructor.cpp
+				  $(TESTER_DIR)/vector/constructor.cpp \
+				  $(TESTER_DIR)/vector/cplusplus_examples.cpp
 SRC_BAD 		= $(TESTER_DIR)/vector/constructor.cpp
 GCDA_FILES		= $(SRC:.cpp=.gcda)
 GCNO_FILES		= $(SRC:.cpp=.gcno)
