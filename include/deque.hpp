@@ -2,6 +2,7 @@
 #define DEQUE_HPP
 
 #include "iterator.hpp"
+#include "type_traits.hpp"
 
 namespace ft
 {
@@ -38,7 +39,9 @@ template < class T, class Alloc = std::allocator< T > > class deque
 	template < class InputIterator >
 	deque(InputIterator first,
 		  InputIterator last,
-		  const allocator_type& alloc = allocator_type());
+		  const allocator_type& alloc = allocator_type(),
+		  typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* =
+			  0);
 
 	// copy constructor
 	deque(const deque& cpy);
@@ -55,9 +58,18 @@ template < class T, class Alloc = std::allocator< T > > class deque
 	// insertion
 	iterator insert(iterator position, const value_type& val);
 	template < class InputIterator >
-	void assign(InputIterator first, InputIterator last);
+	void assign(
+		InputIterator first,
+		InputIterator last,
+		typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* =
+			0);
 	template < class InputIterator >
-	void insert(iterator position, InputIterator first, InputIterator last);
+	void insert(
+		iterator position,
+		InputIterator first,
+		InputIterator last,
+		typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* =
+			0);
 	void assign(size_type count, const value_type& val);
 	void insert(iterator position, size_type n, const value_type& val);
 	void push_back(const value_type& val);
