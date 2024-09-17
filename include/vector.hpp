@@ -81,6 +81,9 @@ template < class T, class Alloc = std::allocator< T > > class vector
 
 	iterator erase(iterator first, iterator last);
 	iterator erase(iterator position);
+	void clear();
+	void pop_back();
+
 	iterator insert(iterator position, const value_type& val);
 	template < class InputIterator >
 	void assign(
@@ -96,10 +99,9 @@ template < class T, class Alloc = std::allocator< T > > class vector
 		typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* /*unused*/ =
 			0);
 	void assign(size_type n, const value_type& val);
-	void clear();
 	void insert(iterator position, size_type n, const value_type& val);
-	void pop_back();
 	void push_back(const value_type& val);
+
 	void swap(vector& other);
 };
 
