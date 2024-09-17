@@ -10,23 +10,18 @@ namespace ft
 {
 
 template < class T, class Alloc >
-vector< T, Alloc >::vector(const typename vector::allocator_type& alloc)
-	: alc(alloc), length(0)
+vector< T, Alloc >::vector(const allocator_type& alloc)
+	: alloc(alloc), begin_ptr(), cap_ptr(begin_ptr), end_ptr(begin_ptr)
 {
-	list = alc.allocate(0);
 }
 
 template < class T, class Alloc >
-vector< T, Alloc >::vector(typename vector::size_type size,
-						   const typename vector::value_type& value,
-						   const typename vector::allocator_type& alloc)
-	: alc(alloc), length(size)
+vector< T, Alloc >::vector(size_type n,
+						   const value_type& value,
+						   const allocator_type& alloc)
+	: alloc(alloc), begin_ptr(), cap_ptr(begin_ptr), end_ptr(begin_ptr)
 {
-	list = alc.allocate(size);
-	for (typename vector::size_type i = 0; i < size; i++)
-	{
-		alc.construct(list + i, value);
-	}
+	assign(n, value);
 }
 
 template < class T, class Alloc >
@@ -34,15 +29,29 @@ template < class InputIterator >
 vector< T, Alloc >::vector(
 	InputIterator first,
 	InputIterator last,
-	const typename vector::allocator_type& alloc,
+	const allocator_type& alloc,
 	typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* /*unused*/)
-	: alc(alloc), length(last - first)
+	: alloc(alloc), begin_ptr(), cap_ptr(begin_ptr), end_ptr(begin_ptr)
 {
-	list = alloc.allocate(length);
-	for (InputIterator i = first; i != last; i++)
+	assign(first, last);
+}
+
+template < class T, class Alloc >
+vector< T, Alloc >::vector(const vector& cpy)
+	: alloc(cpy.get_allocator()), begin_ptr(), cap_ptr(begin_ptr),
+	  end_ptr(begin_ptr)
+{
+	assign(cpy.begin(), cpy.end());
+}
+
+template < class T, class Alloc >
+vector< T, Alloc >& vector< T, Alloc >::operator=(const vector& cpy)
+{
+	if (this != &cpy)
 	{
-		alc.construct(list[i], *i);
+		assign(cpy.begin(), cpy.end());
 	}
+	return *this;
 }
 
 } // namespace ft

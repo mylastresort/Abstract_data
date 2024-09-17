@@ -31,9 +31,10 @@ template < class T, class Alloc = std::allocator< T > > class vector
 	typedef ft::reverse_iterator< iterator > reverse_iterator;
 
   private:
-	allocator_type alc;
-	pointer list;
-	size_type length;
+	allocator_type alloc;
+	pointer begin_ptr;
+	pointer cap_ptr;
+	pointer end_ptr;
 
   public:
 	explicit vector(const allocator_type& alloc = allocator_type());

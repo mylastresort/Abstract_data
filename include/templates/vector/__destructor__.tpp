@@ -10,11 +10,8 @@ namespace ft
 
 template < class T, class Alloc > vector< T, Alloc >::~vector()
 {
-	for (typename vector::size_type i = 0; i < length; i++)
-	{
-		alc.destroy(list + i);
-	}
-	alc.deallocate(list, length);
+	clear();
+	alloc.deallocate(begin_ptr, capacity());
 }
 
 } // namespace ft
