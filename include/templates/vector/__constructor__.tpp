@@ -2,6 +2,7 @@
 #define __CONSTRUCTOR__VECTOR_TPP
 // IWYU pragma: private, include "vector.hpp"
 
+#include "type_traits.hpp"
 #pragma once
 #include "vector.hpp"
 
@@ -30,9 +31,11 @@ vector< T, Alloc >::vector(typename vector::size_type size,
 
 template < class T, class Alloc >
 template < class InputIterator >
-vector< T, Alloc >::vector(InputIterator first,
-						   InputIterator last,
-						   const typename vector::allocator_type& alloc)
+vector< T, Alloc >::vector(
+	InputIterator first,
+	InputIterator last,
+	const typename vector::allocator_type& alloc,
+	typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* /*unused*/)
 	: alc(alloc), length(last - first)
 {
 	list = alloc.allocate(length);
