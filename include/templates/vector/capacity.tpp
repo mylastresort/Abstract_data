@@ -8,6 +8,11 @@
 namespace ft
 {
 
+template < class T, class Alloc > bool vector< T, Alloc >::empty() const
+{
+	return begin() == end();
+}
+
 template < class T, class Alloc >
 typename vector< T, Alloc >::size_type vector< T, Alloc >::capacity() const
 {
@@ -46,6 +51,28 @@ void vector< T, Alloc >::reserve(size_type cap)
 	begin_ptr = new_list;
 	cap_ptr = new_list + cap;
 	end_ptr = new_list + len;
+}
+
+template < class T, class Alloc >
+void vector< T, Alloc >::resize(size_type n, value_type val)
+{
+	if (n == size())
+		return;
+	if (n < size())
+	{
+		erase(begin() + n, end());
+		return;
+	}
+	if (n > capacity())
+	{
+		size_type cap = capacity() * 2;
+		reserve(n > cap ? n : cap);
+	}
+	for (difference_type i = size(); i < n; i++)
+	{
+		alloc.construct(end_ptr, val);
+		end_ptr++;
+	}
 }
 
 } // namespace ft
