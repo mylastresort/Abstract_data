@@ -32,6 +32,7 @@ NAME_STD		= std_tester
 		test-coverage \
 		std \
 		std-test \
+		lint-staged \
 		lint \
 		clean-cov \
 		clean-dep \
@@ -97,6 +98,11 @@ $(NAME_STD): $(OBJ_STD)
 %.std.o: %.cpp
 	@echo Building $@
 	@$(CC) $(CFLAGS) -c $< -o $@
+
+lint-staged:
+	@git diff --cached --name-only | \
+		grep -E '\.(cpp|hpp|tpp)$$' | \
+		xargs -i sh -c 'clang-format -i --verbose {} && git add {}'
 
 lint:
 	@clang-format -i --verbose \
