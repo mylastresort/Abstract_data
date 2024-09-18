@@ -170,6 +170,6 @@ operator+(const typename deque_iterator< T >::difference_type lhs,
 
 } // namespace ft
 
-#include "templates/deque/__deque__.hpp" // IWYU pragma: export
+#include "deque/__deque__.hpp" // IWYU pragma: export
 
 #endif

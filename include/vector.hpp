@@ -1,9 +1,9 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
+#include "__types__.hpp"
 #include "iterator.hpp"
 #include "type_traits.hpp"
-#include "types/types.hpp"
 
 namespace ft
 {
@@ -173,6 +173,6 @@ operator+(const typename vector_iterator< T >::difference_type lhs,
 
 } // namespace ft
 
-#include "templates/vector/__vector__.hpp" // IWYU pragma: export
+#include "vector/__vector__.hpp" // IWYU pragma: export
 
 #endif
