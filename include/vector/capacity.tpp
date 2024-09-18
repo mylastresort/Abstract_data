@@ -16,13 +16,13 @@ template < class T, class Alloc > bool vector< T, Alloc >::empty() const
 template < class T, class Alloc >
 typename vector< T, Alloc >::size_type vector< T, Alloc >::capacity() const
 {
-	return iterator(cap_ptr) - begin();
+	return iterator(this->cap_ptr) - begin();
 }
 
 template < class T, class Alloc >
 typename vector< T, Alloc >::size_type vector< T, Alloc >::max_size() const
 {
-	return alloc.max_size();
+	return this->alloc.max_size();
 }
 
 template < class T, class Alloc >
@@ -40,17 +40,17 @@ void vector< T, Alloc >::reserve(size_type cap)
 	{
 		throw "Fatal: cannot allocate requested size exceeding max_size";
 	}
-	pointer new_list = alloc.allocate(cap);
+	pointer new_list = this->alloc.allocate(cap);
 	for (iterator i = begin(); i != end(); i++)
 	{
 		new_list[i - begin()] = *i;
-		alloc.destroy(&*i);
+		this->alloc.destroy(&*i);
 	}
 	difference_type len = size();
-	alloc.deallocate(begin_ptr, capacity());
-	begin_ptr = new_list;
-	cap_ptr = new_list + cap;
-	end_ptr = new_list + len;
+	this->alloc.deallocate(this->begin_ptr, capacity());
+	this->begin_ptr = new_list;
+	this->cap_ptr = new_list + cap;
+	this->end_ptr = new_list + len;
 }
 
 template < class T, class Alloc >
@@ -70,8 +70,8 @@ void vector< T, Alloc >::resize(size_type n, value_type val)
 	}
 	for (difference_type i = size(); i < n; i++)
 	{
-		alloc.construct(end_ptr, val);
-		end_ptr++;
+		this->alloc.construct(this->end_ptr, val);
+		this->end_ptr++;
 	}
 }
 

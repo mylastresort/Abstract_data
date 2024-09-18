@@ -10,13 +10,13 @@ namespace ft
 template < class T, class Alloc >
 typename vector< T, Alloc >::const_iterator vector< T, Alloc >::begin() const
 {
-	return const_iterator(begin_ptr);
+	return const_iterator(this->begin_ptr);
 }
 
 template < class T, class Alloc >
 typename vector< T, Alloc >::const_iterator vector< T, Alloc >::end() const
 {
-	return const_iterator(end_ptr);
+	return const_iterator(this->end_ptr);
 }
 
 template < class T, class Alloc >
@@ -34,13 +34,13 @@ typename vector< T, Alloc >::const_reverse_iterator vector< T, Alloc >::rend() c
 template < class T, class Alloc >
 typename vector< T, Alloc >::iterator vector< T, Alloc >::begin()
 {
-	return iterator(begin_ptr);
+	return iterator(this->begin_ptr);
 }
 
 template < class T, class Alloc >
 typename vector< T, Alloc >::iterator vector< T, Alloc >::end()
 {
-	return iterator(end_ptr);
+	return iterator(this->end_ptr);
 }
 
 template < class T, class Alloc >

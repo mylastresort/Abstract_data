@@ -4,13 +4,15 @@
 #include "__types__.hpp"
 #include "iterator.hpp"
 #include "type_traits.hpp"
+#include "vector/__impl_data_.hpp"
 
 namespace ft
 {
 
 template < class T > struct vector_iterator;
 
-template < class T, class Alloc = std::allocator< T > > class vector
+template < class T, class Alloc = std::allocator< T > >
+class vector : private _vector_impl_data< typename Alloc::pointer, Alloc >
 {
   public:
 	typedef Alloc allocator_type;
@@ -29,13 +31,6 @@ template < class T, class Alloc = std::allocator< T > > class vector
 	typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 	typedef ft::reverse_iterator< iterator > reverse_iterator;
 
-  private:
-	allocator_type alloc;
-	pointer begin_ptr;
-	pointer cap_ptr;
-	pointer end_ptr;
-
-  public:
 	explicit vector(const allocator_type& alloc = allocator_type());
 	vector(const vector& cpy);
 	explicit vector(size_type n,

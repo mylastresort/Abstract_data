@@ -26,9 +26,9 @@ void vector< T, Alloc >::assign(
 	reserve(last - first);
 	for (InputIterator i = first; i != last; i++)
 	{
-		alloc.construct(begin_ptr + (i - first), *i);
+		this->alloc.construct(this->begin_ptr + (i - first), *i);
 	}
-	end_ptr = begin_ptr + (last - first);
+	this->end_ptr = this->begin_ptr + (last - first);
 }
 
 template < class T, class Alloc >
@@ -38,9 +38,9 @@ void vector< T, Alloc >::assign(size_type n, const value_type& val)
 	reserve(n);
 	for (size_type i = 0; i < n; i++)
 	{
-		alloc.construct(begin_ptr + i, val);
+		this->alloc.construct(this->begin_ptr + i, val);
 	}
-	end_ptr = begin_ptr + n;
+	this->end_ptr = this->begin_ptr + n;
 }
 
 template < class T, class Alloc >
@@ -74,10 +74,10 @@ void vector< T, Alloc >::insert(
 		InputIterator itr = first;
 		for (iterator i = position; i != position + distance; i++)
 		{
-			alloc.construct(&*i, *itr);
+			this->alloc.construct(&*i, *itr);
 			itr++;
 		}
-		end_ptr += distance;
+		this->end_ptr += distance;
 	}
 	else
 	{
@@ -86,7 +86,7 @@ void vector< T, Alloc >::insert(
 			throw "Fatal: cannot allocate requested size exceeding max_size";
 		}
 		size_type new_size = size() + distance;
-		pointer new_list = alloc.allocate(new_size);
+		pointer new_list = this->alloc.allocate(new_size);
 		for (iterator i = begin(); i != position; i++)
 		{
 			new_list[i - begin()] = *i;
@@ -96,7 +96,7 @@ void vector< T, Alloc >::insert(
 			 i < position - begin() + distance;
 			 i++)
 		{
-			alloc.construct(new_list + i, *itr);
+			this->alloc.construct(new_list + i, *itr);
 			itr++;
 		}
 		iterator new_post_pos =
@@ -105,10 +105,10 @@ void vector< T, Alloc >::insert(
 		{
 			*i = *j;
 		}
-		alloc.deallocate(begin_ptr, capacity());
-		begin_ptr = new_list;
-		end_ptr = begin_ptr + new_size;
-		cap_ptr = begin_ptr + new_size;
+		this->alloc.deallocate(this->begin_ptr, capacity());
+		this->begin_ptr = new_list;
+		this->end_ptr = this->begin_ptr + new_size;
+		this->cap_ptr = this->begin_ptr + new_size;
 	}
 }
 
@@ -127,9 +127,9 @@ void vector< T, Alloc >::insert(iterator position,
 		}
 		for (iterator i = position; i != position + n; i++)
 		{
-			alloc.construct(&*i, val);
+			this->alloc.construct(&*i, val);
 		}
-		end_ptr += n;
+		this->end_ptr += n;
 	}
 	else
 	{
@@ -138,7 +138,7 @@ void vector< T, Alloc >::insert(iterator position,
 			throw "Fatal: cannot allocate requested size exceeding max_size";
 		}
 		size_type new_size = size() + n;
-		pointer new_list = alloc.allocate(new_size);
+		pointer new_list = this->alloc.allocate(new_size);
 		for (iterator i = begin(); i != position; i++)
 		{
 			new_list[i - begin()] = *i;
@@ -146,17 +146,17 @@ void vector< T, Alloc >::insert(iterator position,
 		for (difference_type i = position - begin(); i < position - begin() + n;
 			 i++)
 		{
-			alloc.construct(new_list + i, val);
+			this->alloc.construct(new_list + i, val);
 		}
 		iterator new_post_pos = iterator(new_list) + (position + n - begin());
 		for (iterator i = new_post_pos, j = position; j != end(); i++, j++)
 		{
 			*i = *j;
 		}
-		alloc.deallocate(begin_ptr, capacity());
-		begin_ptr = new_list;
-		end_ptr = begin_ptr + new_size;
-		cap_ptr = begin_ptr + new_size;
+		this->alloc.deallocate(this->begin_ptr, capacity());
+		this->begin_ptr = new_list;
+		this->end_ptr = this->begin_ptr + new_size;
+		this->cap_ptr = this->begin_ptr + new_size;
 	}
 }
 

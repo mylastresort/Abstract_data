@@ -11,7 +11,7 @@ namespace ft
 
 template < class T, class Alloc >
 vector< T, Alloc >::vector(const allocator_type& alloc)
-	: alloc(alloc), begin_ptr(), cap_ptr(begin_ptr), end_ptr(begin_ptr)
+	: _vector_impl_data< pointer, allocator_type >(alloc)
 {
 }
 
@@ -19,7 +19,7 @@ template < class T, class Alloc >
 vector< T, Alloc >::vector(size_type n,
 						   const value_type& value,
 						   const allocator_type& alloc)
-	: alloc(alloc), begin_ptr(), cap_ptr(begin_ptr), end_ptr(begin_ptr)
+	: _vector_impl_data< pointer, allocator_type >(alloc)
 {
 	assign(n, value);
 }
@@ -31,15 +31,14 @@ vector< T, Alloc >::vector(
 	InputIterator last,
 	const allocator_type& alloc,
 	typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* /*unused*/)
-	: alloc(alloc), begin_ptr(), cap_ptr(begin_ptr), end_ptr(begin_ptr)
+	: _vector_impl_data< pointer, allocator_type >(alloc)
 {
 	assign(first, last);
 }
 
 template < class T, class Alloc >
 vector< T, Alloc >::vector(const vector& cpy)
-	: alloc(cpy.get_allocator()), begin_ptr(), cap_ptr(begin_ptr),
-	  end_ptr(begin_ptr)
+	: _vector_impl_data< pointer, allocator_type >(cpy.get_allocator())
 {
 	assign(cpy.begin(), cpy.end());
 }

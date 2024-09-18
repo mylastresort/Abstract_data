@@ -9,14 +9,14 @@ namespace ft
 
 template < class T, class Alloc > void vector< T, Alloc >::swap(vector& other)
 {
-	pointer tmp = begin_ptr;
-	begin_ptr = other.begin_ptr;
+	pointer tmp = this->begin_ptr;
+	this->begin_ptr = other.begin_ptr;
 	other.begin_ptr = tmp;
-	tmp = end_ptr;
-	end_ptr = other.end_ptr;
+	tmp = this->end_ptr;
+	this->end_ptr = other.end_ptr;
 	other.end_ptr = tmp;
-	tmp = cap_ptr;
-	cap_ptr = other.cap_ptr;
+	tmp = this->cap_ptr;
+	this->cap_ptr = other.cap_ptr;
 	other.cap_ptr = tmp;
 }
 

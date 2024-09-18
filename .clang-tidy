@@ -19,7 +19,9 @@ Checks: >
   -fuchsia-default-arguments-calls,
   -cppcoreguidelines-avoid-magic-numbers,
   -readability-magic-numbers,
-  -hicpp-exception-baseclass
+  -hicpp-exception-baseclass,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -misc-non-private-member-variables-in-classes
 
 CheckOptions:
   - key: readability-identifier-length.MinimumParameterNameLength

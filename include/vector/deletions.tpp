@@ -18,13 +18,13 @@ typename vector< T, Alloc >::iterator vector< T, Alloc >::erase(iterator first,
 	difference_type distance = last - first;
 	for (iterator i = first; i != last; i++)
 	{
-		alloc.destroy(&*i);
+		this->alloc.destroy(&*i);
 	}
 	for (iterator i = first; i != end() - distance; i++)
 	{
 		*i = i[distance];
 	}
-	end_ptr -= distance;
+	this->end_ptr -= distance;
 	return iterator(first);
 }
 
@@ -38,17 +38,17 @@ template < class T, class Alloc > void vector< T, Alloc >::clear()
 {
 	for (iterator itr = begin(); itr != end(); itr++)
 	{
-		alloc.destroy(&*itr);
+		this->alloc.destroy(&*itr);
 	}
-	end_ptr = begin_ptr;
+	this->end_ptr = this->begin_ptr;
 }
 
 template < class T, class Alloc > void vector< T, Alloc >::pop_back()
 {
 	if (!empty())
 	{
-		alloc.destroy(end_ptr - 1);
-		end_ptr--;
+		this->alloc.destroy(this->end_ptr - 1);
+		this->end_ptr--;
 	}
 }
 

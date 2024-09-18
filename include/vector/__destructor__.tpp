@@ -11,7 +11,7 @@ namespace ft
 template < class T, class Alloc > vector< T, Alloc >::~vector()
 {
 	clear();
-	alloc.deallocate(begin_ptr, capacity());
+	this->alloc.deallocate(this->begin_ptr, capacity());
 }
 
 } // namespace ft
