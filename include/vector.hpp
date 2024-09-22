@@ -129,7 +129,13 @@ struct vector_iterator : public ft::iterator< random_access_iterator_tag, T >
 	vector_iterator();
 	vector_iterator(const vector_iterator& cpy);
 	vector_iterator& operator=(const vector_iterator& cpy);
+	template < class U >
+	explicit vector_iterator(const vector_iterator< U >& cpy);
+	template < class U >
+	vector_iterator& operator=(const vector_iterator< U >& cpy);
 	~vector_iterator();
+
+	template < class U > operator vector_iterator< U >(); // NOLINT
 
 	explicit vector_iterator(pointer _current);
 

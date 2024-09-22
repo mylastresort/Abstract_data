@@ -27,6 +27,31 @@ vector_iterator< T >& vector_iterator< T >::operator=(const vector_iterator& cpy
 	return *this;
 }
 
+template < class T >
+template < class U >
+vector_iterator< T >::vector_iterator(const vector_iterator< U >& cpy)
+{
+	*this = cpy;
+}
+
+template < class T >
+template < class U >
+vector_iterator< T >& vector_iterator< T >::operator=(const vector_iterator< U >& cpy)
+{
+	if (static_cast< void* >(this) != &cpy)
+	{
+		current = cpy.base();
+	}
+	return *this;
+}
+
+template < class T >
+template < class U >
+vector_iterator< T >::operator vector_iterator< U >()
+{
+	return vector_iterator< U >(current);
+}
+
 template < class T > vector_iterator< T >::~vector_iterator()
 {
 }
