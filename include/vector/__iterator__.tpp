@@ -185,6 +185,11 @@ operator+(const typename vector_iterator< T >::difference_type lhs,
 	return rhs + lhs;
 }
 
+#ifdef TEST
+template struct ft::vector_iterator< int >;
+template struct ft::vector_iterator< const int >;
+#endif
+
 } // namespace ft
 
 #endif

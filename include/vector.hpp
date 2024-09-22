@@ -170,4 +170,8 @@ operator+(const typename vector_iterator< T >::difference_type lhs,
 
 #include "vector/__vector__.hpp" // IWYU pragma: export
 
+#ifdef TEST
+template class ft::vector< int >;
+#endif
+
 #endif
