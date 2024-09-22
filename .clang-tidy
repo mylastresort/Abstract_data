@@ -21,7 +21,11 @@ Checks: >
   -readability-magic-numbers,
   -hicpp-exception-baseclass,
   -cppcoreguidelines-non-private-member-variables-in-classes,
-  -misc-non-private-member-variables-in-classes
+  -misc-non-private-member-variables-in-classes,
+  -hicpp-use-nullptr,
+  -modernize-use-nullptr,
+  -altera-struct-pack-align,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic
 
 CheckOptions:
   - key: readability-identifier-length.MinimumParameterNameLength
