@@ -100,6 +100,15 @@ class vector : private _vector_impl_data< typename Alloc::pointer, Alloc >
 	void swap(vector& other);
 };
 
+/**
+ * forbidden class specialization - begin
+ * missing definition prevents the user from instantiation
+ */
+template < class T > class vector< const T >;
+template < class T > class vector< volatile T >;
+template < class T > class vector< const volatile T >;
+/** forbidden class specialization - end */
+
 template < class T, class Alloc >
 bool operator==(const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs);
 template < class T, class Alloc >
