@@ -2,10 +2,12 @@
 #define MAIN_HPP
 
 #ifdef STD
+#include <deque>
 #include <vector>
 #define __lib__ std
 #else
 #define FT
+#include "deque.hpp" // IWYU pragma: export
 #include "vector.hpp"
 #define __lib__ ft
 #endif
@@ -20,7 +22,8 @@ void unit_test_vector_constructor_size_constructor();
 void unit_test_vector_constructor_iterator_constructor();
 void unit_test_vector_capacity();
 
-void cplusplusexamples();
+void cplusplusexamples_vector();
+void cplusplusexamples_deque();
 
 // types
 typedef int VEC_T;

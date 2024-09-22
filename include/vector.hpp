@@ -12,7 +12,7 @@ namespace ft
 template < class T > struct vector_iterator;
 
 template < class T, class Alloc = std::allocator< T > >
-class vector : private _vector_impl_data< typename Alloc::pointer, Alloc >
+class vector : public _vector_impl_data< typename Alloc::pointer, Alloc >
 {
   public:
 	typedef Alloc allocator_type;

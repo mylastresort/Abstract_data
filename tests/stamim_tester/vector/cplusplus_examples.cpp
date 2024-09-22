@@ -4,8 +4,26 @@ using __lib__::vector;
 
 #include <vector>
 
-void cplusplusexamples()
+void cplusplusexamples_vector()
 {
+	{
+		vector< int > vec1;
+		vector< int >::iterator i = vec1.begin();
+		vector< int >::const_iterator j = vec1.begin();
+
+		i = vec1.end();
+		j = vec1.end();
+	}
+
+	{
+		vector< int > vec1;
+		vector< int >::reverse_iterator i = vec1.rbegin();
+		vector< int >::const_reverse_iterator j = vec1.rbegin();
+
+		i = vec1.rend();
+		j = vec1.rend();
+	}
+
 	{
 		vector< int > myvector(5); // 5 default-constructed ints
 

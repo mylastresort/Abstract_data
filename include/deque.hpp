@@ -1,6 +1,7 @@
 #ifndef DEQUE_HPP
 #define DEQUE_HPP
 
+#include "deque/__impl_data_.hpp"
 #include "iterator.hpp"
 #include "type_traits.hpp"
 
@@ -9,7 +10,8 @@ namespace ft
 
 template < class T > struct deque_iterator;
 
-template < class T, class Alloc = std::allocator< T > > class deque
+template < class T, class Alloc = std::allocator< T > >
+class deque : protected _deque_impl_data< Alloc >
 {
   public:
 	typedef Alloc allocator_type;
@@ -28,23 +30,19 @@ template < class T, class Alloc = std::allocator< T > > class deque
 	typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
 	typedef ft::reverse_iterator< iterator > reverse_iterator;
 
-  private:
-	allocator_type alloc;
-
-  public:
-	explicit deque(const allocator_type& = allocator_type());
+	explicit deque(const allocator_type& alloc = allocator_type());
 	deque(const deque& cpy);
-	explicit deque(size_type size,
+	explicit deque(size_type n,
 				   const value_type& value = value_type(),
 				   const allocator_type& alloc = allocator_type());
 	template < class InputIterator >
 	deque(InputIterator first,
 		  InputIterator last,
 		  const allocator_type& alloc = allocator_type(),
-		  typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* =
+		  typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* /*unused*/ =
 			  0);
 
-	deque< T, allocator_type >& operator=(const deque& cpy);
+	deque& operator=(const deque& cpy);
 
 	~deque();
 
@@ -128,12 +126,20 @@ struct deque_iterator : public ft::iterator< random_access_iterator_tag, T >
 	using typename _iterator::reference;
 	using typename _iterator::value_type;
 
+	typedef chunk< value_type >** data_t;
+
 	deque_iterator();
 	deque_iterator(const deque_iterator& cpy);
 	deque_iterator& operator=(const deque_iterator& cpy);
+	template < class U >
+	explicit deque_iterator(const deque_iterator< U >& cpy);
+	template < class U >
+	deque_iterator& operator=(const deque_iterator< U >& cpy);
 	~deque_iterator();
 
-	explicit deque_iterator(pointer _current);
+	template < class U > operator deque_iterator< U >(); // NOLINT
+
+	explicit deque_iterator(data_t _data, size_t _current = 0);
 
 	bool operator!=(const deque_iterator& rhs);
 	bool operator<(const deque_iterator& rhs);
@@ -159,8 +165,8 @@ struct deque_iterator : public ft::iterator< random_access_iterator_tag, T >
 	deque_iterator& operator++();
 	deque_iterator& operator+=(const difference_type n);
 
-  private:
-	pointer current;
+	size_t current;
+	data_t data;
 };
 
 template < class T >
@@ -171,5 +177,9 @@ operator+(const typename deque_iterator< T >::difference_type lhs,
 } // namespace ft
 
 #include "deque/__deque__.hpp" // IWYU pragma: export
+
+#ifdef TEST
+// template class ft::deque< int >;
+#endif
 
 #endif
