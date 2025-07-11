@@ -1,3 +1,4 @@
+MAKEFLAGS += -j10
 CC 				= c++
 CFLAGS			= -Werror -Wextra -Wall -std=c++98 -Iinclude -MMD -MP
 COVERAGE_FLAGS	= --coverage
