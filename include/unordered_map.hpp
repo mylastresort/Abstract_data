@@ -1,9 +1,9 @@
 #ifndef UNORDERED_MAP_HPP
 #define UNORDERED_MAP_HPP
 
+#include "_phc.hpp"
 #include "iterator.hpp"
 #include "utility.hpp"
-#include <functional>
 
 namespace ft
 {

@@ -1,3 +1,6 @@
 CompileFlags:
-  Add: [-Wall, -Wextra, -Werror, -std=c++98, -I./include, -x, c++-header, -DTEST]
+  Add:
+    [-Wall, -Wextra, -Werror, -std=c++98, -I./include, -x, c++-header, -DTEST]
   Compiler: c++
+Diagnostics:
+  UnusedIncludes: None

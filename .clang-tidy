@@ -25,7 +25,8 @@ Checks: >
   -hicpp-use-nullptr,
   -modernize-use-nullptr,
   -altera-struct-pack-align,
-  -cppcoreguidelines-pro-bounds-pointer-arithmetic
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -performance-avoid-endl,
 
 CheckOptions:
   - key: readability-identifier-length.MinimumParameterNameLength

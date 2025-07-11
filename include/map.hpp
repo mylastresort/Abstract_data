@@ -1,9 +1,9 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
+#include "__types__.hpp"
+#include "_phc.hpp"
 #include "iterator.hpp"
-#include "types/types.hpp"
-#include <memory>
 
 namespace ft
 {

@@ -1,8 +1,8 @@
 #ifndef SET_HPP
 #define SET_HPP
 
+#include "_phc.hpp"
 #include "iterator.hpp"
-#include <memory>
 
 namespace ft
 {

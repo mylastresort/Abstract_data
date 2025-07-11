@@ -1,9 +1,9 @@
 #ifndef UNORDERED_SET_HPP
 #define UNORDERED_SET_HPP
 
+#include "_phc.hpp"
 #include "iterator.hpp"
 #include "utility.hpp"
-#include <functional>
 
 namespace ft
 {

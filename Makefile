@@ -27,6 +27,8 @@ TEST_LOG_STD	= test_std.txt
 VALGRIND_LOG	= suppressions.supp
 NAME			= ft_tester
 NAME_STD		= std_tester
+PHC = $(INCLUDE_DIR)/_phc.hpp
+PHC_GCH = $(PHC).gch
 
 .PHONY: all \
 		test \
@@ -51,9 +53,13 @@ $(NAME): $(OBJ)
 	@echo Linking $@
 	@$(CC) $(CFLAGS) $^ -o $@
 
-%.o: %.cpp
+$(PHC_GCH): $(PHC)
+	@echo Compiling PHC Header File
+	@$(CC) $(CFLAGS) -x c++-header $< -o $@
+
+%.o: %.cpp $(PHC_GCH)
 	@echo Building $@
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -include $(PHC) -c $< -o $@
 
 test-bad: $(OBJ_BAD)
 	@echo "OK. Bad files did not compile as expected."
