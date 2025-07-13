@@ -7,6 +7,11 @@
 #	LK_Cpp (in configuration: Cpp) Should be used for C, C++, ObjectiveC, ObjectiveC++.
 Language: Cpp
 
+# Standard (LanguageStandard)
+# Format compatible with this standard.
+# For C++98 compatibility, this ensures proper spacing between consecutive >> in templates
+Standard: Cpp03
+
 
 # TabWidth (unsigned)
 # The number of columns used for tab stops.
@@ -94,7 +99,7 @@ BreakBeforeTernaryOperators: true
 # The column limit.
 ColumnLimit: 80
 
-SpacesInAngles: true
+SpacesInAngles: false
 
 
 # FixNamespaceComments (bool)

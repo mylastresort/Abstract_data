@@ -8,18 +8,18 @@
 namespace ft
 {
 
-template < class T, class Alloc >
-void vector< T, Alloc >::push_back(const value_type& val)
+template <class T, class Alloc>
+void vector<T, Alloc>::push_back(const value_type& val)
 {
 	resize(size() + 1, val);
 }
 
-template < class T, class Alloc >
-template < class InputIterator >
-void vector< T, Alloc >::assign(
+template <class T, class Alloc>
+template <class InputIterator>
+void vector<T, Alloc>::assign(
 	InputIterator first,
 	InputIterator last,
-	typename enable_if< !numeric_limits< InputIterator >::is_integer >::type*
+	typename enable_if<!numeric_limits<InputIterator>::is_integer>::type*
 	/*unused*/)
 {
 	clear();
@@ -31,8 +31,8 @@ void vector< T, Alloc >::assign(
 	this->end_ptr = this->begin_ptr + (last - first);
 }
 
-template < class T, class Alloc >
-void vector< T, Alloc >::assign(size_type n, const value_type& val)
+template <class T, class Alloc>
+void vector<T, Alloc>::assign(size_type n, const value_type& val)
 {
 	clear();
 	reserve(n);
@@ -43,22 +43,22 @@ void vector< T, Alloc >::assign(size_type n, const value_type& val)
 	this->end_ptr = this->begin_ptr + n;
 }
 
-template < class T, class Alloc >
-typename vector< T, Alloc >::iterator
-vector< T, Alloc >::insert(iterator position, const value_type& val)
+template <class T, class Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(iterator position,
+															 const value_type& val)
 {
 	difference_type distance = position - begin();
 	insert(position, 1, val);
 	return begin() + distance;
 }
 
-template < class T, class Alloc >
-template < class InputIterator >
-void vector< T, Alloc >::insert(
+template <class T, class Alloc>
+template <class InputIterator>
+void vector<T, Alloc>::insert(
 	iterator position,
 	InputIterator first,
 	InputIterator last,
-	typename enable_if< !numeric_limits< InputIterator >::is_integer >::type*
+	typename enable_if<!numeric_limits<InputIterator>::is_integer>::type*
 	/*unused*/)
 {
 	difference_type distance = last - first;
@@ -112,10 +112,8 @@ void vector< T, Alloc >::insert(
 	}
 }
 
-template < class T, class Alloc >
-void vector< T, Alloc >::insert(iterator position,
-								size_type n,
-								const value_type& val)
+template <class T, class Alloc>
+void vector<T, Alloc>::insert(iterator position, size_type n, const value_type& val)
 {
 	if (capacity() >= size() + n)
 	{

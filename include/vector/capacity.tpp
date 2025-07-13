@@ -8,31 +8,30 @@
 namespace ft
 {
 
-template < class T, class Alloc > bool vector< T, Alloc >::empty() const
+template <class T, class Alloc> bool vector<T, Alloc>::empty() const
 {
 	return begin() == end();
 }
 
-template < class T, class Alloc >
-typename vector< T, Alloc >::size_type vector< T, Alloc >::capacity() const
+template <class T, class Alloc>
+typename vector<T, Alloc>::size_type vector<T, Alloc>::capacity() const
 {
 	return iterator(this->cap_ptr) - begin();
 }
 
-template < class T, class Alloc >
-typename vector< T, Alloc >::size_type vector< T, Alloc >::max_size() const
+template <class T, class Alloc>
+typename vector<T, Alloc>::size_type vector<T, Alloc>::max_size() const
 {
 	return this->alloc.max_size();
 }
 
-template < class T, class Alloc >
-typename vector< T, Alloc >::size_type vector< T, Alloc >::size() const
+template <class T, class Alloc>
+typename vector<T, Alloc>::size_type vector<T, Alloc>::size() const
 {
 	return end() - begin();
 }
 
-template < class T, class Alloc >
-void vector< T, Alloc >::reserve(size_type cap)
+template <class T, class Alloc> void vector<T, Alloc>::reserve(size_type cap)
 {
 	if (cap <= capacity())
 		return;
@@ -53,8 +52,8 @@ void vector< T, Alloc >::reserve(size_type cap)
 	this->end_ptr = new_list + len;
 }
 
-template < class T, class Alloc >
-void vector< T, Alloc >::resize(size_type n, value_type val)
+template <class T, class Alloc>
+void vector<T, Alloc>::resize(size_type n, value_type val)
 {
 	if (n == size())
 		return;

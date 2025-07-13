@@ -6,7 +6,7 @@
 namespace ft
 {
 
-template < class pointer, class allocator > class _vector_impl_data
+template <class pointer, class allocator> class _vector_impl_data
 {
   protected:
 	allocator alloc;
@@ -21,8 +21,8 @@ template < class pointer, class allocator > class _vector_impl_data
 };
 
 #ifdef TEST
-typedef std::allocator< int > allocator;
-template class _vector_impl_data< allocator, allocator::pointer >;
+typedef std::allocator<int> allocator;
+template class _vector_impl_data<allocator, allocator::pointer>;
 #endif
 
 } // namespace ft

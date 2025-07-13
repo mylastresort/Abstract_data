@@ -4,7 +4,7 @@
 namespace ft
 {
 
-template < class T > struct hash
+template <class T> struct hash
 {
 };
 

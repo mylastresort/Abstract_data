@@ -2,113 +2,113 @@
 
 using __lib__::vector;
 
-#include <vector>
+// #include <vector>
 
 void cplusplusexamples_vector()
 {
 	{
-		vector< int > vec1;
-		vector< int >::iterator i = vec1.begin();
-		vector< int >::const_iterator j = vec1.begin();
+		vector<int> vec1;
+		vector<int>::iterator i = vec1.begin();
+		vector<int>::const_iterator j = vec1.begin();
 
 		i = vec1.end();
 		j = vec1.end();
 	}
 
 	{
-		vector< int > vec1;
-		vector< int >::reverse_iterator i = vec1.rbegin();
-		vector< int >::const_reverse_iterator j = vec1.rbegin();
+		vector<int> vec1;
+		vector<int>::reverse_iterator i = vec1.rbegin();
+		vector<int>::const_reverse_iterator j = vec1.rbegin();
 
 		i = vec1.rend();
 		j = vec1.rend();
 	}
 
 	{
-		vector< int > myvector(5); // 5 default-constructed ints
+		vector<int> myvector(5); // 5 default-constructed ints
 
 		int i = 0;
 
-		vector< int >::reverse_iterator rit = myvector.rbegin();
+		vector<int>::reverse_iterator rit = myvector.rbegin();
 		for (; rit != myvector.rend(); ++rit)
 			*rit = ++i;
 
 		std::cout << "myvector contains:";
-		for (vector< int >::iterator it = myvector.begin(); it != myvector.end();
+		for (vector<int>::iterator it = myvector.begin(); it != myvector.end();
 			 ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}
 
 	{
-		vector< int > foo(3, 0);
-		vector< int > bar(5, 0);
+		vector<int> foo(3, 0);
+		vector<int> bar(5, 0);
 
 		bar = foo;
-		foo = vector< int >();
+		foo = vector<int>();
 
 		std::cout << "Size of foo: " << int(foo.size()) << '\n';
 		std::cout << "Size of bar: " << int(bar.size()) << '\n';
 	}
 
 	{
-		vector< int > myvector;
+		vector<int> myvector;
 		for (int i = 1; i <= 5; i++)
 			myvector.push_back(i);
 
 		std::cout << "myvector contains:";
-		for (vector< int >::iterator it = myvector.begin(); it != myvector.end();
+		for (vector<int>::iterator it = myvector.begin(); it != myvector.end();
 			 ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}
 
 	{
-		vector< int > myvector;
+		vector<int> myvector;
 		for (int i = 1; i <= 5; i++)
 			myvector.push_back(i);
 
 		std::cout << "myvector contains:";
-		for (vector< int >::iterator it = myvector.begin(); it != myvector.end();
+		for (vector<int>::iterator it = myvector.begin(); it != myvector.end();
 			 ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}
 
 	{
-		vector< int > myvector(5); // 5 default-constructed ints
+		vector<int> myvector(5); // 5 default-constructed ints
 
 		int i = 0;
 
-		vector< int >::reverse_iterator rit = myvector.rbegin();
+		vector<int>::reverse_iterator rit = myvector.rbegin();
 		for (; rit != myvector.rend(); ++rit)
 			*rit = ++i;
 
 		std::cout << "myvector contains:";
-		for (vector< int >::iterator it = myvector.begin(); it != myvector.end();
+		for (vector<int>::iterator it = myvector.begin(); it != myvector.end();
 			 ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}
 
 	{
-		vector< int > myvector(5); // 5 default-constructed ints
+		vector<int> myvector(5); // 5 default-constructed ints
 
-		vector< int >::reverse_iterator rit = myvector.rbegin();
+		vector<int>::reverse_iterator rit = myvector.rbegin();
 
 		int i = 0;
 		for (rit = myvector.rbegin(); rit != myvector.rend(); ++rit)
 			*rit = ++i;
 
 		std::cout << "myvector contains:";
-		for (vector< int >::iterator it = myvector.begin(); it != myvector.end();
+		for (vector<int>::iterator it = myvector.begin(); it != myvector.end();
 			 ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}
 
 	{
-		vector< int > myints;
+		vector<int> myints;
 		std::cout << "0. size: " << myints.size() << '\n';
 
 		for (int i = 0; i < 10; i++)
@@ -123,7 +123,7 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > myvector;
+		vector<int> myvector;
 		int sum(0);
 
 		for (int i = 1; i <= 10; i++)
@@ -170,9 +170,9 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > myvector(10); // 10 zero-initialized elements
+		vector<int> myvector(10); // 10 zero-initialized elements
 
-		vector< int >::size_type sz = myvector.size();
+		vector<int>::size_type sz = myvector.size();
 
 		// assign some values:
 		for (unsigned i = 0; i < sz; i++)
@@ -194,7 +194,7 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > myvector(10); // 10 zero-initialized ints
+		vector<int> myvector(10); // 10 zero-initialized ints
 
 		// assign some values:
 		for (unsigned i = 0; i < myvector.size(); i++)
@@ -207,7 +207,7 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > myvector;
+		vector<int> myvector;
 
 		myvector.push_back(78);
 
@@ -229,7 +229,7 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > myvector;
+		vector<int> myvector;
 
 		myvector.push_back(10);
 
@@ -245,13 +245,13 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > first;
-		vector< int > second;
-		vector< int > third;
+		vector<int> first;
+		vector<int> second;
+		vector<int> third;
 
 		first.assign(7, 100); // 7 ints with a value of 100
 
-		vector< int >::iterator it;
+		vector<int>::iterator it;
 		it = first.begin() + 1;
 
 		second.assign(it, first.end() - 1); // the 5 central values of first
@@ -265,7 +265,7 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > myvector;
+		vector<int> myvector;
 		int sum(0);
 		myvector.push_back(100);
 		myvector.push_back(200);
@@ -281,8 +281,8 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > myvector(3, 100);
-		vector< int >::iterator it;
+		vector<int> myvector(3, 100);
+		vector<int>::iterator it;
 
 		it = myvector.begin();
 		it = myvector.insert(it, 200);
@@ -296,7 +296,7 @@ void cplusplusexamples_vector()
 
 		std::cout << "something" << *it << std::endl;
 
-		vector< int > anothervector(2, 400);
+		vector<int> anothervector(2, 400);
 		myvector.insert(it + 2, anothervector.begin(), anothervector.end());
 
 		int myarray[] = {501, 502, 503};
@@ -309,7 +309,7 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > myvector;
+		vector<int> myvector;
 
 		// set some values (from 1 to 10)
 		for (int i = 1; i <= 10; i++)
@@ -328,8 +328,8 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > foo(3, 100); // three ints with a value of 100
-		vector< int > bar(5, 200); // five ints with a value of 200
+		vector<int> foo(3, 100); // three ints with a value of 100
+		vector<int> bar(5, 200); // five ints with a value of 200
 
 		foo.swap(bar);
 
@@ -345,7 +345,7 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > myvector;
+		vector<int> myvector;
 		myvector.push_back(100);
 		myvector.push_back(200);
 		myvector.push_back(300);
@@ -366,7 +366,7 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > myvector;
+		vector<int> myvector;
 		int* p;
 		unsigned int i;
 
@@ -389,8 +389,8 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > foo(3, 100); // three ints with a value of 100
-		vector< int > bar(2, 200); // two ints with a value of 200
+		vector<int> foo(3, 100); // three ints with a value of 100
+		vector<int> bar(2, 200); // two ints with a value of 200
 
 		if (foo == bar)
 			std::cout << "foo and bar are equal\n";
@@ -407,18 +407,18 @@ void cplusplusexamples_vector()
 	}
 
 	{
-		vector< int > foo(3, 100); // three ints with a value of 100
-		vector< int > bar(5, 200); // five ints with a value of 200
+		vector<int> foo(3, 100); // three ints with a value of 100
+		vector<int> bar(5, 200); // five ints with a value of 200
 
 		foo.swap(bar);
 
 		std::cout << "foo contains:";
-		for (vector< int >::iterator it = foo.begin(); it != foo.end(); ++it)
+		for (vector<int>::iterator it = foo.begin(); it != foo.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 
 		std::cout << "bar contains:";
-		for (vector< int >::iterator it = bar.begin(); it != bar.end(); ++it)
+		for (vector<int>::iterator it = bar.begin(); it != bar.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}

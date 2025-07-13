@@ -7,17 +7,17 @@
 namespace ft
 {
 
-template < class T, class Allocator = std::allocator< T > > class list
+template <class T, class Allocator = std::allocator<T> > class list
 {
   public:
 	typedef Allocator allocator_type;
-	typedef const iterator< random_access_iterator_tag, T > const_iterator;
+	typedef const iterator<random_access_iterator_tag, T> const_iterator;
 	typedef const T* const_pointer;
 	typedef const T& const_reference;
-	typedef iterator< random_access_iterator_tag, T > iterator;
+	typedef iterator<random_access_iterator_tag, T> iterator;
 	typedef ptrdiff_t difference_type;
-	typedef reverse_iterator< const_iterator > const_reverse_iterator;
-	typedef reverse_iterator< iterator > reverse_iterator;
+	typedef reverse_iterator<const_iterator> const_reverse_iterator;
+	typedef reverse_iterator<iterator> reverse_iterator;
 	typedef size_t size_type;
 	typedef T value_type;
 	typedef T* pointer;
@@ -28,7 +28,7 @@ template < class T, class Allocator = std::allocator< T > > class list
 	explicit list(size_type size,
 				  const value_type& value = value_type(),
 				  const allocator_type& alloc = allocator_type());
-	template < class InputIterator >
+	template <class InputIterator>
 	list(InputIterator first,
 		 InputIterator last,
 		 const allocator_type& alloc = allocator_type());
@@ -57,9 +57,9 @@ template < class T, class Allocator = std::allocator< T > > class list
 
 	// insertion
 	iterator insert(iterator position, const value_type& val);
-	template < class InputIterator >
+	template <class InputIterator>
 	void assign(InputIterator first, InputIterator last);
-	template < class InputIterator >
+	template <class InputIterator>
 	void insert(iterator position, InputIterator first, InputIterator last);
 	void assign(size_type count, const value_type& val);
 	void insert(iterator position, size_type count, const value_type& val);
@@ -81,16 +81,16 @@ template < class T, class Allocator = std::allocator< T > > class list
 	// deletion
 	iterator erase(iterator position, iterator last);
 	iterator erase(iterator position);
-	template < class Predicate > void remove_if(Predicate pred);
+	template <class Predicate> void remove_if(Predicate pred);
 	void clear();
 	void pop_back();
 	void pop_front();
 	void remove(const value_type& value);
 
 	// modifiers:
-	template < class BinaryPredicate > void unique(BinaryPredicate binary_pred);
-	template < class Compare > void merge(list& lst, Compare comp);
-	template < class Compare > void sort(Compare comp);
+	template <class BinaryPredicate> void unique(BinaryPredicate binary_pred);
+	template <class Compare> void merge(list& lst, Compare comp);
+	template <class Compare> void sort(Compare comp);
 	void merge(list& lst);
 	void reverse();
 	void sort();
@@ -101,21 +101,21 @@ template < class T, class Allocator = std::allocator< T > > class list
 	void unique();
 };
 
-template < class T, class Allocator >
-bool operator==(const list< T, Allocator >& lhs, const list< T, Allocator >& rhs);
-template < class T, class Allocator >
-bool operator<(const list< T, Allocator >& lhs, const list< T, Allocator >& rhs);
-template < class T, class Allocator >
-bool operator!=(const list< T, Allocator >& lhs, const list< T, Allocator >& rhs);
-template < class T, class Allocator >
-bool operator>(const list< T, Allocator >& lhs, const list< T, Allocator >& rhs);
-template < class T, class Allocator >
-bool operator>=(const list< T, Allocator >& lhs, const list< T, Allocator >& rhs);
-template < class T, class Allocator >
-bool operator<=(const list< T, Allocator >& lhs, const list< T, Allocator >& rhs);
+template <class T, class Allocator>
+bool operator==(const list<T, Allocator>& lhs, const list<T, Allocator>& rhs);
+template <class T, class Allocator>
+bool operator<(const list<T, Allocator>& lhs, const list<T, Allocator>& rhs);
+template <class T, class Allocator>
+bool operator!=(const list<T, Allocator>& lhs, const list<T, Allocator>& rhs);
+template <class T, class Allocator>
+bool operator>(const list<T, Allocator>& lhs, const list<T, Allocator>& rhs);
+template <class T, class Allocator>
+bool operator>=(const list<T, Allocator>& lhs, const list<T, Allocator>& rhs);
+template <class T, class Allocator>
+bool operator<=(const list<T, Allocator>& lhs, const list<T, Allocator>& rhs);
 
-template < class T, class Allocator >
-void swap(list< T, Allocator >& first, list< T, Allocator >& second);
+template <class T, class Allocator>
+void swap(list<T, Allocator>& first, list<T, Allocator>& second);
 
 } // namespace ft
 

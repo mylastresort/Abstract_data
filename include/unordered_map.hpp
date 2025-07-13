@@ -8,11 +8,11 @@
 namespace ft
 {
 
-template < class Key,
-		   class T,
-		   class Hash = hash< Key >,
-		   class Pred = std::equal_to< Key >,
-		   class Allocator = std::allocator< std::pair< const Key, T > > >
+template <class Key,
+		  class T,
+		  class Hash = hash<Key>,
+		  class Pred = std::equal_to<Key>,
+		  class Allocator = std::allocator<std::pair<const Key, T> > >
 class unordered_map
 {
   public:
@@ -22,13 +22,13 @@ class unordered_map
 	typedef Pred key_equal;
 	typedef ptrdiff_t difference_type;
 	typedef size_t size_type;
-	typedef std::pair< const Key, T > value_type;
+	typedef std::pair<const Key, T> value_type;
 	typedef T mapped_type;
 
-	typedef const iterator< value_type, Key > const_iterator;
+	typedef const iterator<value_type, Key> const_iterator;
 	typedef const Key* const_pointer;
 	typedef const Key& const_reference;
-	typedef iterator< value_type, Key > iterator;
+	typedef iterator<value_type, Key> iterator;
 	typedef Key* pointer;
 	typedef Key& reference;
 
@@ -37,7 +37,7 @@ class unordered_map
 						   const hasher& hf = hasher(),
 						   const key_equal& eql = key_equal(),
 						   const allocator_type& a = allocator_type());
-	template < class InputIterator >
+	template <class InputIterator>
 	unordered_map(InputIterator f,
 				  InputIterator l,
 				  size_type n,
@@ -74,11 +74,11 @@ class unordered_map
 	// template < class... Args > std::pair< iterator, bool > emplace(Args &&...args);
 	// template < class... Args >
 	// iterator emplace_hint(const_iterator position, Args &&...args);
-	std::pair< iterator, bool > insert(const value_type& obj);
+	std::pair<iterator, bool> insert(const value_type& obj);
 	// template < class P > std::pair< iterator, bool > insert(P &&obj);
 	iterator insert(const_iterator hint, const value_type& obj);
 	// template < class P > iterator insert(const_iterator hint, P &&obj);
-	template < class InputIterator >
+	template <class InputIterator>
 	void insert(InputIterator first, InputIterator last);
 	// void insert(initializer_list< value_type >);
 	iterator erase(const_iterator position);
@@ -93,8 +93,8 @@ class unordered_map
 	iterator find(const key_type& k);
 	const_iterator find(const key_type& k) const;
 	size_type count(const key_type& k) const;
-	std::pair< iterator, iterator > equal_range(const key_type& k);
-	std::pair< const_iterator, const_iterator > equal_range(const key_type& k) const;
+	std::pair<iterator, iterator> equal_range(const key_type& k);
+	std::pair<const_iterator, const_iterator> equal_range(const key_type& k) const;
 	mapped_type& operator[](const key_type& k);
 	// mapped_type &operator[](key_type &&k);
 	mapped_type& at(const key_type& k);
@@ -117,23 +117,23 @@ class unordered_map
 	void rehash(size_type n);
 	void reserve(size_type n);
 };
-template < class Key, class T, class Hash, class Pred, class Alloc >
-bool operator!=(const unordered_map< Key, T, Hash, Pred, Alloc >& a,
-				const unordered_map< Key, T, Hash, Pred, Alloc >& b);
+template <class Key, class T, class Hash, class Pred, class Alloc>
+bool operator!=(const unordered_map<Key, T, Hash, Pred, Alloc>& a,
+				const unordered_map<Key, T, Hash, Pred, Alloc>& b);
 
-template < class Key, class T, class Hash, class Pred, class Alloc >
-bool operator==(const unordered_map< Key, T, Hash, Pred, Alloc >& a,
-				const unordered_map< Key, T, Hash, Pred, Alloc >& b);
+template <class Key, class T, class Hash, class Pred, class Alloc>
+bool operator==(const unordered_map<Key, T, Hash, Pred, Alloc>& a,
+				const unordered_map<Key, T, Hash, Pred, Alloc>& b);
 
-template < class Key, class T, class Hash, class Pred, class Alloc >
-void swap(unordered_map< Key, T, Hash, Pred, Alloc >& x,
-		  unordered_map< Key, T, Hash, Pred, Alloc >& y);
+template <class Key, class T, class Hash, class Pred, class Alloc>
+void swap(unordered_map<Key, T, Hash, Pred, Alloc>& x,
+		  unordered_map<Key, T, Hash, Pred, Alloc>& y);
 
-template < class Key,
-		   class T,
-		   class Hash = hash< Key >,
-		   class Pred = std::equal_to< Key >,
-		   class Allocator = std::allocator< std::pair< const Key, T > > >
+template <class Key,
+		  class T,
+		  class Hash = hash<Key>,
+		  class Pred = std::equal_to<Key>,
+		  class Allocator = std::allocator<std::pair<const Key, T> > >
 class unordered_multimap
 {
   public:
@@ -143,13 +143,13 @@ class unordered_multimap
 	typedef Pred key_equal;
 	typedef ptrdiff_t difference_type;
 	typedef size_t size_type;
-	typedef std::pair< const Key, T > value_type;
+	typedef std::pair<const Key, T> value_type;
 	typedef T mapped_type;
 
-	typedef const iterator< value_type, Key > const_iterator;
+	typedef const iterator<value_type, Key> const_iterator;
 	typedef const Key* const_pointer;
 	typedef const Key& const_reference;
-	typedef iterator< value_type, Key > iterator;
+	typedef iterator<value_type, Key> iterator;
 	typedef Key* pointer;
 	typedef Key& reference;
 
@@ -158,7 +158,7 @@ class unordered_multimap
 								const hasher& hf = hasher(),
 								const key_equal& eql = key_equal(),
 								const allocator_type& a = allocator_type());
-	template < class InputIterator >
+	template <class InputIterator>
 	unordered_multimap(InputIterator f,
 					   InputIterator l,
 					   size_type n,
@@ -199,7 +199,7 @@ class unordered_multimap
 	// template < class P > iterator insert(P &&obj);
 	iterator insert(const_iterator hint, const value_type& obj);
 	// template < class P > iterator insert(const_iterator hint, P &&obj);
-	template < class InputIterator >
+	template <class InputIterator>
 	void insert(InputIterator first, InputIterator last);
 	// void insert(initializer_list< value_type >);
 	iterator erase(const_iterator position);
@@ -214,8 +214,8 @@ class unordered_multimap
 	iterator find(const key_type& k);
 	const_iterator find(const key_type& k) const;
 	size_type count(const key_type& k) const;
-	std::pair< iterator, iterator > equal_range(const key_type& k);
-	std::pair< const_iterator, const_iterator > equal_range(const key_type& k) const;
+	std::pair<iterator, iterator> equal_range(const key_type& k);
+	std::pair<const_iterator, const_iterator> equal_range(const key_type& k) const;
 	// bucket interface
 	size_type bucket_count() const;     // noexcept;
 	size_type max_bucket_count() const; // noexcept;
@@ -235,13 +235,13 @@ class unordered_multimap
 	void reserve(size_type n);
 };
 
-template < class Key, class T, class Hash, class Pred, class Alloc >
-bool operator==(const unordered_multimap< Key, T, Hash, Pred, Alloc >& a,
-				const unordered_multimap< Key, T, Hash, Pred, Alloc >& b);
+template <class Key, class T, class Hash, class Pred, class Alloc>
+bool operator==(const unordered_multimap<Key, T, Hash, Pred, Alloc>& a,
+				const unordered_multimap<Key, T, Hash, Pred, Alloc>& b);
 
-template < class Key, class T, class Hash, class Pred, class Alloc >
-bool operator!=(const unordered_multimap< Key, T, Hash, Pred, Alloc >& a,
-				const unordered_multimap< Key, T, Hash, Pred, Alloc >& b);
+template <class Key, class T, class Hash, class Pred, class Alloc>
+bool operator!=(const unordered_multimap<Key, T, Hash, Pred, Alloc>& a,
+				const unordered_multimap<Key, T, Hash, Pred, Alloc>& b);
 
 }; // namespace ft
 

@@ -7,7 +7,7 @@
 namespace ft
 {
 
-template < class T, class Container = deque< T > > class queue
+template <class T, class Container = deque<T> > class queue
 {
   public:
 	typedef Container container_type;
@@ -29,33 +29,27 @@ template < class T, class Container = deque< T > > class queue
 	void push(const value_type& val);
 };
 
-template < class T, class Container >
-bool operator==(const queue< T, Container >& lhs,
-				const queue< T, Container >& rhs);
+template <class T, class Container>
+bool operator==(const queue<T, Container>& lhs, const queue<T, Container>& rhs);
 
-template < class T, class Container >
-bool operator<(const queue< T, Container >& lhs,
-			   const queue< T, Container >& rhs);
+template <class T, class Container>
+bool operator<(const queue<T, Container>& lhs, const queue<T, Container>& rhs);
 
-template < class T, class Container >
-bool operator!=(const queue< T, Container >& lhs,
-				const queue< T, Container >& rhs);
+template <class T, class Container>
+bool operator!=(const queue<T, Container>& lhs, const queue<T, Container>& rhs);
 
-template < class T, class Container >
-bool operator>(const queue< T, Container >& lhs,
-			   const queue< T, Container >& rhs);
+template <class T, class Container>
+bool operator>(const queue<T, Container>& lhs, const queue<T, Container>& rhs);
 
-template < class T, class Container >
-bool operator>=(const queue< T, Container >& lhs,
-				const queue< T, Container >& rhs);
+template <class T, class Container>
+bool operator>=(const queue<T, Container>& lhs, const queue<T, Container>& rhs);
 
-template < class T, class Container >
-bool operator<=(const queue< T, Container >& lhs,
-				const queue< T, Container >& rhs);
+template <class T, class Container>
+bool operator<=(const queue<T, Container>& lhs, const queue<T, Container>& rhs);
 
-template < class T,
-		   class Container = vector< T >,
-		   class Compare = std::less< typename Container::value_type > >
+template <class T,
+		  class Container = vector<T>,
+		  class Compare = std::less<typename Container::value_type> >
 class priority_queue
 {
   public:
@@ -73,7 +67,7 @@ class priority_queue
 	explicit priority_queue(const Compare& comp = Compare(),
 							const container_type& ctnr = container_type());
 	size_type size() const;
-	template < class InputIterator >
+	template <class InputIterator>
 	priority_queue(InputIterator first,
 				   InputIterator last,
 				   const Compare& comp = Compare(),

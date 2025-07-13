@@ -8,10 +8,10 @@
 namespace ft
 {
 
-template < class T > struct deque_iterator;
+template <class T> struct deque_iterator;
 
-template < class T, class Alloc = std::allocator< T > >
-class deque : protected _deque_impl_data< Alloc >
+template <class T, class Alloc = std::allocator<T> >
+class deque : protected _deque_impl_data<Alloc>
 {
   public:
 	typedef Alloc allocator_type;
@@ -24,22 +24,22 @@ class deque : protected _deque_impl_data< Alloc >
 	typedef typename allocator_type::pointer pointer;
 	typedef typename allocator_type::reference reference;
 
-	typedef deque_iterator< const value_type > const_iterator;
-	typedef deque_iterator< value_type > iterator;
+	typedef deque_iterator<const value_type> const_iterator;
+	typedef deque_iterator<value_type> iterator;
 
-	typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
-	typedef ft::reverse_iterator< iterator > reverse_iterator;
+	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+	typedef ft::reverse_iterator<iterator> reverse_iterator;
 
 	explicit deque(const allocator_type& alloc = allocator_type());
 	deque(const deque& cpy);
 	explicit deque(size_type n,
 				   const value_type& value = value_type(),
 				   const allocator_type& alloc = allocator_type());
-	template < class InputIterator >
+	template <class InputIterator>
 	deque(InputIterator first,
 		  InputIterator last,
 		  const allocator_type& alloc = allocator_type(),
-		  typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* /*unused*/ =
+		  typename enable_if<!numeric_limits<InputIterator>::is_integer>::type* /*unused*/ =
 			  0);
 
 	deque& operator=(const deque& cpy);
@@ -78,19 +78,17 @@ class deque : protected _deque_impl_data< Alloc >
 	void pop_front();
 
 	iterator insert(iterator position, const value_type& val);
-	template < class InputIterator >
+	template <class InputIterator>
 	void assign(
 		InputIterator first,
 		InputIterator last,
-		typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* =
-			0);
-	template < class InputIterator >
+		typename enable_if<!numeric_limits<InputIterator>::is_integer>::type* = 0);
+	template <class InputIterator>
 	void insert(
 		iterator position,
 		InputIterator first,
 		InputIterator last,
-		typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* =
-			0);
+		typename enable_if<!numeric_limits<InputIterator>::is_integer>::type* = 0);
 	void assign(size_type count, const value_type& val);
 	void insert(iterator position, size_type n, const value_type& val);
 	void push_back(const value_type& val);
@@ -99,26 +97,26 @@ class deque : protected _deque_impl_data< Alloc >
 	void swap(deque& other);
 };
 
-template < class T, class Alloc >
-bool operator==(const deque< T, Alloc >& lhs, const deque< T, Alloc >& rhs);
-template < class T, class Alloc >
-bool operator<(const deque< T, Alloc >& lhs, const deque< T, Alloc >& rhs);
-template < class T, class Alloc >
-bool operator!=(const deque< T, Alloc >& lhs, const deque< T, Alloc >& rhs);
-template < class T, class Alloc >
-bool operator>(const deque< T, Alloc >& lhs, const deque< T, Alloc >& rhs);
-template < class T, class Alloc >
-bool operator>=(const deque< T, Alloc >& lhs, const deque< T, Alloc >& rhs);
-template < class T, class Alloc >
-bool operator<=(const deque< T, Alloc >& lhs, const deque< T, Alloc >& rhs);
+template <class T, class Alloc>
+bool operator==(const deque<T, Alloc>& lhs, const deque<T, Alloc>& rhs);
+template <class T, class Alloc>
+bool operator<(const deque<T, Alloc>& lhs, const deque<T, Alloc>& rhs);
+template <class T, class Alloc>
+bool operator!=(const deque<T, Alloc>& lhs, const deque<T, Alloc>& rhs);
+template <class T, class Alloc>
+bool operator>(const deque<T, Alloc>& lhs, const deque<T, Alloc>& rhs);
+template <class T, class Alloc>
+bool operator>=(const deque<T, Alloc>& lhs, const deque<T, Alloc>& rhs);
+template <class T, class Alloc>
+bool operator<=(const deque<T, Alloc>& lhs, const deque<T, Alloc>& rhs);
 
-template < class T, class Alloc >
-void swap(deque< T, Alloc >& first, deque< T, Alloc >& second);
+template <class T, class Alloc>
+void swap(deque<T, Alloc>& first, deque<T, Alloc>& second);
 
-template < class T >
-struct deque_iterator : public ft::iterator< random_access_iterator_tag, T >
+template <class T>
+struct deque_iterator : public ft::iterator<random_access_iterator_tag, T>
 {
-	typedef ft::iterator< random_access_iterator_tag, T > _iterator;
+	typedef ft::iterator<random_access_iterator_tag, T> _iterator;
 
 	using typename _iterator::difference_type;
 	using typename _iterator::iterator_category;
@@ -126,18 +124,16 @@ struct deque_iterator : public ft::iterator< random_access_iterator_tag, T >
 	using typename _iterator::reference;
 	using typename _iterator::value_type;
 
-	typedef chunk< value_type >** data_t;
+	typedef chunk<value_type>** data_t;
 
 	deque_iterator();
 	deque_iterator(const deque_iterator& cpy);
 	deque_iterator& operator=(const deque_iterator& cpy);
-	template < class U >
-	explicit deque_iterator(const deque_iterator< U >& cpy);
-	template < class U >
-	deque_iterator& operator=(const deque_iterator< U >& cpy);
+	template <class U> explicit deque_iterator(const deque_iterator<U>& cpy);
+	template <class U> deque_iterator& operator=(const deque_iterator<U>& cpy);
 	~deque_iterator();
 
-	template < class U > operator deque_iterator< U >(); // NOLINT
+	template <class U> operator deque_iterator<U>(); // NOLINT
 
 	explicit deque_iterator(data_t _data, size_t _current = 0);
 
@@ -154,8 +150,7 @@ struct deque_iterator : public ft::iterator< random_access_iterator_tag, T >
 	pointer operator->();
 	reference operator[](int pos);
 	reference operator*();
-	template < class U >
-	difference_type operator-(const deque_iterator< U >& rhs);
+	template <class U> difference_type operator-(const deque_iterator<U>& rhs);
 	deque_iterator operator--(int); // NOLINT
 	deque_iterator operator-(const difference_type n);
 	deque_iterator operator+(const difference_type n);
@@ -169,10 +164,9 @@ struct deque_iterator : public ft::iterator< random_access_iterator_tag, T >
 	data_t data;
 };
 
-template < class T >
-deque_iterator< T >&
-operator+(const typename deque_iterator< T >::difference_type lhs,
-		  deque_iterator< T >& rhs);
+template <class T>
+deque_iterator<T>& operator+(const typename deque_iterator<T>::difference_type lhs,
+							 deque_iterator<T>& rhs);
 
 } // namespace ft
 

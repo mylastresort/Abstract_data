@@ -11,7 +11,7 @@
 namespace ft
 {
 
-template < class T > struct chunk
+template <class T> struct chunk
 {
 	typedef unsigned short index_t;
 
@@ -25,20 +25,20 @@ template < class T > struct chunk
 	}
 };
 
-template < class Alloc > struct _deque_impl_data
+template <class Alloc> struct _deque_impl_data
 {
 	typedef Alloc allocator_type;
 
 	typedef typename Alloc::value_type value_type;
 
-	typedef chunk< value_type > chunk_t;
+	typedef chunk<value_type> chunk_t;
 
 	typedef chunk_t* pchunk_t;
 
-	typedef typename allocator_type::template rebind< chunk_t >::other achunk_t;
-	typedef typename allocator_type::template rebind< pchunk_t >::other amap_t;
+	typedef typename allocator_type::template rebind<chunk_t>::other achunk_t;
+	typedef typename allocator_type::template rebind<pchunk_t>::other amap_t;
 
-	typedef vector< pchunk_t, amap_t > map_t;
+	typedef vector<pchunk_t, amap_t> map_t;
 
 	achunk_t alloc_chunk;
 	allocator_type alloc;
@@ -50,11 +50,11 @@ template < class Alloc > struct _deque_impl_data
 	}
 
 	struct _chunk_iterator
-		: public ft::iterator< random_access_iterator_tag, value_type >
+		: public ft::iterator<random_access_iterator_tag, value_type>
 	{
 		struct _iterator
 		{
-			typedef typename chunk< value_type >::index_t index_t;
+			typedef typename chunk<value_type>::index_t index_t;
 			achunk_t alloc_chunk;
 			allocator_type alloc;
 			const value_type& val; // NOLINT
@@ -66,7 +66,7 @@ template < class Alloc > struct _deque_impl_data
 				pchunk_t ret = alloc_chunk.allocate(1);
 				std::cout << "hello" << std::endl;
 				index_t tail = (current > CHUNK_SIZE ? CHUNK_SIZE : current) - 1;
-				*ret = chunk< value_type >(head, tail);
+				*ret = chunk<value_type>(head, tail);
 				// for (index_t i = head; i <= tail; i++)
 				// {
 				// 	this->alloc.construct(&ret->blocks[i], val); // NOLINT
@@ -140,7 +140,7 @@ template < class Alloc > struct _deque_impl_data
 
 #ifdef TEST
 // template struct _deque_impl_data< std::allocator< int > >;
-template struct _deque_impl_data< std::allocator< int > >::_chunk_iterator;
+template struct _deque_impl_data<std::allocator<int> >::_chunk_iterator;
 #endif
 
 } // namespace ft

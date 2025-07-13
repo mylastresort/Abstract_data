@@ -1,6 +1,8 @@
 #ifndef MAIN_HPP
 #define MAIN_HPP
 
+#include "../include/_phc.hpp"
+
 #ifdef STD
 #include <deque>
 #include <vector>
@@ -12,9 +14,15 @@
 #define __lib__ ft
 #endif
 
-#include <iostream> // IWYU pragma: export
-#define TEST_CASE(x) std::cout << x << std::endl;
-#define CHECK(x) std::cout << x << std::endl
+using std::cin;
+using std::cout;
+using std::endl;
+
+// TEST_CASE only logs the test case being run
+#define TEST_CASE(x) std::cout << (x) << std::endl;
+// CHECK only output to stdout because
+// we need later to check the difference of std and ft containers
+#define CHECK(x) std::cout << (x) << std::endl
 
 // declarations
 void unit_test_vector_default_constructor();
@@ -27,12 +35,12 @@ void cplusplusexamples_deque();
 
 // types
 typedef int VEC_T;
-typedef std::allocator< VEC_T > allocator;
+typedef std::allocator<VEC_T> allocator;
 using __lib__::vector; // NOLINT
-typedef __lib__::vector< VEC_T > Vector;
+typedef __lib__::vector<VEC_T> Vector;
 typedef Vector::iterator itr;
 
-template < class T > class my_allocator : public std::allocator< T >
+template <class T> class my_allocator : public std::allocator<T>
 {
 };
 

@@ -7,9 +7,9 @@
 namespace ft
 {
 
-template < class T, class Alloc >
-typename vector< T, Alloc >::iterator vector< T, Alloc >::erase(iterator first,
-																iterator last)
+template <class T, class Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator first,
+															iterator last)
 {
 	if (last > end())
 		last = end();
@@ -28,13 +28,13 @@ typename vector< T, Alloc >::iterator vector< T, Alloc >::erase(iterator first,
 	return iterator(first);
 }
 
-template < class T, class Alloc >
-typename vector< T, Alloc >::iterator vector< T, Alloc >::erase(iterator position)
+template <class T, class Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator position)
 {
 	return erase(position, position + 1);
 }
 
-template < class T, class Alloc > void vector< T, Alloc >::clear()
+template <class T, class Alloc> void vector<T, Alloc>::clear()
 {
 	for (iterator itr = begin(); itr != end(); itr++)
 	{
@@ -43,7 +43,7 @@ template < class T, class Alloc > void vector< T, Alloc >::clear()
 	this->end_ptr = this->begin_ptr;
 }
 
-template < class T, class Alloc > void vector< T, Alloc >::pop_back()
+template <class T, class Alloc> void vector<T, Alloc>::pop_back()
 {
 	if (!empty())
 	{

@@ -7,7 +7,7 @@
 namespace ft
 {
 
-template < class T, class Alloc > void vector< T, Alloc >::swap(vector& other)
+template <class T, class Alloc> void vector<T, Alloc>::swap(vector& other)
 {
 	pointer tmp = this->begin_ptr;
 	this->begin_ptr = other.begin_ptr;

@@ -4,19 +4,26 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: install valgrind
-        run: sudo apt-get -y install valgrind
-      - name: valgrind version
-        run: valgrind --version
-      - name: build
+
+      - name: Build (Debug)
         run: make
-      - name: test leaks
-        run: valgrind --leak-check=full --error-exitcode=1 ./${{secrets.BINARY_NAME}}
-      - name: test with std
+        env:
+          EXTRA_CFLAGS: "-g"
+
+      - uses: Ximaz/valgrind-action@v1.2.0
+        with:
+          valgrind_flags: "--leak-check=full --error-exitcode=1 --log-file=valgrind.log"
+          binary_path: "target/ft_tester"
+          binary_args: ""
+      
+      - name: Test (std)
         run: make test

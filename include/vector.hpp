@@ -9,10 +9,10 @@
 namespace ft
 {
 
-template < class T > struct vector_iterator;
+template <class T> struct vector_iterator;
 
-template < class T, class Alloc = std::allocator< T > >
-class vector : public _vector_impl_data< typename Alloc::pointer, Alloc >
+template <class T, class Alloc = std::allocator<T> >
+class vector : public _vector_impl_data<typename Alloc::pointer, Alloc>
 {
   public:
 	typedef Alloc allocator_type;
@@ -25,22 +25,22 @@ class vector : public _vector_impl_data< typename Alloc::pointer, Alloc >
 	typedef typename allocator_type::pointer pointer;
 	typedef typename allocator_type::reference reference;
 
-	typedef vector_iterator< const value_type > const_iterator;
-	typedef vector_iterator< value_type > iterator;
+	typedef vector_iterator<const value_type> const_iterator;
+	typedef vector_iterator<value_type> iterator;
 
-	typedef ft::reverse_iterator< const_iterator > const_reverse_iterator;
-	typedef ft::reverse_iterator< iterator > reverse_iterator;
+	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+	typedef ft::reverse_iterator<iterator> reverse_iterator;
 
 	explicit vector(const allocator_type& alloc = allocator_type());
 	vector(const vector& cpy);
 	explicit vector(size_type n,
 					const value_type& val = value_type(),
 					const allocator_type& alloc = allocator_type());
-	template < class InputIterator >
+	template <class InputIterator>
 	vector(InputIterator first,
 		   InputIterator last,
 		   const allocator_type& alloc = allocator_type(),
-		   typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* /*unused*/ =
+		   typename enable_if<!numeric_limits<InputIterator>::is_integer>::type* /*unused*/ =
 			   0);
 
 	vector& operator=(const vector& cpy);
@@ -80,18 +80,18 @@ class vector : public _vector_impl_data< typename Alloc::pointer, Alloc >
 	void pop_back();
 
 	iterator insert(iterator position, const value_type& val);
-	template < class InputIterator >
+	template <class InputIterator>
 	void assign(
 		InputIterator first,
 		InputIterator last,
-		typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* /*unused*/ =
+		typename enable_if<!numeric_limits<InputIterator>::is_integer>::type* /*unused*/ =
 			0);
-	template < class InputIterator >
+	template <class InputIterator>
 	void insert(
 		iterator position,
 		InputIterator first,
 		InputIterator last,
-		typename enable_if< !numeric_limits< InputIterator >::is_integer >::type* /*unused*/ =
+		typename enable_if<!numeric_limits<InputIterator>::is_integer>::type* /*unused*/ =
 			0);
 	void assign(size_type n, const value_type& val);
 	void insert(iterator position, size_type n, const value_type& val);
@@ -104,30 +104,30 @@ class vector : public _vector_impl_data< typename Alloc::pointer, Alloc >
  * forbidden class specialization - begin
  * missing definition prevents the user from instantiation
  */
-template < class T > class vector< const T >;
-template < class T > class vector< volatile T >;
-template < class T > class vector< const volatile T >;
+template <class T> class vector<const T>;
+template <class T> class vector<volatile T>;
+template <class T> class vector<const volatile T>;
 /** forbidden class specialization - end */
 
-template < class T, class Alloc >
-bool operator==(const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs);
-template < class T, class Alloc >
-bool operator!=(const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs);
-template < class T, class Alloc >
-bool operator<(const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs);
-template < class T, class Alloc >
-bool operator>(const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs);
-template < class T, class Alloc >
-bool operator>=(const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs);
-template < class T, class Alloc >
-bool operator<=(const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs);
-template < class T, class Alloc >
-void swap(vector< T, Alloc >& first, vector< T, Alloc >& second);
+template <class T, class Alloc>
+bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
+template <class T, class Alloc>
+bool operator!=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
+template <class T, class Alloc>
+bool operator<(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
+template <class T, class Alloc>
+bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
+template <class T, class Alloc>
+bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
+template <class T, class Alloc>
+bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
+template <class T, class Alloc>
+void swap(vector<T, Alloc>& first, vector<T, Alloc>& second);
 
-template < class T >
-struct vector_iterator : public ft::iterator< random_access_iterator_tag, T >
+template <class T>
+struct vector_iterator : public ft::iterator<random_access_iterator_tag, T>
 {
-	typedef ft::iterator< random_access_iterator_tag, T > _iterator;
+	typedef ft::iterator<random_access_iterator_tag, T> _iterator;
 
 	using typename _iterator::difference_type;
 	using typename _iterator::iterator_category;
@@ -138,13 +138,12 @@ struct vector_iterator : public ft::iterator< random_access_iterator_tag, T >
 	vector_iterator();
 	vector_iterator(const vector_iterator& cpy);
 	vector_iterator& operator=(const vector_iterator& cpy);
-	template < class U >
-	explicit vector_iterator(const vector_iterator< U >& cpy);
-	template < class U >
-	vector_iterator& operator=(const vector_iterator< U >& cpy);
+	template <class U> explicit vector_iterator(const vector_iterator<U>& cpy);
+	template <class U>
+	vector_iterator& operator=(const vector_iterator<U>& cpy);
 	~vector_iterator();
 
-	template < class U > operator vector_iterator< U >(); // NOLINT
+	template <class U> operator vector_iterator<U>(); // NOLINT
 
 	explicit vector_iterator(pointer _current);
 
@@ -161,8 +160,7 @@ struct vector_iterator : public ft::iterator< random_access_iterator_tag, T >
 	pointer operator->();
 	reference operator[](int pos);
 	reference operator*();
-	template < class U >
-	difference_type operator-(const vector_iterator< U >& rhs);
+	template <class U> difference_type operator-(const vector_iterator<U>& rhs);
 	vector_iterator operator--(int); // NOLINT
 	vector_iterator operator-(const difference_type n);
 	vector_iterator operator+(const difference_type n);
@@ -176,17 +174,16 @@ struct vector_iterator : public ft::iterator< random_access_iterator_tag, T >
 	pointer current;
 };
 
-template < class T >
-vector_iterator< T >&
-operator+(const typename vector_iterator< T >::difference_type lhs,
-		  vector_iterator< T >& rhs);
+template <class T>
+vector_iterator<T>& operator+(const typename vector_iterator<T>::difference_type lhs,
+							  vector_iterator<T>& rhs);
 
 } // namespace ft
 
 #include "vector/__vector__.hpp" // IWYU pragma: export
 
 #ifdef TEST
-template class ft::vector< int >;
+template class ft::vector<int>;
 #endif
 
 #endif

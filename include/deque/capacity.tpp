@@ -8,8 +8,8 @@
 namespace ft
 {
 
-template < class T, class Alloc >
-typename deque< T, Alloc >::size_type deque< T, Alloc >::size() const
+template <class T, class Alloc>
+typename deque<T, Alloc>::size_type deque<T, Alloc>::size() const
 {
 	size_type count = this->map.size();
 	if (count == 0)

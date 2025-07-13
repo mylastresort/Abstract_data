@@ -20,16 +20,16 @@ namespace ft
 // 	this->map.assign(itr.first, itr.last);
 // }
 
-template < class T, class Alloc >
-void deque< T, Alloc >::assign(size_type count, const value_type& val)
+template <class T, class Alloc>
+void deque<T, Alloc>::assign(size_type count, const value_type& val)
 {
 	clear();
-	typename _deque_impl_data< Alloc >::_chunk_iterator itr(count, val);
+	typename _deque_impl_data<Alloc>::_chunk_iterator itr(count, val);
 	this->map.assign(itr.first, itr.last);
 }
 
 #ifdef TEST
-template class ft::deque< int >;
+template class ft::deque<int>;
 #endif
 
 } // namespace ft

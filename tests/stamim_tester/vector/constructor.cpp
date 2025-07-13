@@ -27,13 +27,13 @@ void unit_test_vector_default_constructor()
 #ifdef BAD
 	TEST_CASE("default constructor with incorrect allocator type")
 	{
-		vector< __T, __T > vec1;
+		vector<__T, __T> vec1;
 	}
 #endif
 
 	TEST_CASE("default constructor with derived class from std::allocator")
 	{
-		vector< VEC_T, my_allocator< VEC_T > > vec1;
+		vector<VEC_T, my_allocator<VEC_T> > vec1;
 	}
 }
 

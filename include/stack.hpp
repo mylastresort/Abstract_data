@@ -6,7 +6,7 @@
 namespace ft
 {
 
-template < class T, class Container = deque< T > > class stack
+template <class T, class Container = deque<T> > class stack
 {
   public:
 	typedef typename Container::value_type value_type;
@@ -26,29 +26,23 @@ template < class T, class Container = deque< T > > class stack
 	void push(const value_type& val);
 };
 
-template < class T, class Container >
-bool operator==(const stack< T, Container >& lhs,
-				const stack< T, Container >& rhs);
+template <class T, class Container>
+bool operator==(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
 
-template < class T, class Container >
-bool operator<(const stack< T, Container >& lhs,
-			   const stack< T, Container >& rhs);
+template <class T, class Container>
+bool operator<(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
 
-template < class T, class Container >
-bool operator!=(const stack< T, Container >& lhs,
-				const stack< T, Container >& rhs);
+template <class T, class Container>
+bool operator!=(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
 
-template < class T, class Container >
-bool operator>(const stack< T, Container >& lhs,
-			   const stack< T, Container >& rhs);
+template <class T, class Container>
+bool operator>(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
 
-template < class T, class Container >
-bool operator>=(const stack< T, Container >& lhs,
-				const stack< T, Container >& rhs);
+template <class T, class Container>
+bool operator>=(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
 
-template < class T, class Container >
-bool operator<=(const stack< T, Container >& lhs,
-				const stack< T, Container >& rhs);
+template <class T, class Container>
+bool operator<=(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
 
 } // namespace ft
 

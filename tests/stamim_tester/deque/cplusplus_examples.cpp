@@ -22,22 +22,22 @@ void cplusplusexamples_deque()
 	// 	j = vec1.rend();
 	// }
 
-	{
-		// constructors used in the same order as described above:
-		deque< int > first;          // empty deque of ints
-		deque< int > second(4, 100); // four ints with value 100
-		// deque< int > third(second.begin(),
-		// 				   second.end()); // iterating through second
-		// deque< int > fourth(third);       // a copy of third
+	// {
+	// 	// constructors used in the same order as described above:
+	// 	deque< int > first;          // empty deque of ints
+	// 	deque< int > second(4, 100); // four ints with value 100
+	// 	// deque< int > third(second.begin(),
+	// 	// 				   second.end()); // iterating through second
+	// 	// deque< int > fourth(third);       // a copy of third
 
-		// the iterator constructor can be used to copy arrays:
-		// int myints[] = {16, 2, 77, 29};
-		// deque< int > fifth(myints, myints + sizeof(myints) / sizeof(int));
+	// 	// the iterator constructor can be used to copy arrays:
+	// 	// int myints[] = {16, 2, 77, 29};
+	// 	// deque< int > fifth(myints, myints + sizeof(myints) / sizeof(int));
 
-		std::cout << "The contents of fifth are:";
-		// for (deque< int >::iterator it = second.begin(); it != second.end();
-		// ++it) 	std::cout << ' ' << *it;
+	// 	std::cout << "The contents of fifth are:";
+	// 	// for (deque< int >::iterator it = second.begin(); it != second.end();
+	// 	// ++it) 	std::cout << ' ' << *it;
 
-		std::cout << '\n';
-	}
+	// 	std::cout << '\n';
+	// }
 }

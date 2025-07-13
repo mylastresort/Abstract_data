@@ -8,10 +8,10 @@
 namespace ft
 {
 
-template < class Key,
-		   class Hash = hash< Key >,
-		   class Pred = std::equal_to< Key >,
-		   class Allocator = std::allocator< Key > >
+template <class Key,
+		  class Hash = hash<Key>,
+		  class Pred = std::equal_to<Key>,
+		  class Allocator = std::allocator<Key> >
 class unordered_set
 {
   public:
@@ -21,13 +21,13 @@ class unordered_set
 	typedef Pred key_equal;
 	typedef ptrdiff_t difference_type;
 	typedef size_t size_type;
-	typedef std::pair< const Key, Key > value_type;
+	typedef std::pair<const Key, Key> value_type;
 	typedef Allocator allocator_type;
 
 	typedef const Key* const_pointer;
 	typedef const Key& const_reference;
-	typedef const std::iterator< value_type, Key > const_iterator;
-	typedef iterator< value_type, Key > iterator;
+	typedef const std::iterator<value_type, Key> const_iterator;
+	typedef iterator<value_type, Key> iterator;
 	typedef Key* pointer;
 	typedef Key& reference;
 
@@ -36,7 +36,7 @@ class unordered_set
 						   const hasher& hf = hasher(),
 						   const key_equal& eql = key_equal(),
 						   const allocator_type& a = allocator_type());
-	template < class InputIterator >
+	template <class InputIterator>
 	unordered_set(InputIterator f,
 				  InputIterator l,
 				  size_type n,
@@ -73,11 +73,11 @@ class unordered_set
 	// template < class... Args > pair< iterator, bool > emplace(Args &&...args);
 	// template < class... Args >
 	// iterator emplace_hint(const_iterator position, Args &&...args);
-	std::pair< iterator, bool > insert(const value_type& obj);
+	std::pair<iterator, bool> insert(const value_type& obj);
 	// std::pair< iterator, bool > insert(value_type &&obj);
 	iterator insert(const_iterator hint, const value_type& obj);
 	// iterator insert(const_iterator hint, value_type &&obj);
-	template < class InputIterator >
+	template <class InputIterator>
 	void insert(InputIterator first, InputIterator last);
 	// void insert(initializer_list< value_type >);
 	iterator erase(const_iterator position);
@@ -92,8 +92,8 @@ class unordered_set
 	iterator find(const key_type& k);
 	const_iterator find(const key_type& k) const;
 	size_type count(const key_type& k) const;
-	std::pair< iterator, iterator > equal_range(const key_type& k);
-	std::pair< const_iterator, const_iterator > equal_range(const key_type& k) const;
+	std::pair<iterator, iterator> equal_range(const key_type& k);
+	std::pair<const_iterator, const_iterator> equal_range(const key_type& k) const;
 	// bucket interface
 	size_type bucket_count() const;     // noexcept;
 	size_type max_bucket_count() const; // noexcept;
@@ -113,22 +113,22 @@ class unordered_set
 	void reserve(size_type n);
 };
 
-template < class Key, class Hash, class Pred, class Alloc >
-bool operator!=(const unordered_set< Key, Hash, Pred, Alloc >& a,
-				const unordered_set< Key, Hash, Pred, Alloc >& b);
+template <class Key, class Hash, class Pred, class Alloc>
+bool operator!=(const unordered_set<Key, Hash, Pred, Alloc>& a,
+				const unordered_set<Key, Hash, Pred, Alloc>& b);
 
-template < class Key, class Hash, class Pred, class Alloc >
-bool operator==(const unordered_set< Key, Hash, Pred, Alloc >& a,
-				const unordered_set< Key, Hash, Pred, Alloc >& b);
+template <class Key, class Hash, class Pred, class Alloc>
+bool operator==(const unordered_set<Key, Hash, Pred, Alloc>& a,
+				const unordered_set<Key, Hash, Pred, Alloc>& b);
 
-template < class Key, class Hash, class Pred, class Alloc >
-void swap(unordered_set< Key, Hash, Pred, Alloc >& x,
-		  unordered_set< Key, Hash, Pred, Alloc >& y);
+template <class Key, class Hash, class Pred, class Alloc>
+void swap(unordered_set<Key, Hash, Pred, Alloc>& x,
+		  unordered_set<Key, Hash, Pred, Alloc>& y);
 
-template < class Key,
-		   class Hash = hash< Key >,
-		   class Pred = std::equal_to< Key >,
-		   class Allocator = std::allocator< Key > >
+template <class Key,
+		  class Hash = hash<Key>,
+		  class Pred = std::equal_to<Key>,
+		  class Allocator = std::allocator<Key> >
 class unordered_multiset
 {
   public:
@@ -138,13 +138,13 @@ class unordered_multiset
 	typedef Pred key_equal;
 	typedef ptrdiff_t difference_type;
 	typedef size_t size_type;
-	typedef std::pair< const Key, Key > value_type;
+	typedef std::pair<const Key, Key> value_type;
 	typedef Allocator allocator_type;
 
 	typedef const Key* const_pointer;
 	typedef const Key& const_reference;
-	typedef const std::iterator< value_type, Key > const_iterator;
-	typedef iterator< value_type, Key > iterator;
+	typedef const std::iterator<value_type, Key> const_iterator;
+	typedef iterator<value_type, Key> iterator;
 	typedef Key* pointer;
 	typedef Key& reference;
 
@@ -153,7 +153,7 @@ class unordered_multiset
 								const hasher& hf = hasher(),
 								const key_equal& eql = key_equal(),
 								const allocator_type& a = allocator_type());
-	template < class InputIterator >
+	template <class InputIterator>
 	unordered_multiset(InputIterator f,
 					   InputIterator l,
 					   size_type n,
@@ -194,7 +194,7 @@ class unordered_multiset
 	// iterator insert(value_type &&obj);
 	iterator insert(const_iterator hint, const value_type& obj);
 	// iterator insert(const_iterator hint, value_type &&obj);
-	template < class InputIterator >
+	template <class InputIterator>
 	void insert(InputIterator first, InputIterator last);
 	// void insert(initializer_list< value_type >);
 	iterator erase(const_iterator position);
@@ -209,8 +209,8 @@ class unordered_multiset
 	iterator find(const key_type& k);
 	const_iterator find(const key_type& k) const;
 	size_type count(const key_type& k) const;
-	std::pair< iterator, iterator > equal_range(const key_type& k);
-	std::pair< const_iterator, const_iterator > equal_range(const key_type& k) const;
+	std::pair<iterator, iterator> equal_range(const key_type& k);
+	std::pair<const_iterator, const_iterator> equal_range(const key_type& k) const;
 	// bucket interface
 	size_type bucket_count() const;     // noexcept;
 	size_type max_bucket_count() const; // noexcept;
@@ -230,17 +230,17 @@ class unordered_multiset
 	void reserve(size_type n);
 };
 
-template < class Key, class Hash, class Pred, class Alloc >
-bool operator!=(const unordered_multiset< Key, Hash, Pred, Alloc >& a,
-				const unordered_multiset< Key, Hash, Pred, Alloc >& b);
+template <class Key, class Hash, class Pred, class Alloc>
+bool operator!=(const unordered_multiset<Key, Hash, Pred, Alloc>& a,
+				const unordered_multiset<Key, Hash, Pred, Alloc>& b);
 
-template < class Key, class Hash, class Pred, class Alloc >
-bool operator==(const unordered_multiset< Key, Hash, Pred, Alloc >& a,
-				const unordered_multiset< Key, Hash, Pred, Alloc >& b);
+template <class Key, class Hash, class Pred, class Alloc>
+bool operator==(const unordered_multiset<Key, Hash, Pred, Alloc>& a,
+				const unordered_multiset<Key, Hash, Pred, Alloc>& b);
 
-template < class Key, class Hash, class Pred, class Alloc >
-void swap(unordered_multiset< Key, Hash, Pred, Alloc >& x,
-		  unordered_multiset< Key, Hash, Pred, Alloc >& y);
+template <class Key, class Hash, class Pred, class Alloc>
+void swap(unordered_multiset<Key, Hash, Pred, Alloc>& x,
+		  unordered_multiset<Key, Hash, Pred, Alloc>& y);
 
 } // namespace ft
 

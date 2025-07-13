@@ -4,7 +4,7 @@
 namespace ft
 {
 
-template < class InputIterator1, class InputIterator2 >
+template <class InputIterator1, class InputIterator2>
 bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 {
 	InputIterator1 itr1 = first1;
@@ -15,7 +15,7 @@ bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 	return true;
 }
 
-template < class InputIterator1, class InputIterator2, class BinaryPredicate >
+template <class InputIterator1, class InputIterator2, class BinaryPredicate>
 bool equal(InputIterator1 first1,
 		   InputIterator1 last1,
 		   InputIterator2 first2,
@@ -29,7 +29,7 @@ bool equal(InputIterator1 first1,
 	return true;
 }
 
-template < class InputIterator1, class InputIterator2 >
+template <class InputIterator1, class InputIterator2>
 bool lexicographical_compare(InputIterator1 first1,
 							 InputIterator1 last1,
 							 InputIterator2 first2,
@@ -45,7 +45,7 @@ bool lexicographical_compare(InputIterator1 first1,
 	return first1 == last1 && first2 != last2;
 }
 
-template < class InputIterator1, class InputIterator2, class Compare >
+template <class InputIterator1, class InputIterator2, class Compare>
 bool lexicographical_compare(InputIterator1 first1,
 							 InputIterator1 last1,
 							 InputIterator2 first2,
