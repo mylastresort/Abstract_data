@@ -1,6 +1,5 @@
 #ifndef __CONSTRUCTOR__DEQUE_TPP
 #define __CONSTRUCTOR__DEQUE_TPP
-// IWYU pragma: private, include "vector.hpp"
 
 #pragma once
 #include "deque.hpp"
@@ -9,14 +8,19 @@ namespace ft
 {
 
 template <class T, class Alloc>
-deque<T, Alloc>::deque(const allocator_type& alloc)
-	: _deque_impl_data<Alloc>(alloc)
+deque<T, Alloc>::deque(const allocator_type& alloc) : _a(alloc)
 {
+	const size_t size = 1;
+	this->_map_ptr = this->_a_map.allocate(size);
+	this->_chunks_sz = size;
+	this->_map_ptr[0] = this->_a.allocate(CHUNK_SIZE);
+	this->_begin_offset = CHUNK_SIZE / 2;
+	this->_past_end_offset = this->_begin_offset;
 }
 
 template <class T, class Alloc>
 deque<T, Alloc>::deque(const deque& cpy)
-	: _deque_impl_data<Alloc>(cpy.get_allocator())
+	: _map_ptr(0), _begin_offset(0), _past_end_offset(0), _chunks_sz(0)
 {
 	assign(cpy.begin(), cpy.end());
 }
@@ -25,7 +29,8 @@ template <class T, class Alloc>
 deque<T, Alloc>::deque(size_type n,
 					   const value_type& val,
 					   const allocator_type& alloc)
-	: _deque_impl_data<Alloc>(alloc)
+	: _map_ptr(0), _begin_offset(0), _past_end_offset(0), _chunks_sz(0),
+	  _a(alloc)
 {
 	assign(n, val);
 }
@@ -37,7 +42,8 @@ deque<T, Alloc>::deque(
 	InputIterator last,
 	const allocator_type& alloc,
 	typename enable_if<!numeric_limits<InputIterator>::is_integer>::type* /*unused*/)
-	: _deque_impl_data<Alloc>(alloc)
+	: _map_ptr(0), _begin_offset(0), _past_end_offset(0), _chunks_sz(0),
+	  _a(alloc)
 {
 	assign(first, last);
 }

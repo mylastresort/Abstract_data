@@ -13,6 +13,7 @@
 #include "allocators.tpp"
 #include "capacity.tpp"
 #include "deletions.tpp"
+#include "element_access.tpp"
 #include "insertions.tpp"
 #include "iterators.tpp"
 
