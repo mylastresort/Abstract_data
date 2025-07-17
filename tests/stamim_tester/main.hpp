@@ -24,14 +24,16 @@ using std::endl;
 // we need later to check the difference of std and ft containers
 #define CHECK(x) std::cout << (x) << std::endl
 
-// declarations
+// vector
 void unit_test_vector_default_constructor();
 void unit_test_vector_constructor_size_constructor();
 void unit_test_vector_constructor_iterator_constructor();
 void unit_test_vector_capacity();
-
 void cplusplusexamples_vector();
+
+// deque
 void cplusplusexamples_deque();
+void test_deque_all();
 
 // types
 typedef int VEC_T;
