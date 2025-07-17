@@ -35,6 +35,17 @@ Checks: >
   -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
   -hicpp-no-array-decay,
   -google-global-names-in-headers,
+  -performance-unnecessary-value-param,
+  -llvmlibc-inline-function-decl,
+  -readability-math-missing-parentheses,
+  -misc-use-internal-linkage,
+  -misc-unused-using-decls,
+  -readability-function-cognitive-complexity,
+  -readability-named-parameter,
+  -hicpp-named-parameter,
+  -cppcoreguidelines-prefer-member-initializer,
+  -google-explicit-constructor,
+  -hicpp-explicit-conversions,
 
 CheckOptions:
   - key: readability-identifier-length.MinimumParameterNameLength
