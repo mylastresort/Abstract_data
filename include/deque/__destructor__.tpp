@@ -9,15 +9,15 @@ namespace ft
 
 template <class T, class Alloc> deque<T, Alloc>::~deque<T, Alloc>()
 {
-	clear();
-	for (size_type i = 0; i < this->_chunks_sz; i++)
-	{
-		this->_a.deallocate(this->_map_ptr[i], CHUNK_SIZE);
-	}
-	if (this->_map_ptr != 0)
-	{
-		this->_a_map.deallocate(this->_map_ptr, this->_chunks_sz);
-	}
+  clear();
+  for (size_type i = 0; i < this->_chunks_sz; i++)
+  {
+    this->_a.deallocate(this->_map_ptr[i], CHUNK_SIZE);
+  }
+  if (this->_map_ptr != 0)
+  {
+    this->_a_map.deallocate(this->_map_ptr, this->_chunks_sz);
+  }
 }
 
 #ifdef TEST
