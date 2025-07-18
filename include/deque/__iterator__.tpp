@@ -1,20 +1,20 @@
 #ifndef __ITERATOR__DEQUE_TPP
 #define __ITERATOR__DEQUE_TPP
 
-#include "deque/__impl_data_.hpp"
+#include "__types__.hpp"
 #pragma once
 #include "deque.hpp"
 
 namespace ft
 {
 
-template <class T> deque_iterator<T>::deque_iterator() : current(0), data()
+template <class T> deque_iterator<T>::deque_iterator() : _deq(0), _cur(0)
 {
 }
 
 template <class T>
 deque_iterator<T>::deque_iterator(const deque_iterator& cpy)
-    : current(cpy.current), data(cpy.data)
+    : _deq(cpy._deq), _cur(cpy._cur)
 {
 }
 
@@ -23,8 +23,8 @@ deque_iterator<T>& deque_iterator<T>::operator=(const deque_iterator& cpy)
 {
   if (this != &cpy)
   {
-    current = cpy.current;
-    data = cpy.data;
+    _cur = cpy._cur;
+    _deq = cpy._deq;
   }
   return *this;
 }
@@ -32,8 +32,7 @@ deque_iterator<T>& deque_iterator<T>::operator=(const deque_iterator& cpy)
 template <class T>
 template <class U>
 deque_iterator<T>::deque_iterator(const deque_iterator<U>& cpy)
-    : current(cpy.current),
-      data((typename deque_iterator::data_t)cpy.data) // NOLINT
+    : _deq(cpy._deq), _cur(cpy._cur)
 {
 }
 
@@ -41,20 +40,19 @@ template <class T>
 template <class U>
 deque_iterator<T>& deque_iterator<T>::operator=(const deque_iterator<U>& cpy)
 {
-  if (static_cast<void*>(this) != &cpy)
+  if (static_cast<const void*>(this) != static_cast<const void*>(&cpy))
   {
-    current = cpy.current;
-    data = (typename deque_iterator::data_t)cpy.data; // NOLINT
+    _cur = cpy._cur;
+    _deq = cpy._deq;
   }
   return *this;
 }
 
 template <class T>
 template <class U>
-deque_iterator<T>::operator deque_iterator<U>()
+deque_iterator<T>::operator deque_iterator<U>() const
 {
-  // NOLINTNEXTLINE
-  return deque_iterator<U>((typename deque_iterator<U>::data_t)data, current);
+  return deque_iterator<U>(_deq, _cur);
 }
 
 template <class T> deque_iterator<T>::~deque_iterator()
@@ -62,37 +60,43 @@ template <class T> deque_iterator<T>::~deque_iterator()
 }
 
 template <class T>
-deque_iterator<T>::deque_iterator(data_t _data, size_t _current)
-    : current(_current), data(_data)
+deque_iterator<T>::deque_iterator(deque_type* _deq, size_t _cur)
+    : _deq(_deq), _cur(_cur)
 {
 }
 
-template <class T> bool deque_iterator<T>::operator!=(const deque_iterator& rhs)
+template <class T>
+bool deque_iterator<T>::operator!=(const deque_iterator& rhs) const
 {
   return base() != rhs.base();
 }
 
-template <class T> bool deque_iterator<T>::operator<(const deque_iterator& rhs)
+template <class T>
+bool deque_iterator<T>::operator<(const deque_iterator& rhs) const
 {
-  return data != rhs.data ? data < rhs.data : current < rhs.current;
+  return this->_deq != rhs._deq ? this->_deq < rhs._deq : this->_cur < rhs._cur;
 }
 
-template <class T> bool deque_iterator<T>::operator>(const deque_iterator& rhs)
+template <class T>
+bool deque_iterator<T>::operator>(const deque_iterator& rhs) const
 {
-  return data != rhs.data ? data > rhs.data : current > rhs.current;
+  return this->_deq != rhs._deq ? this->_deq > rhs._deq : this->_cur > rhs._cur;
 }
 
-template <class T> bool deque_iterator<T>::operator<=(const deque_iterator& rhs)
+template <class T>
+bool deque_iterator<T>::operator<=(const deque_iterator& rhs) const
 {
   return !operator>(rhs);
 }
 
-template <class T> bool deque_iterator<T>::operator>=(const deque_iterator& rhs)
+template <class T>
+bool deque_iterator<T>::operator>=(const deque_iterator& rhs) const
 {
   return !operator<(rhs);
 }
 
-template <class T> bool deque_iterator<T>::operator==(const deque_iterator& rhs)
+template <class T>
+bool deque_iterator<T>::operator==(const deque_iterator& rhs) const
 {
   return base() == rhs.base();
 }
@@ -107,8 +111,7 @@ template <class T>
 const typename deque_iterator<T>::reference deque_iterator<T>::operator[](
         int pos) const
 {
-  pos += current + data[0]->head;                          // NOLINT
-  return data[pos / CHUNK_SIZE]->blocks[pos % CHUNK_SIZE]; // NOLINT
+  return (*_deq)[_cur + pos];
 }
 
 template <class T>
@@ -120,9 +123,9 @@ const typename deque_iterator<T>::reference deque_iterator<T>::operator*() const
 template <class T>
 template <class U>
 typename deque_iterator<T>::difference_type deque_iterator<T>::operator-(
-        const deque_iterator<U>& rhs)
+        const deque_iterator<U>& rhs) const
 {
-  return data - rhs.data + (current - rhs.current);
+  return this->_cur - rhs._cur;
 }
 
 template <class T>
@@ -134,8 +137,7 @@ typename deque_iterator<T>::pointer deque_iterator<T>::operator->()
 template <class T>
 typename deque_iterator<T>::reference deque_iterator<T>::operator[](int pos)
 {
-  pos += current + data[0]->head;                          // NOLINT
-  return data[pos / CHUNK_SIZE]->blocks[pos % CHUNK_SIZE]; // NOLINT
+  return (*this->_deq)[pos];
 }
 
 template <class T>
@@ -148,7 +150,7 @@ template <class T>
 deque_iterator<T> deque_iterator<T>::operator--(int) // NOLINT
 {
   deque_iterator res(*this);
-  current--;
+  _cur--;
   return res;
 }
 
@@ -156,51 +158,51 @@ template <class T>
 deque_iterator<T> deque_iterator<T>::operator++(int) // NOLINT
 {
   deque_iterator res(*this);
-  current++;
+  _cur++;
   return res;
 }
 
 template <class T>
 typename deque_iterator<T>::pointer deque_iterator<T>::base() const
 {
-  return &operator[](0);
+  return &((*this->_deq)[_cur]);
 }
 
 template <class T> deque_iterator<T>& deque_iterator<T>::operator--()
 {
-  current--;
+  _cur--;
   return *this;
 }
 
 template <class T>
-deque_iterator<T> deque_iterator<T>::operator-(const difference_type n)
+deque_iterator<T> deque_iterator<T>::operator-(const difference_type n) const
 {
-  return deque_iterator(data, current - n);
+  return deque_iterator(_deq, _cur - n);
 }
 
 template <class T>
 deque_iterator<T>& deque_iterator<T>::operator-=(const difference_type n)
 {
-  current -= n;
+  _cur -= n;
   return *this;
 }
 
 template <class T>
-deque_iterator<T> deque_iterator<T>::operator+(const difference_type n)
+deque_iterator<T> deque_iterator<T>::operator+(const difference_type n) const
 {
-  return deque_iterator(data, current + n);
+  return deque_iterator(_deq, _cur + n);
 }
 
 template <class T> deque_iterator<T>& deque_iterator<T>::operator++()
 {
-  current++;
+  _cur++;
   return *this;
 }
 
 template <class T>
 deque_iterator<T>& deque_iterator<T>::operator+=(const difference_type n)
 {
-  current += n;
+  _cur += n;
   return *this;
 }
 
@@ -215,8 +217,8 @@ typename deque_iterator<T>::difference_type operator+(
 } // namespace ft
 
 #ifdef TEST
-template struct ft::deque_iterator<int>;
-template struct ft::deque_iterator<const int>;
+template class ft::deque_iterator<int>;
+template class ft::deque_iterator<const int>;
 #endif
 
 #endif

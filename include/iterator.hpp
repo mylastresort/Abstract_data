@@ -216,7 +216,7 @@ template <class Iterator>
 typename reverse_iterator<Iterator>::reference
 reverse_iterator<Iterator>::operator[](difference_type n) const
 {
-  return current[-n];
+  return *(current - n);
 }
 
 template <class Iterator>

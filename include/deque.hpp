@@ -1,18 +1,35 @@
 #ifndef DEQUE_HPP
 #define DEQUE_HPP
 
-#include "deque/__impl_data_.hpp"
+#include "__types__.hpp"
 #include "iterator.hpp"
 #include "type_traits.hpp"
+
+#define CHUNK_SIZE 8
 
 namespace ft
 {
 
-template <class T> struct deque_iterator;
-
-template <class T, class Alloc = std::allocator<T> >
-class deque : protected _deque_impl_data<Alloc>
+template <class T> class deque_iterator;
+template <class T, class Alloc = std::allocator<T> > class deque
 {
+  typedef T*       chunk_t;
+  typedef chunk_t* map_t;
+
+  typedef typename Alloc::template rebind<chunk_t>::other amap_t;
+
+  map_t  _map_ptr;
+  size_t _begin_offset;
+  size_t _past_end_offset;
+  size_t _chunks_sz;
+  Alloc  _a;
+  amap_t _a_map;
+
+  friend class deque_iterator<T>;
+  friend class deque_iterator<const T>;
+  friend class deque_iterator<volatile T>;
+  friend class deque_iterator<const volatile T>;
+
 public:
   typedef Alloc     allocator_type;
   typedef ptrdiff_t difference_type;
@@ -60,7 +77,7 @@ public:
   bool      empty() const;
   size_type max_size() const;
   size_type size() const;
-  void      resize(size_type size, value_type val = value_type());
+  void      resize(size_type sz, value_type val = value_type());
 
   const_reference at(size_type pos) const;
   const_reference back() const;
@@ -95,6 +112,15 @@ public:
   void swap(deque& other);
 };
 
+/**
+ * forbidden class specialization - begin
+ * missing definition prevents the user from instantiation
+ */
+template <class T> class deque<const T>;
+template <class T> class deque<volatile T>;
+template <class T> class deque<const volatile T>;
+/** forbidden class specialization - end */
+
 template <class T, class Alloc>
 bool operator==(const deque<T, Alloc>& lhs, const deque<T, Alloc>& rhs);
 template <class T, class Alloc>
@@ -112,8 +138,20 @@ template <class T, class Alloc>
 void swap(deque<T, Alloc>& first, deque<T, Alloc>& second);
 
 template <class T>
-struct deque_iterator : public ft::iterator<random_access_iterator_tag, T>
+class deque_iterator : public ft::iterator<random_access_iterator_tag, T>
 {
+  typedef deque<typename remove_cv<T>::type> data_t;
+  typedef typename conditional<is_const<T>::value, const data_t, data_t>::type deque_type;
+
+  deque_type* _deq;
+  size_t      _cur;
+
+  explicit deque_iterator(deque_type* _deq, size_t _cur = 0);
+
+public:
+  template <class U> friend class deque_iterator;
+  friend class deque<typename remove_cv<T>::type>;
+
   typedef ft::iterator<random_access_iterator_tag, T> _iterator;
 
   using typename _iterator::difference_type;
@@ -121,9 +159,6 @@ struct deque_iterator : public ft::iterator<random_access_iterator_tag, T>
   using typename _iterator::pointer;
   using typename _iterator::reference;
   using typename _iterator::value_type;
-
-  typedef chunk<value_type>** data_t;
-
   deque_iterator();
   deque_iterator(const deque_iterator& cpy);
   deque_iterator& operator=(const deque_iterator& cpy);
@@ -131,35 +166,31 @@ struct deque_iterator : public ft::iterator<random_access_iterator_tag, T>
   template <class U> deque_iterator& operator=(const deque_iterator<U>& cpy);
   ~deque_iterator();
 
-  template <class U> operator deque_iterator<U>(); // NOLINT
+  template <class U> operator deque_iterator<U>() const;
 
-  explicit deque_iterator(data_t _data, size_t _current = 0);
-
-  bool                               operator!=(const deque_iterator& rhs);
-  bool                               operator<(const deque_iterator& rhs);
-  bool                               operator<=(const deque_iterator& rhs);
-  bool                               operator==(const deque_iterator& rhs);
-  bool                               operator>(const deque_iterator& rhs);
-  bool                               operator>=(const deque_iterator& rhs);
-  const pointer                      operator->() const;
-  const reference                    operator[](int post) const;
-  const reference                    operator*() const;
-  pointer                            base() const;
-  pointer                            operator->();
-  reference                          operator[](int pos);
-  reference                          operator*();
-  template <class U> difference_type operator-(const deque_iterator<U>& rhs);
-  deque_iterator                     operator--(int); // NOLINT
-  deque_iterator                     operator-(const difference_type n);
-  deque_iterator                     operator+(const difference_type n);
-  deque_iterator                     operator++(int); // NOLINT
-  deque_iterator&                    operator--();
-  deque_iterator&                    operator-=(const difference_type n);
-  deque_iterator&                    operator++();
-  deque_iterator&                    operator+=(const difference_type n);
-
-  size_t current;
-  data_t data;
+  bool            operator!=(const deque_iterator& rhs) const;
+  bool            operator<(const deque_iterator& rhs) const;
+  bool            operator<=(const deque_iterator& rhs) const;
+  bool            operator==(const deque_iterator& rhs) const;
+  bool            operator>(const deque_iterator& rhs) const;
+  bool            operator>=(const deque_iterator& rhs) const;
+  const pointer   operator->() const;
+  const reference operator[](int post) const;
+  const reference operator*() const;
+  pointer         base() const;
+  pointer         operator->();
+  reference       operator[](int pos);
+  reference       operator*();
+  template <class U>
+  difference_type operator-(const deque_iterator<U>& rhs) const;
+  deque_iterator  operator--(int);
+  deque_iterator  operator-(const difference_type n) const;
+  deque_iterator  operator+(const difference_type n) const;
+  deque_iterator  operator++(int);
+  deque_iterator& operator--();
+  deque_iterator& operator-=(const difference_type n);
+  deque_iterator& operator++();
+  deque_iterator& operator+=(const difference_type n);
 };
 
 template <class T>
@@ -171,7 +202,7 @@ deque_iterator<T>& operator+(const typename deque_iterator<T>::difference_type l
 #include "deque/__deque__.hpp" // IWYU pragma: export
 
 #ifdef TEST
-// template class ft::deque< int >;
+// template class ft::deque<int>;
 #endif
 
 #endif

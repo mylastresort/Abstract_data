@@ -10,16 +10,13 @@ namespace ft
 template <class T, class Alloc>
 typename deque<T, Alloc>::const_iterator deque<T, Alloc>::begin() const
 {
-  return const_iterator(
-          (typename deque_iterator<const T>::data_t)this->map.begin().base()); // NOLINT
+  return const_iterator(this, 0); // NOLINT
 }
 
 template <class T, class Alloc>
 typename deque<T, Alloc>::const_iterator deque<T, Alloc>::end() const
 {
-  return const_iterator(
-          (typename deque_iterator<const T>::data_t)this->begin().base(), // NOLINT
-          size());
+  return const_iterator(this, size()); // NOLINT
 }
 
 template <class T, class Alloc>
@@ -37,13 +34,13 @@ typename deque<T, Alloc>::const_reverse_iterator deque<T, Alloc>::rend() const
 template <class T, class Alloc>
 typename deque<T, Alloc>::iterator deque<T, Alloc>::begin()
 {
-  return iterator(this->map.begin().base()); // NOLINT
+  return iterator(this, 0);
 }
 
 template <class T, class Alloc>
 typename deque<T, Alloc>::iterator deque<T, Alloc>::end()
 {
-  return iterator(this->map.begin().base(), size());
+  return iterator(this, size());
 }
 
 template <class T, class Alloc>
