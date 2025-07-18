@@ -10,8 +10,8 @@ namespace ft
 
 template <class T, class Alloc> vector<T, Alloc>::~vector()
 {
-	clear();
-	this->alloc.deallocate(this->begin_ptr, capacity());
+  clear();
+  this->alloc.deallocate(this->begin_ptr, capacity());
 }
 
 } // namespace ft

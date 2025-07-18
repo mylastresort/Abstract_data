@@ -10,7 +10,7 @@ namespace ft
 template <class T, class Alloc>
 typename deque<T, Alloc>::allocator_type deque<T, Alloc>::get_allocator() const
 {
-	return this->_a;
+  return this->_a;
 }
 
 #ifdef TEST

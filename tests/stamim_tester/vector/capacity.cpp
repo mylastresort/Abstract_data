@@ -2,8 +2,8 @@
 
 void unit_test_vector_capacity()
 {
-	TEST_CASE("capacity() - check empty vector")
-	{
-		Vector vec1;
-	}
+  TEST_CASE("capacity() - check empty vector")
+  {
+    Vector vec1;
+  }
 }
