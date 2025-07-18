@@ -65,22 +65,22 @@ void cplusplusexamples_list()
   //     std::cout << "3. size: " << myints.size() << '\n';
   // }
 
-  // // Test empty and back/front access
-  // {
-  //     list<int> mylist;
-  //     int       sum(0);
-  //
-  //     for (int i = 1; i <= 10; i++)
-  //         mylist.push_back(i);
-  //
-  //     while (!mylist.empty())
-  //     {
-  //         sum += mylist.back();
-  //         mylist.pop_back();
-  //     }
-  //
-  //     std::cout << "total: " << sum << '\n';
-  // }
+  // Test empty and back/front access
+  {
+    list<int> mylist;
+    int       sum(0);
+
+    for (int i = 1; i <= 10; i++)
+      mylist.push_back(i);
+
+    while (!mylist.empty())
+    {
+      sum += mylist.back();
+      mylist.pop_back();
+    }
+
+    std::cout << "total: " << sum << '\n';
+  }
 
   // Test front access
   {
@@ -140,39 +140,37 @@ void cplusplusexamples_list()
     std::cout << '\n';
   }
 
-  //
-  // // Test erase operations
-  // {
-  // 	list<int> mylist;
-  // 	list<int>::iterator it1, it2;
-  //
-  // 	// set some values:
-  // 	for (int i = 1; i < 10; ++i)
-  // 		mylist.push_back(i * 10);
-  //
-  // 	// 10 20 30 40 50 60 70 80 90
-  // 	it1 = it2 = mylist.begin(); // ^^
-  // 	++it2;                      // ^   ^
-  // 	++it2;                      // ^     ^
-  // 	++it2;                      // ^       ^
-  //
-  // 	it1 = mylist.erase(it1); // 20 30 40 50 60 70 80 90
-  // 							 // ^  ^
-  // 	it2 = mylist.erase(it2); // 20 30 50 60 70 80 90
-  // 							 //    ^  ^
-  //
-  // 	++it1; //       ^     ^
-  // 	--it2; //       ^   ^
-  //
-  // 	mylist.erase(it1, it2); // 20 30 70 80 90
-  // 							//        ^
-  //
-  // 	std::cout << "mylist contains:";
-  // 	for (it1 = mylist.begin(); it1 != mylist.end(); ++it1)
-  // 		std::cout << ' ' << *it1;
-  // 	std::cout << '\n';
-  // }
-  //
+  // Test erase operations
+  {
+    list<int>           mylist;
+    list<int>::iterator it1, it2;
+
+    // set some values:
+    for (int i = 1; i < 10; ++i)
+      mylist.push_back(i * 10);
+
+    // 10 20 30 40 50 60 70 80 90
+    it1 = it2 = mylist.begin(); // ^^
+    ++it2;                      // ^   ^
+    ++it2;                      // ^     ^
+    ++it2;                      // ^       ^
+
+    it1 = mylist.erase(it1); // 20 30 40 50 60 70 80 90
+                             // ^  ^
+    it2 = mylist.erase(it2); // 20 30 50 60 70 80 90
+                             //    ^  ^
+
+    ++it1; //       ^     ^
+    --it2; //       ^   ^
+
+    mylist.erase(it1, it2); // 20 30 70 80 90
+                            //        ^
+
+    std::cout << "mylist contains:";
+    for (it1 = mylist.begin(); it1 != mylist.end(); ++it1)
+      std::cout << ' ' << *it1;
+    std::cout << '\n';
+  }
   // // Test swap
   // {
   // 	list<int> first(3, 100);  // three ints with a value of 100
@@ -209,30 +207,29 @@ void cplusplusexamples_list()
   // 	std::cout << '\n';
   // }
   //
-  // // Test clear
-  // {
-  // 	list<int> mylist;
-  // 	list<int>::iterator it;
-  //
-  // 	mylist.push_back(100);
-  // 	mylist.push_back(200);
-  // 	mylist.push_back(300);
-  //
-  // 	std::cout << "mylist contains:";
-  // 	for (it = mylist.begin(); it != mylist.end(); ++it)
-  // 		std::cout << ' ' << *it;
-  // 	std::cout << '\n';
-  //
-  // 	mylist.clear();
-  // 	mylist.push_back(1101);
-  // 	mylist.push_back(2202);
-  //
-  // 	std::cout << "mylist contains:";
-  // 	for (it = mylist.begin(); it != mylist.end(); ++it)
-  // 		std::cout << ' ' << *it;
-  // 	std::cout << '\n';
-  // }
-  //
+  // Test clear
+  {
+    list<int>           mylist;
+    list<int>::iterator it;
+
+    mylist.push_back(100);
+    mylist.push_back(200);
+    mylist.push_back(300);
+
+    std::cout << "mylist contains:";
+    for (it = mylist.begin(); it != mylist.end(); ++it)
+      std::cout << ' ' << *it;
+    std::cout << '\n';
+
+    mylist.clear();
+    mylist.push_back(1101);
+    mylist.push_back(2202);
+
+    std::cout << "mylist contains:";
+    for (it = mylist.begin(); it != mylist.end(); ++it)
+      std::cout << ' ' << *it;
+    std::cout << '\n';
+  }
   // // Test splice
   // {
   // 	list<int> mylist1, mylist2;

@@ -10,8 +10,7 @@ namespace ft
 // Check if list is empty
 template <class T, class Alloc> bool list<T, Alloc>::empty() const
 {
-  // TODO
-  return true;
+  return size() == 0;
 }
 
 // Get maximum size

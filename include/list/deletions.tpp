@@ -7,27 +7,41 @@
 namespace ft
 {
 
-// Erase range
 template <class T, class Alloc>
 typename list<T, Alloc>::iterator list<T, Alloc>::erase(
         iterator position, iterator last)
 {
-  // TODO
-  (void)position;
-  (void)last;
-  return iterator();
+  if (position == last)
+    return position;
+  Node<T>*  prev = position._cur->prev;
+  size_type len = 0;
+  for (iterator it = position; it != last;)
+  {
+    iterator _cur = it++;
+    this->_a_node_t.destroy(_cur._cur);
+    this->_a_node_t.deallocate(_cur._cur, 1);
+    len++;
+  }
+  this->_len -= len;
+  prev->next = last._cur;
+  last._cur->prev = prev;
+  return ++last;
 }
 
-// Erase single element
 template <class T, class Alloc>
 typename list<T, Alloc>::iterator list<T, Alloc>::erase(iterator position)
 {
-  // TODO
-  (void)position;
-  return iterator();
+  if (position == rend().base() || position == end())
+    return position;
+  iterator ret(position._cur->next);
+  position._cur->prev->next = position._cur->next;
+  position._cur->next->prev = position._cur->prev;
+  this->_a_node_t.destroy(position._cur);
+  this->_a_node_t.deallocate(position._cur, 1);
+  this->_len -= 1;
+  return ret;
 }
 
-// Remove if predicate
 template <class T, class Alloc>
 template <class Predicate>
 void list<T, Alloc>::remove_if(Predicate pred)
@@ -50,16 +64,16 @@ template <class T, class Alloc> void list<T, Alloc>::clear()
   }
 }
 
-// Pop back element
 template <class T, class Alloc> void list<T, Alloc>::pop_back()
 {
-  // TODO
+  if (size() > 0)
+    erase(--end());
 }
 
-// Pop front element
 template <class T, class Alloc> void list<T, Alloc>::pop_front()
 {
-  // TODO
+  if (size() > 0)
+    erase(begin());
 }
 
 // Remove specific value

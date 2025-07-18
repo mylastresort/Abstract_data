@@ -80,12 +80,14 @@ $(BUILD_DIR)/%.bad.o: %.cpp | $(BUILD_DIR)
 		exit 1; \
 	fi
 
+t: test
 test: test-bad build std-test
 	@$(NAME) > $(TEST_LOG_FT)
 	@echo "\033[1;32m[Testing] Test logs can be found $(TEST_LOG_FT)\033[0m"
 	@diff -c $(TEST_LOG_FT) $(TEST_LOG_STD)
 	@echo "\033[1;32m[Testing] Passed All Tests.\033[0m"
 
+l: test-leaks
 test-leaks: CFLAGS+=-g
 test-leaks: build
 	valgrind $(VALGRIND_FLAGS) $(NAME)
