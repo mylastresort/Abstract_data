@@ -5,11 +5,13 @@
 
 #ifdef STD
 #include <deque>
+#include <list>
 #include <vector>
 #define __lib__ std
 #else
 #define FT
 #include "deque.hpp" // IWYU pragma: export
+#include "list.hpp"
 #include "vector.hpp"
 #define __lib__ ft
 #endif
@@ -34,6 +36,9 @@ void cplusplusexamples_vector();
 // deque
 void cplusplusexamples_deque();
 void test_deque_all();
+
+// list
+void cplusplusexamples_list();
 
 // types
 typedef int VEC_T;

@@ -46,6 +46,7 @@ Checks: >
   -cppcoreguidelines-prefer-member-initializer,
   -google-explicit-constructor,
   -hicpp-explicit-conversions,
+  -google-readability-todo,
 
 CheckOptions:
   - key: readability-identifier-length.MinimumParameterNameLength
