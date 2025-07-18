@@ -2,14 +2,10 @@ name: Test
 
 on:
   push:
-    branches:
-      - master
   pull_request:
-    branches:
-      - master
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,11 +15,68 @@ jobs:
         env:
           EXTRA_CFLAGS: "-g"
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: target/
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: target/
+
+      - name: Test (std)
+        run: make test
+
+  test-leaks:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: target/
+
+      - name: Install valgrind
+        run: sudo apt-get update && sudo apt-get install -y valgrind
+
       - uses: Ximaz/valgrind-action@v1.2.0
         with:
           valgrind_flags: "--leak-check=full --error-exitcode=1 --log-file=valgrind.log"
           binary_path: "target/ft_tester"
           binary_args: ""
-      
-      - name: Test (std)
-        run: make test
+
+  lint:
+    needs: [test, test-leaks]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint
+        run: make lint
+
+      - name: Commit and push lint code
+        run: |
+          git config --local user.email "samytamim0@gmail.com"
+          git config --local user.name "mylastresort"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "refactor: lint code"
+            git push
+          fi
