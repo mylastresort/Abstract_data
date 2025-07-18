@@ -88,7 +88,7 @@ test: test-bad build std-test
 
 test-leaks: CFLAGS+=-g
 test-leaks: build
-	valgrind $(VALGRIND_FLAGS) $(NAME) > /dev/null
+	valgrind $(VALGRIND_FLAGS) $(NAME)
 
 cov: CFLAGS+=$(COVERAGE_FLAGS)
 cov: build

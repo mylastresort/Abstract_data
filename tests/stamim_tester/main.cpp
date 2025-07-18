@@ -20,7 +20,7 @@ void test_list()
 
 int main()
 {
-  // test_vector();
-  // test_deque();
+  test_vector();
+  test_deque();
   test_list();
 }
