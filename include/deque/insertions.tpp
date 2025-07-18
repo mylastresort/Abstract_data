@@ -23,9 +23,9 @@ namespace ft
 template <class T, class Alloc>
 void deque<T, Alloc>::assign(size_type count, const value_type& val)
 {
-	clear();
-	typename _deque_impl_data<Alloc>::_chunk_iterator itr(count, val);
-	this->map.assign(itr.first, itr.last);
+  clear();
+  typename _deque_impl_data<Alloc>::_chunk_iterator itr(count, val);
+  this->map.assign(itr.first, itr.last);
 }
 
 #ifdef TEST

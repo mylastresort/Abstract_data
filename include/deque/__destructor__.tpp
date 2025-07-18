@@ -9,7 +9,7 @@ namespace ft
 
 template <class T, class Alloc> deque<T, Alloc>::~deque<T, Alloc>()
 {
-	clear();
+  clear();
 }
 
 #ifdef TEST

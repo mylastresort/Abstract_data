@@ -11,11 +11,11 @@ namespace ft
 template <class T, class Alloc>
 typename deque<T, Alloc>::size_type deque<T, Alloc>::size() const
 {
-	size_type count = this->map.size();
-	if (count == 0)
-		return count;
-	return count - this->map.front()->head -
-		(CHUNK_SIZE - 1 - this->map.back()->tail);
+  size_type count = this->map.size();
+  if (count == 0)
+    return count;
+  return count - this->map.front()->head -
+          (CHUNK_SIZE - 1 - this->map.back()->tail);
 }
 
 #ifdef TEST

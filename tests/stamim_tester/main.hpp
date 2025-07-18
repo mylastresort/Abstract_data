@@ -34,11 +34,11 @@ void cplusplusexamples_vector();
 void cplusplusexamples_deque();
 
 // types
-typedef int VEC_T;
+typedef int                   VEC_T;
 typedef std::allocator<VEC_T> allocator;
 using __lib__::vector; // NOLINT
 typedef __lib__::vector<VEC_T> Vector;
-typedef Vector::iterator itr;
+typedef Vector::iterator       itr;
 
 template <class T> class my_allocator : public std::allocator<T>
 {
