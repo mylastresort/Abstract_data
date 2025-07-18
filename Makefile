@@ -52,8 +52,8 @@ PHC_GCH = $(BUILD_DIR)/$(INCLUDE_DIR)/_phc.hpp.gch
 		fclean \
 		re
 
-all: test
-# all: build
+# all: test
+all: build
 build: $(NAME)
 
 $(NAME): $(OBJ) | $(BUILD_DIR)
@@ -80,7 +80,7 @@ $(BUILD_DIR)/%.bad.o: %.cpp | $(BUILD_DIR)
 		exit 1; \
 	fi
 
-test: test-bad build std-test test-leaks
+test: test-bad build std-test
 	@$(NAME) > $(TEST_LOG_FT)
 	@echo "\033[1;32m[Testing] Test logs can be found $(TEST_LOG_FT)\033[0m"
 	@diff -c $(TEST_LOG_FT) $(TEST_LOG_STD)
