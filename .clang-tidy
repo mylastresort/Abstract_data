@@ -47,6 +47,15 @@ Checks: >
   -google-explicit-constructor,
   -hicpp-explicit-conversions,
   -google-readability-todo,
+  -readability-convert-member-functions-to-static,
+  -modernize-loop-convert,
+  -cppcoreguidelines-avoid-const-or-ref-data-members,
+  -misc-no-recursion,
+  -cppcoreguidelines-special-member-functions,
+  -hicpp-special-member-functions,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -readability-isolate-declaration,
+  -cppcoreguidelines-pro-type-cstyle-cast,
 
 CheckOptions:
   - key: readability-identifier-length.MinimumParameterNameLength

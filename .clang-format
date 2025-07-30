@@ -185,4 +185,13 @@ AlignOperands: false
 Cpp11BracedListStyle: true
 #InsertTrailingCommas: Wrapped
 
+# ReflowComments (bool)
+# If true, clang-format will reflow comment lines to fit ColumnLimit
+ReflowComments: true
+
+# CommentPragmas (string)
+# Regular expression that describes comments with special meaning
+CommentPragmas: "^(IWYU pragma:|TODO:|NOTE:|FIXME:)"
 # vim:ft=yaml
+BreakBeforeBinaryOperators: NonAssignment
+SeparateDefinitionBlocks: Always

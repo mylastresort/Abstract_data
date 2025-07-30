@@ -24,6 +24,7 @@ template <class T> struct Node
 };
 
 template <class T> class list_iterator;
+
 template <class T, class Alloc = std::allocator<T> > class list
 {
 private:

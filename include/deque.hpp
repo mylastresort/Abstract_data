@@ -11,6 +11,7 @@ namespace ft
 {
 
 template <class T> class deque_iterator;
+
 template <class T, class Alloc = std::allocator<T> > class deque
 {
   typedef T*       chunk_t;

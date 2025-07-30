@@ -1,10 +1,13 @@
 #ifndef TYPES_TRAITS_HPP
 #define TYPES_TRAITS_HPP
 
+#pragma once
 #include "_phc.hpp"
 
 namespace ft
 {
+
+using std::numeric_limits;
 
 template <bool B, class T = void> struct enable_if
 {
@@ -54,8 +57,6 @@ template <class T, class F> struct conditional<false, T, F>
 {
   typedef F type;
 };
-
-using std::numeric_limits;
 
 } // namespace ft
 

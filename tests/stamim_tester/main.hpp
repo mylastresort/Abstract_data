@@ -1,12 +1,9 @@
 #ifndef MAIN_HPP
 #define MAIN_HPP
 
-#include "../include/_phc.hpp"
+#include "_phc.hpp"
 
 #ifdef STD
-#include <deque>
-#include <list>
-#include <vector>
 #define __lib__ std
 #else
 #define FT
@@ -40,6 +37,11 @@ void test_deque_all();
 // list
 void cplusplusexamples_list();
 
+// red-black-tree
+void test_bst();
+void test_rbt();
+void test_red_black_tree();
+
 // types
 typedef int                   VEC_T;
 typedef std::allocator<VEC_T> allocator;
@@ -50,5 +52,9 @@ typedef Vector::iterator       itr;
 template <class T> class my_allocator : public std::allocator<T>
 {
 };
+
+using std::cin;
+using std::cout;
+using std::endl;
 
 #endif

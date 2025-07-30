@@ -23,4 +23,5 @@ int main()
   test_vector();
   test_deque();
   test_list();
+  test_bst();
 }

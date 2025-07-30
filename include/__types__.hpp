@@ -1,7 +1,8 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
-#include <cstddef>
+#include "_phc.hpp"
+#define NUL 0
 
 namespace ft
 {
