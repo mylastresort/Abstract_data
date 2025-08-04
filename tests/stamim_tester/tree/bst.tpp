@@ -1,32 +1,54 @@
+#ifndef __BST__TPP
+#define __BST__TPP
 #include "BinarySearchTreeTest.hpp"
+#include <cstdlib>
+#include <set>
 
-using ft::BinarySearchTreeTest;
+inline int getRand(int min, int max)
+{
+  if (min > max)
+  {
+    int temp = min;
+    min = max;
+    max = temp;
+  }
 
-void test_insert()
+  static bool seeded = false;
+  if (!seeded)
+  {
+    srand(time(0)); // Seed once
+    seeded = true;
+  }
+
+  return min + std::rand() % (max - min + 1);
+}
+
+template <class Tree> void test_insert()
 {
   {
-    BinarySearchTreeTest tree;
+    Tree tree;
 
-    int arr[] = {1, -1, 3, -10, 20, -2, 4, 4, 4};
+    std::set<int> used_values;
+    int           min = -10;
+    int           max = 10;
 
-    for (int i = 0; i != sizeof(arr) / sizeof(int); i++)
+    for (int i = 0; i < 20; i++)
     {
-      tree.insert(arr[i]);
+      int num = getRand(min, max);
+      while (used_values.count(num))
+        num = getRand(min, max);
+      tree.insert(num);
+      assert(tree.find(num) != NUL);
     }
 
     cout << tree << endl;
-
-    for (int i = 0; i != sizeof(arr) / sizeof(int); i++)
-    {
-      assert(tree.find(arr[i]) != NUL);
-    }
   }
 }
 
-void test_erase()
+template <class Tree> void test_erase()
 {
   {
-    BinarySearchTreeTest tree;
+    Tree tree;
 
     int arr[] = {1, -1, 3, -10, 20, -2, 4, 8, -5};
 
@@ -34,6 +56,8 @@ void test_erase()
     {
       tree.insert(arr[i]);
     }
+
+    tree.erase(232);
 
     for (int i = 0; i != sizeof(arr) / sizeof(int); i++)
     {
@@ -44,7 +68,7 @@ void test_erase()
   }
 
   {
-    BinarySearchTreeTest tree;
+    Tree tree;
 
     int arr[] = {1, -1, 3, -10, 20, -2, 4, 8, -5};
 
@@ -58,10 +82,10 @@ void test_erase()
   }
 }
 
-void test_iterator()
+template <class Tree> void test_iterator()
 {
   {
-    BinarySearchTreeTest tree;
+    Tree tree;
 
     int              arr[] = {1, -1, 3, -10, 20, -2, 4, 8, -5};
     const int        sz = sizeof(arr) / sizeof(int);
@@ -74,18 +98,17 @@ void test_iterator()
     }
 
     int i = 0;
-    for (BinarySearchTreeTest::iterator it = tree.begin(); it != tree.end();
-            ++it, ++i)
+    for (typename Tree::iterator it = tree.begin(); it != tree.end(); ++it, ++i)
     {
       assert(*it == arrSorted[i]);
     }
   }
 }
 
-void test_reverse_iterator()
+template <class Tree> void test_reverse_iterator()
 {
   {
-    BinarySearchTreeTest tree;
+    Tree tree;
 
     int              arr[] = {1, -1, 3, -10, 20, -2, 4, 8, -5};
     const int        sz = sizeof(arr) / sizeof(int);
@@ -99,8 +122,7 @@ void test_reverse_iterator()
 
     int i = 0;
 
-    for (BinarySearchTreeTest::reverse_iterator it = tree.rbegin();
-            it != tree.rend();
+    for (typename Tree::reverse_iterator it = tree.rbegin(); it != tree.rend();
             ++it, ++i)
     {
       assert(*it == arrSorted[i]);
@@ -108,10 +130,12 @@ void test_reverse_iterator()
   }
 }
 
-void test_bst()
+template <class Tree> void test_bst()
 {
-  test_reverse_iterator();
-  test_iterator();
-  test_erase();
-  test_insert();
+  test_reverse_iterator<Tree>();
+  test_iterator<Tree>();
+  test_erase<Tree>();
+  test_insert<Tree>();
 }
+
+#endif

@@ -2,7 +2,6 @@
 #define TYPES_HPP
 
 #include "_phc.hpp"
-#define NUL 0
 
 namespace ft
 {

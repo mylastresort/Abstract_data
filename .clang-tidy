@@ -56,6 +56,9 @@ Checks: >
   -cppcoreguidelines-pro-bounds-constant-array-index,
   -readability-isolate-declaration,
   -cppcoreguidelines-pro-type-cstyle-cast,
+  -cert-err60-cpp,
+  -cppcoreguidelines-avoid-do-while,
+  -readability-simplify-boolean-expr,
 
 CheckOptions:
   - key: readability-identifier-length.MinimumParameterNameLength

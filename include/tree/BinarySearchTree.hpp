@@ -1,6 +1,9 @@
 #ifndef BinarySearchTree_HPP
 #define BinarySearchTree_HPP
 
+#include "__except__.hpp"
+#include "__macros__.hpp"
+#include "_phc.hpp"
 #include "iterator.hpp"
 
 namespace ft
@@ -64,11 +67,17 @@ public:
   }
 };
 
-struct BinaryTreeNode : public TreeNode
+template <class Node> class BinarySearchTree;
+
+class BinaryTreeNode : public TreeNode
 {
+  friend class BinarySearchTree<BinaryTreeNode>;
+
+protected:
   BinaryTreeNode* _left;
   BinaryTreeNode* _right;
 
+public:
   BinaryTreeNode(
           int* _val, BinaryTreeNode* _left = NUL, BinaryTreeNode* _right = NUL)
       : TreeNode(_val), _left(_left), _right(_right)
@@ -126,18 +135,46 @@ struct BinaryTreeNode : public TreeNode
     _right = right;
     return *this;
   }
+
+  BinaryTreeNode& setParent(BinaryTreeNode* parent)
+  {
+    (void)parent;
+    return *this;
+  }
+
+  friend std::ostream& operator<<(std::ostream& os, const BinaryTreeNode& _t)
+  {
+    os << _t.getValue();
+    return os;
+  }
 };
 
-template <class Node> struct BinaryTree
+enum Position
 {
-  typedef Node         node_t;
-  typedef node_t*      pnode_t;
-  pnode_t              _root;
-  size_t               _sz;
-  std::allocator<Node> _a_node_t;
-  std::allocator<int>  _a_t;
-  value_compare        _c;
+  LEFT,
+  RIGHT
+};
 
+template <class Node> class BinaryTree
+{
+public:
+  typedef std::allocator<int> allocator_type;
+  typedef Node                node_t;
+  typedef node_t*             pnode_t;
+  typedef size_t              size_type;
+  typedef const int&          reference;
+  typedef ptrdiff_t           difference_type;
+  typedef const int           value_type;
+  typedef const int*          pointer;
+
+protected:
+  pnode_t                _root;
+  size_t                 _sz;
+  std::allocator<node_t> _a_node_t;
+  allocator_type         _a_t;
+  value_compare          _c;
+
+public:
   size_t size() const
   {
     return _sz;
@@ -240,6 +277,11 @@ template <class Node> struct BinaryTree
     return *_root;
   }
 
+  node_t& getRoot()
+  {
+    return *_root;
+  }
+
   bool hasRoot() const
   {
     return _root != NUL;
@@ -251,7 +293,7 @@ template <class Node> struct BinaryTree
     return *this;
   }
 
-  pnode_t newNode(const int& _val = int())
+  pnode_t newNode(const int& _val)
   {
     int* ptr = _a_t.allocate(1);
     _a_t.construct(ptr, _val);
@@ -294,14 +336,14 @@ template <class Node> struct BinaryTree
     return 1 + std::max(leftHeight, rightHeight);
   }
 
-  static void _print_binary_tree(const node_t& _t,
+  static void _print_binary_tree(const node_t&    _t,
           std::vector<std::vector<std::string> >& _d,
           size_t                                  h,
           size_t                                  c,
           size_t                                  depth = 0)
   {
     std::ostringstream oss;
-    oss << _t.getValue();
+    oss << _t;
     _d[depth][c] = oss.str();
     if (_t.hasLeft())
       _print_binary_tree(
@@ -433,16 +475,15 @@ private:
 template <class Node = BinaryTreeNode>
 class BinarySearchTree : public BinaryTree<Node>
 {
+protected:
+  using typename BinaryTree<Node>::pnode_t;
+
 public:
+  using typename BinaryTree<Node>::value_type;
+  using typename BinaryTree<Node>::size_type;
+
   typedef BinarySearchTreeIterator<Node> iterator;
-  typedef const int                      value_type;
-  typedef const int*                     pointer;
   typedef ft::reverse_iterator<BinarySearchTreeIterator<Node> > reverse_iterator;
-  typedef const int&          reference;
-  typedef ptrdiff_t           difference_type;
-  typedef size_t              size_type;
-  typedef std::allocator<int> allocator_type;
-  typedef Node*               pnode;
 
   BinarySearchTree()
   {
@@ -472,62 +513,81 @@ public:
     return reverse_iterator(--this->begin());
   }
 
-  void insert(const value_type& val)
+  pnode_t insert(const value_type& val)
   {
+    return _insert(val);
+  }
+
+  pnode_t _insert(const value_type& val)
+  {
+    pnode_t node = NUL;
+
     if (!this->hasRoot())
     {
-      this->setRoot(this->newNode(val));
+      node = this->newNode(val);
+      this->setRoot(node);
       this->setSize(this->size() + 1);
-      return;
+      return node;
     }
-    for (pnode head = this->getRootAddr(); head != NUL && !head->is(val);)
+    pnode_t head = this->getRootAddr();
+    for (; head != NUL && !head->is(val);)
     {
       if (this->nCmp(*head, val))
       {
         if (!head->hasLeft())
         {
-          head->setLeft(this->newNode(val));
+          node = this->newNode(val);
+          node->setParent(head);
+          head->setLeft(node);
           this->setSize(this->size() + 1);
-          return;
+          return node;
         }
         head = head->getLeftAddr();
         continue;
       }
       if (!head->hasRight())
       {
-        head->setRight(this->newNode(val));
+        node = this->newNode(val);
+        node->setParent(head);
+        head->setRight(node);
         this->setSize(this->size() + 1);
-        return;
+        return node;
       }
       head = head->getRightAddr();
     }
+    if (head != NUL)
+      ASSERT(head->is(val));
+    else
+      ABORT("insertion should return early");
+    return node;
   }
 
   void erase(const value_type& val)
   {
-    pnode* head = &this->_root;
-    pnode* cur = head;
-    pnode  right = NUL;
+    pnode_t* head = &this->_root;
+    pnode_t* cur = head;
+    pnode_t  right = NUL;
+    pnode_t  parent = NUL;
+
     while (*cur != NUL)
     {
-      if ((*cur)->is(val))
+      pnode_t node = *cur;
+      if (node->is(val))
       {
-        pnode _r = (*cur)->getRightAddr(), _l = (*cur)->getLeftAddr();
-        if (!(*cur)->hasLeft())
-          *cur = (this->deleteNode(*cur), _r);
-        else if (!(*cur)->hasRight())
-          *cur = (this->deleteNode(*cur), _l);
-        else
-        {
-          right = _r;
-          *cur = (this->deleteNode(*cur), _l);
-        }
+        if (node->hasLeft() && node->hasRight())
+          right = node->getRightAddr();
+
+        *cur = node->hasLeft() ? node->getLeftAddr() : node->getRightAddr();
+        if (*cur)
+          (*cur)->setParent(parent);
+
+        this->deleteNode(node);
+        this->setSize(this->size() - 1);
         break;
       }
-      if (this->nCmp(*cur, val))
-        cur = (*cur)->hasLeft() ? &(*cur)->_left : &(*cur)->_right;
-      else if (this->cmp(*cur, val))
-        cur = (*cur)->hasRight() ? &(*cur)->_right : &(*cur)->_left;
+      parent = *cur;
+      cur = this->nCmp(*cur, val) && (*cur)->hasLeft() ? &(*cur)->_left
+                                                       : &(*cur)->_right;
     }
     if (right != NUL)
     {
@@ -535,13 +595,12 @@ public:
         cur = this->nCmp(*cur, val) ? &(*cur)->_left : &(*cur)->_right;
       (*cur)->setRight(right);
     }
-    this->setSize(this->size() - 1);
     this->setRoot(*head);
   }
 
-  pnode find(const value_type& val) const
+  pnode_t find(const value_type& val) const
   {
-    pnode head = this->getRootAddr();
+    pnode_t head = this->getRootAddr();
     for (; head != NUL && head->isNot(val); head = this->nCmp(*head, val)
                     ? head->getLeftAddr()
                     : head->getRightAddr())

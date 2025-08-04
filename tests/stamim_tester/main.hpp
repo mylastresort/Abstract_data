@@ -2,6 +2,7 @@
 #define MAIN_HPP
 
 #include "_phc.hpp"
+#include "tree/bst.tpp"
 
 #ifdef STD
 #define __lib__ std
@@ -36,11 +37,6 @@ void test_deque_all();
 
 // list
 void cplusplusexamples_list();
-
-// red-black-tree
-void test_bst();
-void test_rbt();
-void test_red_black_tree();
 
 // types
 typedef int                   VEC_T;

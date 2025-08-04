@@ -1,4 +1,6 @@
 #include "main.hpp"
+#include "tree/BinarySearchTreeTest.hpp"
+#include "tree/RedBlackTreeTest.hpp"
 
 void test_vector()
 {
@@ -23,5 +25,6 @@ int main()
   test_vector();
   test_deque();
   test_list();
-  test_bst();
+  test_bst<ft::BinarySearchTreeTest>();
+  test_bst<ft::RedBlackTreeTest>();
 }

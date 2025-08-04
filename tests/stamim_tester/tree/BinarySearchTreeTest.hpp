@@ -9,6 +9,7 @@ namespace ft
 
 class BinarySearchTreeTest : public BinarySearchTree<>
 {
+  // TODO: add check: traversal from the null element works
 public:
   void insert(const value_type& val)
   {
@@ -102,6 +103,24 @@ public:
       for (; _it != _end; ++_it, ++it)
       {
         if (tree.nCmp(*it, *_it))
+          return false;
+      }
+    }
+
+    return true;
+  }
+
+  template <class Tree>
+  static bool isReverseInOrderTraversalSorted(const Tree& tree)
+  {
+    if (tree.size() != 0)
+    {
+      typename Tree::reverse_iterator it = tree.rbegin();
+      typename Tree::reverse_iterator _it = ++tree.rbegin();
+      typename Tree::reverse_iterator _end = tree.rend();
+      for (; _it != _end; ++_it, ++it)
+      {
+        if (tree.cmp(*it, *_it))
           return false;
       }
     }
