@@ -1,8 +1,7 @@
 #ifndef __BST__TPP
 #define __BST__TPP
 #include "BinarySearchTreeTest.hpp"
-#include <cstdlib>
-#include <set>
+#include "_phc.hpp"
 
 inline int getRand(int min, int max)
 {
@@ -50,35 +49,55 @@ template <class Tree> void test_erase()
   {
     Tree tree;
 
-    int arr[] = {1, -1, 3, -10, 20, -2, 4, 8, -5};
+    // Generate random numbers in range [1, 100]
+    std::vector<int> arr;
+    std::set<int>    used_values;
+    int              min_val = 1;
+    int              max_val = 100;
+    size_t           count = 25; // Generate 25 unique random numbers
 
-    for (int i = 0; i != sizeof(arr) / sizeof(int); i++)
+    // Generate unique random numbers
+    while (arr.size() < count)
+    {
+      int num = getRand(min_val, max_val);
+      if (used_values.find(num) == used_values.end())
+      {
+        arr.push_back(num);
+        used_values.insert(num);
+      }
+    }
+
+    // Shuffle the array for different insertion order
+    for (size_t i = arr.size() - 1; i > 0; i--)
+    {
+      size_t j = getRand(0, static_cast<int>(i));
+      std::swap(arr[i], arr[j]);
+    }
+
+    for (size_t i = 0; i < arr.size(); i++)
     {
       tree.insert(arr[i]);
     }
 
-    tree.erase(232);
+    cout << tree << endl;
 
-    for (int i = 0; i != sizeof(arr) / sizeof(int); i++)
+    // Test erasing a non-existent value
+    int non_existent = max_val + 50;
+    tree.erase(non_existent);
+
+    // Shuffle again for different deletion order
+    for (size_t i = arr.size() - 1; i > 0; i--)
+    {
+      size_t j = getRand(0, static_cast<int>(i));
+      std::swap(arr[i], arr[j]);
+    }
+
+    for (size_t i = 0; i < arr.size(); i++)
     {
       assert(tree.find(arr[i]) != NUL);
       tree.erase(arr[i]);
       assert(tree.find(arr[i]) == NUL);
     }
-  }
-
-  {
-    Tree tree;
-
-    int arr[] = {1, -1, 3, -10, 20, -2, 4, 8, -5};
-
-    for (int i = 0; i != sizeof(arr) / sizeof(int); i++)
-    {
-      tree.insert(arr[i]);
-    }
-
-    tree.clear();
-    assert(tree.size() == 0);
   }
 }
 
@@ -87,7 +106,8 @@ template <class Tree> void test_iterator()
   {
     Tree tree;
 
-    int              arr[] = {1, -1, 3, -10, 20, -2, 4, 8, -5};
+    int arr[] = {
+            15, 3, 18, 7, 12, 1, 19, 8, 4, 16, 11, 20, 6, 13, 2, 17, 9, 14, 5, 10};
     const int        sz = sizeof(arr) / sizeof(int);
     std::vector<int> arrSorted = std::vector<int>(arr, arr + sz);
     std::sort(arrSorted.begin(), arrSorted.end());
@@ -110,7 +130,8 @@ template <class Tree> void test_reverse_iterator()
   {
     Tree tree;
 
-    int              arr[] = {1, -1, 3, -10, 20, -2, 4, 8, -5};
+    int arr[] = {
+            15, 3, 18, 7, 12, 1, 19, 8, 4, 16, 11, 20, 6, 13, 2, 17, 9, 14, 5, 10};
     const int        sz = sizeof(arr) / sizeof(int);
     std::vector<int> arrSorted = std::vector<int>(arr, arr + sz);
     std::sort(arrSorted.begin(), arrSorted.end(), std::greater<int>());

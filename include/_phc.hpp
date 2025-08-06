@@ -14,6 +14,7 @@
 #include <list>
 #include <memory>
 #include <queue>
+#include <set>
 #include <sstream>
 #include <stack>
 #include <string>

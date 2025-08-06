@@ -1,6 +1,8 @@
 #ifndef RED_BLACK_TREE_HPP
 #define RED_BLACK_TREE_HPP
 
+#include "__except__.hpp"
+#include "__macros__.hpp"
 #include "tree/BinarySearchTree.hpp"
 
 namespace ft
@@ -185,8 +187,17 @@ struct RBNode : public TreeNode
   friend std::ostream& operator<<(std::ostream& os, const RBNode& node)
   {
     return os << (node.is(RED) ? RED_COLOR : WHITE_COLOR) << node.getValue()
-
               << RESET_COLOR;
+  }
+
+  bool hasNilBlackLeft() const
+  {
+    return !hasLeft() || getLeft().is(BLACK);
+  }
+
+  bool hasNilBlackRight() const
+  {
+    return !hasRight() || getRight().is(BLACK);
   }
 };
 
@@ -199,7 +210,7 @@ public:
 
   void insert(const value_type& val)
   {
-    pnode_t node = BinarySearchTree::_insert(val);
+    pnode_t node = BinarySearchTree::insert(val);
     if (node != NUL)
       rebalanceInsertion(node);
     if (hasRoot())
@@ -214,7 +225,10 @@ public:
       Position pos = node->getParent().getPosition();
       if (node->hasSibling() && node->getSibling().is(RED))
       {
-        recolorSibling(node);
+        node->getSibling().set(BLACK);
+        node->getParent().set(BLACK);
+        node->getGrandParent().set(RED);
+        node = node->getGrandParentAddr();
         ASSERT(verifyRule1Compliance(*node));
       }
       else
@@ -226,21 +240,13 @@ public:
           y = node->getParentAddr();
         else
           handleCaseThreeInsertion(pos, node, x, y, q);
-        handleCaseTwoInsertion(pos, x, y, q);
+        handleCaseTwoInsertion(pos, y, q);
         ASSERT(verifyRule1Compliance(*y));
         break;
       }
     }
     getRoot().set(BLACK);
     ASSERT(getRoot().is(BLACK));
-  }
-
-  void recolorSibling(pnode_t& node) const
-  {
-    node->getSibling().set(BLACK);
-    node->getParent().set(BLACK);
-    node->getGrandParent().set(RED);
-    node = node->getGrandParentAddr();
   }
 
   void handleCaseThreeInsertion(
@@ -260,9 +266,9 @@ public:
     q = x;
   }
 
-  void handleCaseTwoInsertion(Position pos, pnode_t x, pnode_t y, pnode_t q)
+  void handleCaseTwoInsertion(Position pos, pnode_t y, pnode_t q)
   {
-    x = q->getGrandParentAddr();
+    pnode_t x = q->getGrandParentAddr();
     x->set(RED);
     y->set(BLACK);
     if (pos == LEFT)
@@ -326,15 +332,217 @@ public:
     rotate(RIGHT, x, y);
   }
 
-  void _erase(const value_type& val)
-  {
-    BinarySearchTree::erase(val);
-  }
-
   void erase(const value_type& val)
   {
-    _erase(val);
-    // rebalance
+    pnode_t  p = find(val);
+    pnode_t  x = NUL;
+    pnode_t  pa = NUL;
+    Position pos;
+
+    if (p == NUL)
+      return;
+
+    if (!p->hasRight())
+      handleCaseOneDeletion(p, pa, x, pos);
+    else if (!p->getRight().hasLeft())
+      handleCaseTwoDeletion(p, pa, x, pos);
+    else
+      handleCaseThreeDeletion(p, pa, x, pos);
+
+    setSize(size() - 1);
+    rebalanceDeletion(p->getColor(), pa, x, pos);
+    deleteNode(p);
+  }
+
+  void rebalanceDeletion(Color clr, pnode_t pa, pnode_t x, Position pos)
+  {
+    if (clr == RED)
+      return;
+    for (;;)
+    {
+      if (x != NUL && x->is(RED))
+      {
+        x->set(BLACK);
+        break;
+      }
+      if (pa == NUL)
+        break;
+      {
+        pnode_t w = pos == LEFT ? pa->getRightAddr() : pa->getLeftAddr();
+        if (w->is(RED))
+          handleCaseDeletionSiblingisNotBlack(w, pa, pos);
+        if (w->hasNilBlackLeft() && w->hasNilBlackRight())
+          handleCaseOneDeletionRebalance(w);
+        else
+        {
+          handleCaseTwoDeletionRebalance(w, pos);
+          handleCaseThreeDeletionRebalance(w, pa, pos);
+          break;
+        }
+      }
+      x = pa;
+      if (pa->hasParent())
+        pos = pa->getPosition();
+      pa = pa->getParentAddr();
+    }
+  }
+
+  // handleCaseDeletionSiblingChildInSameSideIsRed
+  void handleCaseTwoDeletionRebalance(pnode_t& w, Position pos)
+  {
+    if (pos == LEFT && w->hasNilBlackRight())
+    {
+      pnode_t y = w->getLeftAddr();
+      w->set(RED);
+      y->set(BLACK);
+      rightRotate(w, y);
+      w = y;
+    }
+    else if (pos == RIGHT && w->hasNilBlackLeft())
+    {
+      pnode_t y = w->getRightAddr();
+      w->set(RED);
+      y->set(BLACK);
+      leftRotate(w, y);
+      w = y;
+    }
+  }
+
+  // handleCaseDeletionSiblingChildInOppositeSideIsRed
+  void handleCaseThreeDeletionRebalance(pnode_t w, pnode_t pa, Position pos)
+  {
+    w->set(pa->getColor());
+    pa->set(BLACK);
+    if (pos == LEFT)
+    {
+      w->getRight().set(BLACK);
+      leftRotate(pa, w);
+    }
+    else
+    {
+      w->getLeft().set(BLACK);
+      rightRotate(pa, w);
+    }
+  }
+
+  // handleCaseDeletionSiblingHasNoRedChildren
+  void handleCaseOneDeletionRebalance(pnode_t w)
+  {
+    w->set(RED);
+  }
+
+  void handleCaseDeletionSiblingisNotBlack(pnode_t& w, pnode_t pa, Position pos)
+  {
+    w->set(BLACK);
+    pa->set(RED);
+    if (pos == LEFT)
+    {
+      leftRotate(pa, w);
+      w = pa->getRightAddr();
+    }
+    else
+    {
+      rightRotate(pa, w);
+      w = pa->getLeftAddr();
+    }
+  }
+
+  void handleCaseThreeDeletion(
+          pnode_t node, pnode_t& pa, pnode_t& x, Position& pos)
+  {
+    ASSERT_NOT_NUL(node);
+    ASSERT(node->hasRight());
+    ASSERT(node->getRight().hasLeft());
+    pnode_t succ = upper_bound(node);
+    ASSERT(node != succ);
+
+    pnode_t parent = node->getParentAddr();
+    pnode_t right = succ->getParentAddr();
+
+    ASSERT(succ != right);
+
+    if (parent == NUL)
+      setRoot(succ);
+    else if (node->getPosition() == LEFT)
+      parent->setLeft(succ);
+    else
+      parent->setRight(succ);
+    succ->setParent(parent);
+
+    pnode_t left = node->getLeftAddr();
+    succ->setLeft(left);
+    if (left != NUL)
+      left->setParent(succ);
+
+    pnode_t succRight = succ->getRightAddr();
+    right->setLeft(succRight);
+    if (succRight != NUL)
+      succRight->setParent(right);
+
+    succ->setRight(node->getRightAddr());
+    ASSERT(node->hasRight());
+    node->getRight().setParent(succ);
+
+    Color clr = succ->getColor();
+    succ->set(node->getColor());
+    node->set(clr);
+
+    pa = right;
+    x = right->getLeftAddr();
+    pos = LEFT;
+  }
+
+  void handleCaseTwoDeletion(pnode_t node, pnode_t& pa, pnode_t& x, Position& pos)
+  {
+    ASSERT_NOT_NUL(node);
+    pnode_t parent = node->getParentAddr();
+    pnode_t right = node->getRightAddr();
+    ASSERT_NOT_NUL(right);
+
+    if (parent == NUL)
+      setRoot(right);
+    else if (node->getPosition() == LEFT)
+      parent->setLeft(right);
+    else
+      parent->setRight(right);
+    right->setParent(parent);
+
+    pnode_t left = node->getLeftAddr();
+    right->setLeft(left);
+    if (left != NUL)
+      left->setParent(right);
+
+    Color clr = right->getColor();
+    right->set(node->getColor());
+    node->set(clr);
+    pa = right;
+    x = right->getRightAddr();
+    pos = RIGHT;
+  }
+
+  void handleCaseOneDeletion(pnode_t node, pnode_t& pa, pnode_t& x, Position& pos)
+  {
+    ASSERT_NOT_NUL(node);
+    pnode_t parent = node->getParentAddr();
+    pnode_t left = node->getLeftAddr();
+
+    pos = LEFT;
+    if (parent == NUL)
+      setRoot(left);
+    else if (node->getPosition() == LEFT)
+    {
+      parent->setLeft(left);
+      pos = LEFT;
+    }
+    else
+    {
+      parent->setRight(left);
+      pos = RIGHT;
+    }
+    if (node->hasLeft())
+      left->setParent(parent);
+    pa = parent;
+    x = left;
   }
 };
 

@@ -23,10 +23,10 @@ public:
 
   void erase(const value_type& val)
   {
-    // size_t i = size();
-    // bool   count = this->count(val) >= 1;
-    BinarySearchTree::erase(val);
-    // assertValidRedBlackTree(count ? i - 1 : i);
+    size_t i = size();
+    bool   count = this->count(val) >= 1;
+    RedBlackTree::erase(val);
+    assertValidRedBlackTree(count ? i - 1 : i);
   }
 
   void assertValidRedBlackTree(size_t size) const

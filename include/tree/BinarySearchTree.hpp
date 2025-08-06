@@ -513,12 +513,17 @@ public:
     return reverse_iterator(--this->begin());
   }
 
-  pnode_t insert(const value_type& val)
+  pnode_t upper_bound(pnode_t node) const
   {
-    return _insert(val);
+    if (node == NUL || !node->hasRight())
+      return NUL;
+    pnode_t cur = node->getRightAddr();
+    while (cur->hasLeft())
+      cur = cur->getLeftAddr();
+    return cur;
   }
 
-  pnode_t _insert(const value_type& val)
+  pnode_t insert(const value_type& val)
   {
     pnode_t node = NUL;
 
