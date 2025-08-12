@@ -14,15 +14,18 @@ enum Color
   BLACK
 };
 
-struct RBNode : public TreeNode
+template <class Comp = less<int> > struct RBNode : public TreeNode<Comp>
 {
+  typedef ft::value_compare<Comp> value_compare;
+  typedef Comp                    comp;
+
   RBNode* _parent;
   RBNode* _left;
   RBNode* _right;
   Color   _color;
 
   RBNode(int* _val, RBNode* _left = NUL, RBNode* _right = NUL, RBNode* _parent = NUL)
-      : TreeNode(_val), _parent(_parent), _left(_left), _right(_right),
+      : TreeNode<Comp>(_val), _parent(_parent), _left(_left), _right(_right),
         _color(RED)
   {
   }
@@ -201,8 +204,18 @@ struct RBNode : public TreeNode
   }
 };
 
-class RedBlackTree : public BinarySearchTree<RBNode>
+template <class Comp = less<int> >
+class RedBlackTree : public BinarySearchTree<Comp, RBNode<Comp> >
 {
+protected:
+  using typename BinarySearchTree<Comp, RBNode<Comp> >::pnode_t;
+  using typename BinarySearchTree<Comp, RBNode<Comp> >::node_t;
+
+public:
+  using typename BinarySearchTree<Comp, RBNode<Comp> >::value_type;
+  using typename BinarySearchTree<Comp, RBNode<Comp> >::size_type;
+  using typename BinarySearchTree<Comp, RBNode<Comp> >::comp;
+
 public:
   RedBlackTree()
   {
@@ -210,11 +223,11 @@ public:
 
   void insert(const value_type& val)
   {
-    pnode_t node = BinarySearchTree::insert(val);
+    pnode_t node = BinarySearchTree<Comp, RBNode<Comp> >::insert(val);
     if (node != NUL)
       rebalanceInsertion(node);
-    if (hasRoot())
-      ASSERT(getRoot().is(BLACK));
+    if (this->hasRoot())
+      ASSERT(this->getRoot().is(BLACK));
   }
 
   void rebalanceInsertion(pnode_t node)
@@ -245,8 +258,8 @@ public:
         break;
       }
     }
-    getRoot().set(BLACK);
-    ASSERT(getRoot().is(BLACK));
+    this->getRoot().set(BLACK);
+    ASSERT(this->getRoot().is(BLACK));
   }
 
   void handleCaseThreeInsertion(
@@ -305,7 +318,7 @@ public:
     // switch Y parent and X Parent
     pnode_t xParent = x->getParentAddr();
     if (xParent == NUL)
-      setRoot(y);
+      this->setRoot(y);
     else if (x->getPosition() == LEFT)
       xParent->setLeft(y);
     else
@@ -334,7 +347,7 @@ public:
 
   void erase(const value_type& val)
   {
-    pnode_t  p = find(val);
+    pnode_t  p = this->find(val);
     pnode_t  x = NUL;
     pnode_t  pa = NUL;
     Position pos;
@@ -349,9 +362,9 @@ public:
     else
       handleCaseThreeDeletion(p, pa, x, pos);
 
-    setSize(size() - 1);
+    this->setSize(this->size() - 1);
     rebalanceDeletion(p->getColor(), pa, x, pos);
-    deleteNode(p);
+    this->deleteNode(p);
   }
 
   void rebalanceDeletion(Color clr, pnode_t pa, pnode_t x, Position pos)
@@ -453,7 +466,7 @@ public:
     ASSERT_NOT_NUL(node);
     ASSERT(node->hasRight());
     ASSERT(node->getRight().hasLeft());
-    pnode_t succ = upper_bound(node);
+    pnode_t succ = this->upper_bound(node);
     ASSERT(node != succ);
 
     pnode_t parent = node->getParentAddr();
@@ -462,7 +475,7 @@ public:
     ASSERT(succ != right);
 
     if (parent == NUL)
-      setRoot(succ);
+      this->setRoot(succ);
     else if (node->getPosition() == LEFT)
       parent->setLeft(succ);
     else
@@ -500,7 +513,7 @@ public:
     ASSERT_NOT_NUL(right);
 
     if (parent == NUL)
-      setRoot(right);
+      this->setRoot(right);
     else if (node->getPosition() == LEFT)
       parent->setLeft(right);
     else
@@ -528,7 +541,7 @@ public:
 
     pos = LEFT;
     if (parent == NUL)
-      setRoot(left);
+      this->setRoot(left);
     else if (node->getPosition() == LEFT)
     {
       parent->setLeft(left);

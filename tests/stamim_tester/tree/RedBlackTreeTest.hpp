@@ -10,39 +10,43 @@
 namespace ft
 {
 
-class RedBlackTreeTest : public RedBlackTree
+template <class Comp = less<int> >
+class RedBlackTreeTest : public RedBlackTree<Comp>
 {
+  using RedBlackTree<Comp>::value_type;
+
 public:
-  void insert(const value_type& val)
+  void insert(const typename RedBlackTree<Comp>::value_type& val)
   {
-    size_t i = size();
+    size_t i = this->size();
     bool   count = this->count(val) >= 1;
-    RedBlackTree::insert(val);
+    RedBlackTree<Comp>::insert(val);
     assertValidRedBlackTree(count ? i : i + 1);
   }
 
-  void erase(const value_type& val)
+  void erase(const typename RedBlackTree<Comp>::value_type& val)
   {
-    size_t i = size();
+    size_t i = this->size();
     bool   count = this->count(val) >= 1;
-    RedBlackTree::erase(val);
+    RedBlackTree<Comp>::erase(val);
     assertValidRedBlackTree(count ? i - 1 : i);
   }
 
   void assertValidRedBlackTree(size_t size) const
   {
-    if (!hasRoot())
+    if (!this->hasRoot())
       return;
     assertRootIsBlack();
-    assertRBTreeStructure(getRoot(), INT_MIN, INT_MAX);
-    assert(BinarySearchTreeTest::hasCorrectSize(*this, size));
-    assert(BinarySearchTreeTest::isInOrderTraversalSorted(*this));
-    assert(BinarySearchTreeTest::isReverseInOrderTraversalSorted(*this));
+    assertRBTreeStructure(
+            this->getRoot(), this->_c.c.TEST_MIN, this->_c.c.TEST_MAX);
+    assert(BinarySearchTreeTest<Comp>::hasCorrectSize(*this, size));
+    assert(BinarySearchTreeTest<Comp>::isInOrderTraversalSorted(*this));
+    assert(BinarySearchTreeTest<Comp>::isReverseInOrderTraversalSorted(*this));
   }
 
   void assertRootIsBlack() const
   {
-    assert(!hasRoot() || getRoot().is(BLACK));
+    assert(!this->hasRoot() || this->getRoot().is(BLACK));
   }
 
   struct rbt_vars
@@ -56,14 +60,15 @@ public:
     }
   };
 
-  rbt_vars assertRBTreeStructure(const node_t& _rt, int _min, int _max) const
+  rbt_vars assertRBTreeStructure(
+          const typename RedBlackTree<Comp>::node_t& _rt, int _min, int _max) const
   {
-    assert(nCmp(_rt, _min) && cmp(_rt, _max));
-    assert(!_rt.hasLeft() || nCmp(_rt, _rt.getLeft()));
-    assert(!_rt.hasRight() || cmp(_rt, _rt.getRight()));
+    assert(this->nCmp(_rt, _min) && this->cmp(_rt, _max));
+    assert(!_rt.hasLeft() || this->nCmp(_rt, _rt.getLeft()));
+    assert(!_rt.hasRight() || this->cmp(_rt, _rt.getRight()));
 
     assertRBNodeColor(_rt);
-    assert(verifyRule1Compliance(_rt));
+    assert(this->verifyRule1Compliance(_rt));
 
     rbt_vars _vars[2];
 
@@ -75,13 +80,14 @@ public:
 
     // the count of black nodes from node to all paths to leaves must be equal
     // this assertion (bottom-up) aborts when it finds a difference
-    assert(verifyRule2Compliance(_vars[0]._black_nodes, _vars[1]._black_nodes));
+    assert(this->verifyRule2Compliance(
+            _vars[0]._black_nodes, _vars[1]._black_nodes));
 
     return rbt_vars(1 + _vars[0]._count + _vars[1]._count,
             static_cast<size_t>(_rt.is(BLACK)) + _vars[0]._black_nodes);
   }
 
-  static void assertRBNodeColor(const node_t& node)
+  static void assertRBNodeColor(const typename RedBlackTree<Comp>::node_t& node)
   {
     assert(node.is(RED) || node.is(BLACK));
   }

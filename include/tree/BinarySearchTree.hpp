@@ -4,24 +4,17 @@
 #include "__except__.hpp"
 #include "__macros__.hpp"
 #include "_phc.hpp"
+#include "functional.hpp"
 #include "iterator.hpp"
 
 namespace ft
 {
 
-struct less
+template <class Comp> struct value_compare
 {
-  bool operator()(const int& a, const int& b) const
-  {
-    return a < b;
-  }
-};
+  Comp c;
 
-struct value_compare
-{
-  less c;
-
-  value_compare(less c = less()) : c(c)
+  value_compare(Comp c = Comp()) : c(c)
   {
   }
 
@@ -31,7 +24,7 @@ struct value_compare
   }
 };
 
-class TreeNode
+template <class Comp> class TreeNode
 {
 protected:
   int* _val;
@@ -56,31 +49,34 @@ public:
     return !is(val);
   }
 
-  bool compare(const value_compare& cmp, const int& val) const
+  bool compare(const value_compare<Comp>& cmp, const int& val) const
   {
     return cmp(getValue(), val);
   }
 
-  bool notCompare(const value_compare& cmp, const int& val) const
+  bool notCompare(const value_compare<Comp>& cmp, const int& val) const
   {
     return !compare(cmp, val);
   }
 };
 
-template <class Node> class BinarySearchTree;
+template <class Comp, class Node> class BinarySearchTree;
 
-class BinaryTreeNode : public TreeNode
+template <class Comp> class BinaryTreeNode : public TreeNode<Comp>
 {
-  friend class BinarySearchTree<BinaryTreeNode>;
+  friend class BinarySearchTree<Comp, BinaryTreeNode>;
 
 protected:
   BinaryTreeNode* _left;
   BinaryTreeNode* _right;
 
 public:
+  typedef ft::value_compare<Comp> value_compare;
+  typedef Comp                    comp;
+
   BinaryTreeNode(
           int* _val, BinaryTreeNode* _left = NUL, BinaryTreeNode* _right = NUL)
-      : TreeNode(_val), _left(_left), _right(_right)
+      : TreeNode<Comp>(_val), _left(_left), _right(_right)
   {
   }
 
@@ -168,11 +164,13 @@ public:
   typedef const int*          pointer;
 
 protected:
-  pnode_t                _root;
-  size_t                 _sz;
-  std::allocator<node_t> _a_node_t;
-  allocator_type         _a_t;
-  value_compare          _c;
+  pnode_t                      _root;
+  size_t                       _sz;
+  std::allocator<node_t>       _a_node_t;
+  allocator_type               _a_t;
+  typename Node::value_compare _c;
+
+  typedef typename Node::comp comp;
 
 public:
   size_t size() const
@@ -472,15 +470,16 @@ private:
   }
 };
 
-template <class Node = BinaryTreeNode>
+template <class Comp = less<int>, class Node = BinaryTreeNode<Comp> >
 class BinarySearchTree : public BinaryTree<Node>
 {
 protected:
-  using typename BinaryTree<Node>::pnode_t;
-
 public:
+  using typename BinaryTree<Node>::pnode_t;
+  using typename BinaryTree<Node>::node_t;
   using typename BinaryTree<Node>::value_type;
   using typename BinaryTree<Node>::size_type;
+  using typename BinaryTree<Node>::comp;
 
   typedef BinarySearchTreeIterator<Node> iterator;
   typedef ft::reverse_iterator<BinarySearchTreeIterator<Node> > reverse_iterator;

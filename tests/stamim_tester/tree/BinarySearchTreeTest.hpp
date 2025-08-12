@@ -7,25 +7,26 @@
 namespace ft
 {
 
-class BinarySearchTreeTest : public BinarySearchTree<>
+template <class Comp = less<int> >
+class BinarySearchTreeTest : public BinarySearchTree<Comp>
 {
   // TODO: add check: traversal from the null element works
 public:
-  void insert(const value_type& val)
+  void insert(const typename BinarySearchTree<Comp>::value_type& val)
   {
-    size_t i = size();
+    size_t i = this->size();
     bool   count = this->count(val) >= 1;
-    BinarySearchTree::insert(val);
+    BinarySearchTree<Comp>::insert(val);
     assert(isBinarySearchTree(*this));
     assert(isInOrderTraversalSorted(*this));
     assert(hasCorrectSize(*this, count ? i : i + 1));
   }
 
-  void erase(const value_type& val)
+  void erase(const typename BinarySearchTree<Comp>::value_type& val)
   {
-    size_t i = size();
+    size_t i = this->size();
     bool   count = this->count(val) >= 1;
-    BinarySearchTree::erase(val);
+    BinarySearchTree<Comp>::erase(val);
     assert(isBinarySearchTree(*this));
     assert(isInOrderTraversalSorted(*this));
     assert(hasCorrectSize(*this, count ? i - 1 : i));
@@ -52,7 +53,7 @@ public:
   {
     if (!tree.hasRoot())
       return true;
-    return _isBST(tree, tree.getRoot(), INT_MIN, INT_MAX);
+    return _isBST(tree, tree.getRoot(), tree._c.c.TEST_MIN, tree._c.c.TEST_MAX);
   }
 
   struct BalancedTreeTest

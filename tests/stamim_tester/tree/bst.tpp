@@ -2,6 +2,7 @@
 #define __BST__TPP
 #include "BinarySearchTreeTest.hpp"
 #include "_phc.hpp"
+#include "functional.hpp"
 
 inline int getRand(int min, int max)
 {
@@ -110,7 +111,7 @@ template <class Tree> void test_iterator()
             15, 3, 18, 7, 12, 1, 19, 8, 4, 16, 11, 20, 6, 13, 2, 17, 9, 14, 5, 10};
     const int        sz = sizeof(arr) / sizeof(int);
     std::vector<int> arrSorted = std::vector<int>(arr, arr + sz);
-    std::sort(arrSorted.begin(), arrSorted.end());
+    std::sort(arrSorted.begin(), arrSorted.end(), typename Tree::comp());
 
     for (int i = 0; i != sz; i++)
     {
@@ -134,7 +135,9 @@ template <class Tree> void test_reverse_iterator()
             15, 3, 18, 7, 12, 1, 19, 8, 4, 16, 11, 20, 6, 13, 2, 17, 9, 14, 5, 10};
     const int        sz = sizeof(arr) / sizeof(int);
     std::vector<int> arrSorted = std::vector<int>(arr, arr + sz);
-    std::sort(arrSorted.begin(), arrSorted.end(), std::greater<int>());
+    std::sort(arrSorted.begin(),
+            arrSorted.end(),
+            ft::notCompare<typename Tree::comp, int>());
 
     for (int i = 0; i != sz; i++)
     {
