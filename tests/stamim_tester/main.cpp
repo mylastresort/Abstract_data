@@ -27,12 +27,12 @@ int main()
   test_deque();
   test_list();
 
-  test_bst<ft::BinarySearchTreeTest<> >();
-  test_bst<ft::RedBlackTreeTest<> >();
+  test_bst<ft::BinarySearchTreeTest<int> >();
+  test_bst<ft::RedBlackTreeTest<int> >();
 
-  test_bst<ft::BinarySearchTreeTest<ft::less<int> > >();
-  test_bst<ft::RedBlackTreeTest<ft::less<int> > >();
+  test_bst<ft::BinarySearchTreeTest<int, ft::less<int> > >();
+  test_bst<ft::RedBlackTreeTest<int, ft::less<int> > >();
 
-  test_bst<ft::BinarySearchTreeTest<ft::greater<int> > >();
-  test_bst<ft::RedBlackTreeTest<ft::greater<int> > >();
+  test_bst<ft::BinarySearchTreeTest<int, ft::greater<int> > >();
+  test_bst<ft::RedBlackTreeTest<int, ft::greater<int> > >();
 }

@@ -10,73 +10,70 @@
 namespace ft
 {
 
-template <class Comp> struct value_compare
+template <class T, class Comp> struct TreeNode
 {
-  Comp c;
+public:
+  typedef T  value_type;
+  typedef T* pointer;
+  typedef T& reference;
 
-  value_compare(Comp c = Comp()) : c(c)
-  {
-  }
-
-  bool operator()(const int& a, const int& b) const
-  {
-    return c(a, b);
-  }
-};
-
-template <class Comp> class TreeNode
-{
 protected:
-  int* _val;
+  pointer _val;
 
 public:
-  TreeNode(int* _val) : _val(_val)
+  TreeNode(T* _val) : _val(_val)
   {
   }
 
-  const int& getValue() const
+  const T& getValue() const
   {
     return *_val;
   }
 
-  bool is(const int& val) const
+  T& getValue()
+  {
+    return *_val;
+  }
+
+  bool is(const T& val) const
   {
     return getValue() == val;
   }
 
-  bool isNot(const int& val) const
+  bool isNot(const T& val) const
   {
     return !is(val);
   }
 
-  bool compare(const value_compare<Comp>& cmp, const int& val) const
+  bool compare(const Comp& cmp, const T& val) const
   {
     return cmp(getValue(), val);
   }
 
-  bool notCompare(const value_compare<Comp>& cmp, const int& val) const
+  bool notCompare(const Comp& cmp, const T& val) const
   {
     return !compare(cmp, val);
   }
 };
 
-template <class Comp, class Node> class BinarySearchTree;
+template <class T, class Comp, class Alloc, class Node> class BinarySearchTree;
 
-template <class Comp> class BinaryTreeNode : public TreeNode<Comp>
+template <class T, class Alloc, class Comp>
+struct BinaryTreeNode : public TreeNode<T, Comp>
 {
-  friend class BinarySearchTree<Comp, BinaryTreeNode>;
+  friend class BinarySearchTree<T, Comp, Alloc, BinaryTreeNode>;
 
 protected:
   BinaryTreeNode* _left;
   BinaryTreeNode* _right;
 
 public:
-  typedef ft::value_compare<Comp> value_compare;
-  typedef Comp                    comp;
+  typedef Comp value_compare;
+  typedef Comp comp;
 
   BinaryTreeNode(
-          int* _val, BinaryTreeNode* _left = NUL, BinaryTreeNode* _right = NUL)
-      : TreeNode<Comp>(_val), _left(_left), _right(_right)
+          T* _val, BinaryTreeNode* _left = NUL, BinaryTreeNode* _right = NUL)
+      : TreeNode<T, Comp>(_val), _left(_left), _right(_right)
   {
   }
 
@@ -110,12 +107,17 @@ public:
     return _right;
   }
 
-  const int& getValue() const
+  const T& getValue() const
   {
     return *this->_val;
   }
 
-  int* getValueAddr() const
+  T& getValue()
+  {
+    return *this->_val;
+  }
+
+  T* getValueAddr() const
   {
     return this->_val;
   }
@@ -151,24 +153,24 @@ enum Position
   RIGHT
 };
 
-template <class Node> class BinaryTree
+template <class T, class Alloc, class Node> class BinaryTree
 {
 public:
-  typedef std::allocator<int> allocator_type;
-  typedef Node                node_t;
-  typedef node_t*             pnode_t;
-  typedef size_t              size_type;
-  typedef const int&          reference;
-  typedef ptrdiff_t           difference_type;
-  typedef const int           value_type;
-  typedef const int*          pointer;
+  typedef Alloc     allocator_type;
+  typedef Node      node_t;
+  typedef node_t*   pnode_t;
+  typedef size_t    size_type;
+  typedef T&        reference;
+  typedef ptrdiff_t difference_type;
+  typedef T         value_type;
+  typedef T*        pointer;
 
 protected:
-  pnode_t                      _root;
-  size_t                       _sz;
-  std::allocator<node_t>       _a_node_t;
-  allocator_type               _a_t;
-  typename Node::value_compare _c;
+  pnode_t                                        _root;
+  size_t                                         _sz;
+  typename Alloc::template rebind<node_t>::other _a_node_t;
+  allocator_type                                 _a_t;
+  typename Node::value_compare                   _c;
 
   typedef typename Node::comp comp;
 
@@ -215,22 +217,22 @@ public:
     clear();
   }
 
-  bool cmp(const int& a, const int& b) const
+  bool cmp(const T& a, const T& b) const
   {
     return _c(a, b);
   }
 
-  bool nCmp(const int& a, const int& b) const
+  bool nCmp(const T& a, const T& b) const
   {
     return !cmp(a, b);
   }
 
-  bool cmp(const node_t& a, const int& b) const
+  bool cmp(const node_t& a, const T& b) const
   {
     return a.compare(_c, b);
   }
 
-  bool nCmp(const node_t& a, const int& b) const
+  bool nCmp(const node_t& a, const T& b) const
   {
     return !cmp(a, b);
   }
@@ -245,12 +247,12 @@ public:
     return !cmp(a, b);
   }
 
-  bool cmp(const node_t* a, const int& b) const
+  bool cmp(const node_t* a, const T& b) const
   {
     return a->compare(_c, b);
   }
 
-  bool nCmp(const node_t* a, const int& b) const
+  bool nCmp(const node_t* a, const T& b) const
   {
     return !cmp(a, b);
   }
@@ -291,9 +293,9 @@ public:
     return *this;
   }
 
-  pnode_t newNode(const int& _val)
+  pnode_t newNode(const T& _val)
   {
-    int* ptr = _a_t.allocate(1);
+    T* ptr = _a_t.allocate(1);
     _a_t.construct(ptr, _val);
     pnode_t nptr = _a_node_t.allocate(1);
     _a_node_t.construct(nptr, node_t(ptr));
@@ -379,28 +381,31 @@ template <class Node> class BinarySearchTreeIterator
 {
   typedef Node* node_t;
 
-private:
-  std::vector<int>   _prev;
-  std::stack<node_t> _st;
-  size_t             _cur;
-  bool               _is_rev;
-  size_t             _sz;
-
 public:
   typedef std::bidirectional_iterator_tag iterator_category;
-  typedef const int                       value_type;
+  typedef typename Node::pointer          pointer;
+  typedef typename Node::reference        reference;
+  typedef typename Node::value_type       value_type;
   typedef ptrdiff_t                       difference_type;
-  typedef const int*                      pointer;
-  typedef const int&                      reference;
 
+private:
+  std::vector<node_t> _prev;
+  std::stack<node_t>  _st;
+  size_t              _cur;
+  bool                _is_rev;
+  size_t              _sz;
+
+public:
   BinarySearchTreeIterator(size_t _sz, bool _is_reversed = false)
-      : _prev(std::vector<int>(1)), _cur(1), _is_rev(_is_reversed), _sz(_sz)
+      : _prev(), _cur(1), _is_rev(_is_reversed), _sz(_sz)
   {
+    _prev.resize(1, NUL);
   }
 
   BinarySearchTreeIterator(node_t root, size_t _sz, bool _is_reversed = false)
-      : _prev(std::vector<int>(1)), _cur(1), _is_rev(_is_reversed), _sz(_sz)
+      : _prev(), _cur(1), _is_rev(_is_reversed), _sz(_sz)
   {
+    _prev.resize(1, NUL);
     if (root == NUL)
       return;
     _st.push(root);
@@ -412,7 +417,7 @@ public:
   reference operator*() const
   {
     if (_cur < _prev.size())
-      return _prev[_cur];
+      return _prev[_cur]->getValue();
     return _st.top()->getValue();
   }
 
@@ -446,7 +451,7 @@ private:
 
     node_t top = _st.top();
     _st.pop();
-    _prev.push_back(top->getValue());
+    _prev.push_back(top);
     if (isRev() ? top->hasLeft() : top->hasRight())
     {
       _st.push(isRev() ? top->getLeftAddr() : top->getRightAddr());
@@ -470,16 +475,19 @@ private:
   }
 };
 
-template <class Comp = less<int>, class Node = BinaryTreeNode<Comp> >
-class BinarySearchTree : public BinaryTree<Node>
+template <class T,
+        class Comp = less<T>,
+        class Alloc = std::allocator<T>,
+        class Node = BinaryTreeNode<T, Alloc, Comp> >
+class BinarySearchTree : public BinaryTree<T, Alloc, Node>
 {
 protected:
 public:
-  using typename BinaryTree<Node>::pnode_t;
-  using typename BinaryTree<Node>::node_t;
-  using typename BinaryTree<Node>::value_type;
-  using typename BinaryTree<Node>::size_type;
-  using typename BinaryTree<Node>::comp;
+  using typename BinaryTree<T, Alloc, Node>::pnode_t;
+  using typename BinaryTree<T, Alloc, Node>::node_t;
+  using typename BinaryTree<T, Alloc, Node>::value_type;
+  using typename BinaryTree<T, Alloc, Node>::size_type;
+  using typename BinaryTree<T, Alloc, Node>::comp;
 
   typedef BinarySearchTreeIterator<Node> iterator;
   typedef ft::reverse_iterator<BinarySearchTreeIterator<Node> > reverse_iterator;

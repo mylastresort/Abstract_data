@@ -14,18 +14,22 @@ enum Color
   BLACK
 };
 
-template <class Comp = less<int> > struct RBNode : public TreeNode<Comp>
+template <class T, class Comp = less<T> >
+struct RBNode : public TreeNode<T, Comp>
 {
-  typedef ft::value_compare<Comp> value_compare;
-  typedef Comp                    comp;
+  typedef Comp value_compare;
+  typedef Comp comp;
+  typedef T    value_type;
+  typedef T*   pointer;
+  typedef T&   reference;
 
   RBNode* _parent;
   RBNode* _left;
   RBNode* _right;
   Color   _color;
 
-  RBNode(int* _val, RBNode* _left = NUL, RBNode* _right = NUL, RBNode* _parent = NUL)
-      : TreeNode<Comp>(_val), _parent(_parent), _left(_left), _right(_right),
+  RBNode(T* _val, RBNode* _left = NUL, RBNode* _right = NUL, RBNode* _parent = NUL)
+      : TreeNode<T, Comp>(_val), _parent(_parent), _left(_left), _right(_right),
         _color(RED)
   {
   }
@@ -50,12 +54,12 @@ template <class Comp = less<int> > struct RBNode : public TreeNode<Comp>
     return !is(color);
   }
 
-  bool is(const int& val) const
+  bool is(const T& val) const
   {
     return getValue() == val;
   }
 
-  bool isNot(const int& val) const
+  bool isNot(const T& val) const
   {
     return !is(val);
   }
@@ -165,12 +169,17 @@ template <class Comp = less<int> > struct RBNode : public TreeNode<Comp>
     return _right;
   }
 
-  const int& getValue() const
+  const T& getValue() const
   {
     return *getValueAddr();
   }
 
-  int* getValueAddr() const
+  T& getValue()
+  {
+    return *getValueAddr();
+  }
+
+  T* getValueAddr() const
   {
     return this->_val;
   }
@@ -204,17 +213,17 @@ template <class Comp = less<int> > struct RBNode : public TreeNode<Comp>
   }
 };
 
-template <class Comp = less<int> >
-class RedBlackTree : public BinarySearchTree<Comp, RBNode<Comp> >
+template <class T, class Comp = less<T>, class Alloc = std::allocator<T> >
+class RedBlackTree : public BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >
 {
 protected:
-  using typename BinarySearchTree<Comp, RBNode<Comp> >::pnode_t;
-  using typename BinarySearchTree<Comp, RBNode<Comp> >::node_t;
+  typedef typename BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >::pnode_t pnode_t;
+  typedef typename BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >::node_t node_t;
 
 public:
-  using typename BinarySearchTree<Comp, RBNode<Comp> >::value_type;
-  using typename BinarySearchTree<Comp, RBNode<Comp> >::size_type;
-  using typename BinarySearchTree<Comp, RBNode<Comp> >::comp;
+  using typename BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >::value_type;
+  using typename BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >::size_type;
+  using typename BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >::comp;
 
 public:
   RedBlackTree()
@@ -223,7 +232,8 @@ public:
 
   void insert(const value_type& val)
   {
-    pnode_t node = BinarySearchTree<Comp, RBNode<Comp> >::insert(val);
+    pnode_t node =
+            BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >::insert(val);
     if (node != NUL)
       rebalanceInsertion(node);
     if (this->hasRoot())

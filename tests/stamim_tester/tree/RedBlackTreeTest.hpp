@@ -10,25 +10,25 @@
 namespace ft
 {
 
-template <class Comp = less<int> >
-class RedBlackTreeTest : public RedBlackTree<Comp>
+template <class T, class Comp = less<T> >
+class RedBlackTreeTest : public RedBlackTree<T, Comp>
 {
-  using RedBlackTree<Comp>::value_type;
+  using RedBlackTree<T, Comp>::value_type;
 
 public:
-  void insert(const typename RedBlackTree<Comp>::value_type& val)
+  void insert(const typename RedBlackTree<T, Comp>::value_type& val)
   {
     size_t i = this->size();
     bool   count = this->count(val) >= 1;
-    RedBlackTree<Comp>::insert(val);
+    RedBlackTree<T, Comp>::insert(val);
     assertValidRedBlackTree(count ? i : i + 1);
   }
 
-  void erase(const typename RedBlackTree<Comp>::value_type& val)
+  void erase(const typename RedBlackTree<T, Comp>::value_type& val)
   {
     size_t i = this->size();
     bool   count = this->count(val) >= 1;
-    RedBlackTree<Comp>::erase(val);
+    RedBlackTree<T, Comp>::erase(val);
     assertValidRedBlackTree(count ? i - 1 : i);
   }
 
@@ -37,8 +37,7 @@ public:
     if (!this->hasRoot())
       return;
     assertRootIsBlack();
-    assertRBTreeStructure(
-            this->getRoot(), this->_c.c.TEST_MIN, this->_c.c.TEST_MAX);
+    assertRBTreeStructure(this->getRoot(), this->_c.TEST_MIN, this->_c.TEST_MAX);
     assert(BinarySearchTreeTest<Comp>::hasCorrectSize(*this, size));
     assert(BinarySearchTreeTest<Comp>::isInOrderTraversalSorted(*this));
     assert(BinarySearchTreeTest<Comp>::isReverseInOrderTraversalSorted(*this));
@@ -61,7 +60,7 @@ public:
   };
 
   rbt_vars assertRBTreeStructure(
-          const typename RedBlackTree<Comp>::node_t& _rt, int _min, int _max) const
+          const typename RedBlackTree<T, Comp>::node_t& _rt, int _min, int _max) const
   {
     assert(this->nCmp(_rt, _min) && this->cmp(_rt, _max));
     assert(!_rt.hasLeft() || this->nCmp(_rt, _rt.getLeft()));
@@ -87,7 +86,7 @@ public:
             static_cast<size_t>(_rt.is(BLACK)) + _vars[0]._black_nodes);
   }
 
-  static void assertRBNodeColor(const typename RedBlackTree<Comp>::node_t& node)
+  static void assertRBNodeColor(const typename RedBlackTree<T, Comp>::node_t& node)
   {
     assert(node.is(RED) || node.is(BLACK));
   }
