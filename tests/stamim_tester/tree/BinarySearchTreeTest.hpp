@@ -62,7 +62,7 @@ public:
     {
       int  _d;
       bool _b;
-      Sol(size_t _d, bool _b) : _d(_d), _b(_b) {};
+      Sol(size_t _d, bool _b) : _d(_d), _b(_b){};
     };
 
     template <class TreeNode>
