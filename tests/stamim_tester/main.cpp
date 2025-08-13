@@ -21,6 +21,11 @@ void test_list()
   cplusplusexamples_list();
 }
 
+void test_set()
+{
+  cplusplusexamples_set();
+}
+
 int main()
 {
   test_vector();
@@ -35,4 +40,6 @@ int main()
 
   test_bst<ft::BinarySearchTreeTest<int, ft::greater<int> > >();
   test_bst<ft::RedBlackTreeTest<int, ft::greater<int> > >();
+
+  test_set();
 }

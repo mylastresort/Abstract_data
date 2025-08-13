@@ -22,7 +22,8 @@ SRC 			= $(TESTER_DIR)/main.cpp \
 				  $(TESTER_DIR)/vector/cplusplus_examples.cpp \
 				  $(TESTER_DIR)/deque/cplusplus_examples.cpp \
 				  $(TESTER_DIR)/deque/main.cpp \
-				  $(TESTER_DIR)/list/cplusplus_examples.cpp
+				  $(TESTER_DIR)/list/cplusplus_examples.cpp \
+				  $(TESTER_DIR)/set/cplusplus_examples.cpp
 SRC_BAD 		= $(TESTER_DIR)/vector/constructor.cpp
 GCDA_FILES		= $(patsubst %.cpp,$(BUILD_DIR)/%.gcda,$(SRC))
 GCNO_FILES		= $(patsubst %.cpp,$(BUILD_DIR)/%.gcno,$(SRC))

@@ -20,7 +20,7 @@
     if (!(condition))                                                      \
     {                                                                      \
       throw std::logic_error(RED_COLOR "ASSERTION FAILED" RESET_COLOR ": " \
-                                       "Condition: " #condition " — "    \
+                                       "Condition: " #condition " — "      \
               + string(" at " __FILE__ ":" TOSTRING(__LINE__)));           \
     }                                                                      \
   } while (0)

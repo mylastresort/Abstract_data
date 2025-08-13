@@ -69,7 +69,6 @@ protected:
 
 public:
   typedef Comp value_compare;
-  typedef Comp comp;
 
   BinaryTreeNode(
           T* _val, BinaryTreeNode* _left = NUL, BinaryTreeNode* _right = NUL)
@@ -156,14 +155,15 @@ enum Position
 template <class T, class Alloc, class Node> class BinaryTree
 {
 public:
-  typedef Alloc     allocator_type;
-  typedef Node      node_t;
-  typedef node_t*   pnode_t;
-  typedef size_t    size_type;
-  typedef T&        reference;
-  typedef ptrdiff_t difference_type;
-  typedef T         value_type;
-  typedef T*        pointer;
+  typedef Alloc                        allocator_type;
+  typedef Node                         node_t;
+  typedef node_t*                      pnode_t;
+  typedef size_t                       size_type;
+  typedef T&                           reference;
+  typedef ptrdiff_t                    difference_type;
+  typedef T                            value_type;
+  typedef T*                           pointer;
+  typedef typename Node::value_compare value_compare;
 
 protected:
   pnode_t                                        _root;
@@ -171,8 +171,6 @@ protected:
   typename Alloc::template rebind<node_t>::other _a_node_t;
   allocator_type                                 _a_t;
   typename Node::value_compare                   _c;
-
-  typedef typename Node::comp comp;
 
 public:
   size_t size() const
@@ -208,7 +206,14 @@ public:
     }
   }
 
-  BinaryTree() : _root(NUL), _sz(0)
+  Alloc get_allocator() const
+  {
+    return _a_t;
+  }
+
+  explicit BinaryTree(const value_compare& c = value_compare(),
+          const Alloc&                     alloc = Alloc())
+      : _root(NUL), _sz(0), _a_node_t(alloc), _a_t(alloc), _c(c)
   {
   }
 
@@ -396,10 +401,15 @@ private:
   size_t              _sz;
 
 public:
-  BinarySearchTreeIterator(size_t _sz, bool _is_reversed = false)
-      : _prev(), _cur(1), _is_rev(_is_reversed), _sz(_sz)
+  node_t base() const
   {
-    _prev.resize(1, NUL);
+    if (_cur < _prev.size())
+      return _prev[_cur];
+    return _st.top();
+  }
+
+  BinarySearchTreeIterator() : _cur(), _is_rev(), _sz()
+  {
   }
 
   BinarySearchTreeIterator(node_t root, size_t _sz, bool _is_reversed = false)
@@ -416,38 +426,24 @@ public:
 
   reference operator*() const
   {
-    if (_cur < _prev.size())
-      return _prev[_cur]->getValue();
-    return _st.top()->getValue();
+    return base()->getValue();
   }
 
   BinarySearchTreeIterator& operator--()
   {
-    return isRev() ? increment() : decrement();
+    if (_cur > 0)
+      _cur--;
+    return *this;
   }
 
   BinarySearchTreeIterator& operator++()
   {
-    return isRev() ? decrement() : increment();
-  }
-
-  bool operator==(const BinarySearchTreeIterator& other) const
-  {
-    if (isRev())
-      return _sz - _cur == other._cur;
-    return _cur - 1 == _sz - other._cur;
-  }
-
-  bool operator!=(const BinarySearchTreeIterator& other) const
-  {
-    return !operator==(other);
-  }
-
-private:
-  BinarySearchTreeIterator& increment()
-  {
     if (_st.size() == 0)
+    {
+      if (_cur <= _sz)
+        _cur++;
       return *this;
+    }
 
     node_t top = _st.top();
     _st.pop();
@@ -462,6 +458,21 @@ private:
     return *this;
   }
 
+  bool operator==(const BinarySearchTreeIterator& other) const
+  {
+    if (isRev() == other.isRev())
+      return _cur == other._cur;
+    if (isRev())
+      return _sz + 1 - _cur == other._cur;
+    return _cur - 1 == _sz - other._cur;
+  }
+
+  bool operator!=(const BinarySearchTreeIterator& other) const
+  {
+    return !operator==(other);
+  }
+
+private:
   bool isRev() const
   {
     return _is_rev;
@@ -469,9 +480,6 @@ private:
 
   BinarySearchTreeIterator& decrement()
   {
-    if (_cur > 0)
-      _cur--;
-    return *this;
   }
 };
 
@@ -487,12 +495,14 @@ public:
   using typename BinaryTree<T, Alloc, Node>::node_t;
   using typename BinaryTree<T, Alloc, Node>::value_type;
   using typename BinaryTree<T, Alloc, Node>::size_type;
-  using typename BinaryTree<T, Alloc, Node>::comp;
+  using typename BinaryTree<T, Alloc, Node>::value_compare;
 
   typedef BinarySearchTreeIterator<Node> iterator;
-  typedef ft::reverse_iterator<BinarySearchTreeIterator<Node> > reverse_iterator;
+  typedef BinarySearchTreeIterator<Node> reverse_iterator;
 
-  BinarySearchTree()
+  explicit BinarySearchTree(
+          const Comp& comp = Comp(), const Alloc& alloc = Alloc())
+      : BinaryTree<T, Alloc, Node>(comp, alloc)
   {
   }
 
@@ -503,21 +513,21 @@ public:
 
   iterator end() const
   {
-    return ++iterator(this->getRootAddr(), this->size(), true);
+    return --iterator(this->getRootAddr(), this->size(), true);
   }
 
   reverse_iterator rbegin() const
   {
     if (this->size() == 0)
-      return reverse_iterator(this->end());
-    return reverse_iterator(--this->end());
+      return this->end();
+    return ++this->end();
   }
 
   reverse_iterator rend() const
   {
     if (this->size() == 0)
-      return reverse_iterator(this->end());
-    return reverse_iterator(--this->begin());
+      return this->end();
+    return --this->begin();
   }
 
   pnode_t upper_bound(pnode_t node) const
@@ -610,7 +620,7 @@ public:
     this->setRoot(*head);
   }
 
-  pnode_t find(const value_type& val) const
+  pnode_t lookup(const value_type& val) const
   {
     pnode_t head = this->getRootAddr();
     for (; head != NUL && head->isNot(val); head = this->nCmp(*head, val)
@@ -620,9 +630,17 @@ public:
     return head;
   }
 
+  iterator find(const value_type& val) const
+  {
+    iterator it = begin();
+    for (; it != end() && *it != val; ++it)
+      ;
+    return it;
+  }
+
   size_type count(const value_type& val) const
   {
-    if (find(val) != NUL)
+    if (lookup(val) != NUL)
       return 1;
     return 0;
   }

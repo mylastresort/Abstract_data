@@ -38,10 +38,8 @@ template <class Tree> void test_insert()
       while (used_values.count(num))
         num = getRand(min, max);
       tree.insert(num);
-      assert(tree.find(num) != NUL);
+      assert(tree.lookup(num) != NUL);
     }
-
-    cout << tree << endl;
   }
 }
 
@@ -80,8 +78,6 @@ template <class Tree> void test_erase()
       tree.insert(arr[i]);
     }
 
-    cout << tree << endl;
-
     // Test erasing a non-existent value
     int non_existent = max_val + 50;
     tree.erase(non_existent);
@@ -95,9 +91,9 @@ template <class Tree> void test_erase()
 
     for (size_t i = 0; i < arr.size(); i++)
     {
-      assert(tree.find(arr[i]) != NUL);
+      assert(tree.lookup(arr[i]) != NUL);
       tree.erase(arr[i]);
-      assert(tree.find(arr[i]) == NUL);
+      assert(tree.lookup(arr[i]) == NUL);
     }
   }
 }
@@ -111,7 +107,7 @@ template <class Tree> void test_iterator()
             15, 3, 18, 7, 12, 1, 19, 8, 4, 16, 11, 20, 6, 13, 2, 17, 9, 14, 5, 10};
     const int        sz = sizeof(arr) / sizeof(int);
     std::vector<int> arrSorted = std::vector<int>(arr, arr + sz);
-    std::sort(arrSorted.begin(), arrSorted.end(), typename Tree::comp());
+    std::sort(arrSorted.begin(), arrSorted.end(), typename Tree::value_compare());
 
     for (int i = 0; i != sz; i++)
     {
@@ -137,7 +133,7 @@ template <class Tree> void test_reverse_iterator()
     std::vector<int> arrSorted = std::vector<int>(arr, arr + sz);
     std::sort(arrSorted.begin(),
             arrSorted.end(),
-            ft::notCompare<typename Tree::comp, int>());
+            ft::notCompare<typename Tree::value_compare, int>());
 
     for (int i = 0; i != sz; i++)
     {

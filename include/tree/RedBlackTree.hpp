@@ -223,10 +223,12 @@ protected:
 public:
   using typename BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >::value_type;
   using typename BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >::size_type;
-  using typename BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >::comp;
+  using typename BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >::value_compare;
+  using typename BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >::iterator;
 
 public:
-  RedBlackTree()
+  explicit RedBlackTree(const Comp& comp = Comp(), const Alloc& alloc = Alloc())
+      : BinarySearchTree<T, Comp, Alloc, RBNode<T, Comp> >(comp, alloc)
   {
   }
 
@@ -355,9 +357,20 @@ public:
     rotate(RIGHT, x, y);
   }
 
+  void erase(const iterator& pos)
+  {
+    pnode_t node = pos.base();
+    erase(node);
+  }
+
   void erase(const value_type& val)
   {
-    pnode_t  p = this->find(val);
+    pnode_t p = this->lookup(val);
+    erase(p);
+  }
+
+  void erase(const pnode_t p)
+  {
     pnode_t  x = NUL;
     pnode_t  pa = NUL;
     Position pos;

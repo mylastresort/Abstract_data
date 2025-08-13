@@ -10,6 +10,7 @@
 #define FT
 #include "deque.hpp" // IWYU pragma: export
 #include "list.hpp"
+#include "set.hpp"
 #include "vector.hpp"
 #define __lib__ ft
 #endif
@@ -37,6 +38,9 @@ void test_deque_all();
 
 // list
 void cplusplusexamples_list();
+
+// set
+void cplusplusexamples_set();
 
 // types
 typedef int                   VEC_T;
